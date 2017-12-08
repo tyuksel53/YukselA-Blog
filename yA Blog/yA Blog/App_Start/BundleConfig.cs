@@ -21,6 +21,15 @@ namespace yA_Blog.App_Start
                 "~/Scripts/modernizr-2.8.3.js"
                 ));
 
+            bundles.Add(new ScriptBundle("~/script/validate").Include(
+                "~/Scripts/jquery.validate.min.js",
+                "~/Scripts/jquery.validate.unobtrusive.min.js"
+                ));
+
+            bundles.Add(new ScriptBundle("~/script/ajax").Include(
+                "~/Scripts/jquery.unobtrusive-ajax.min.js"
+                ));
+
             BundleTable.EnableOptimizations = true;
         }
     }

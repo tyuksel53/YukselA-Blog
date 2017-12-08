@@ -1,0 +1,39 @@
+﻿@model DbFormat
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="form-group">
+    @Html.LabelFor(x => x.Servername, new { @class = "text-primary" })
+    @Html.TextBoxFor(x => x.Servername, new { @class = "form-control", placeholder = "Veritabanının adresini girin" })
+    @Html.ValidationMessageFor(x => x.Servername, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(x => x.DbName, new { @class = "text-primary" })
+    @Html.TextBoxFor(x => x.DbName, new { @class = "form-control", placeholder = "Veritabanı ismini girin:" })
+    @Html.ValidationMessageFor(x => x.Servername, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-group">
+    <label class="custom-control custom-checkbox">
+        @Html.CheckBoxFor(x => x.AuthenticationMode, new { @class = "custom-control-input" })
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">@Html.LabelFor(x => x.AuthenticationMode)</span>
+    </label>
+</div>
+
+<div id="Standart_Mode">
+    <div class="form-group">
+        @Html.LabelFor(x => x.Username, new { @class = "text-primary" })
+        @Html.TextBoxFor(x => x.Username, new { @class = "form-control", placeholder = "Kullanıcı adını girin:" })
+        @Html.ValidationMessageFor(x => x.Username, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Password, new { @class = "text-primary" })
+        @Html.TextBoxFor(x => x.Password, new { @class = "form-control", type = "password", placeholder = "Parolanızı girin:" })
+        @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    <input type="submit" id="test_connection" class="btn btn-primary" value="Text Connection" />
+</div>

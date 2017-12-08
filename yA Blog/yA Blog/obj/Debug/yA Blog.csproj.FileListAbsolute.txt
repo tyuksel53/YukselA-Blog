@@ -29,9 +29,5 @@ C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\yA Blog\obj\Debug\yA Blog.dll
 C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\yA Blog\obj\Debug\yA Blog.pdb
 C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\yA Blog\bin\EntityFramework.dll
 C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\yA Blog\bin\EntityFramework.SqlServer.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\yA Blog\bin\MySql.Data.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\yA Blog\bin\MySql.Data.Entity.EF6.dll
 C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\yA Blog\bin\EntityFramework.xml
 C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\yA Blog\bin\EntityFramework.SqlServer.xml
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\yA Blog\bin\MySql.Data.xml
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\yA Blog\bin\MySql.Data.Entity.EF6.xml

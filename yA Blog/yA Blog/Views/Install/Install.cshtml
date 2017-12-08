@@ -1,6 +1,8 @@
-﻿
+﻿@using System.Web.Optimization
+@using yA_Blog.Library
+@model DbFormat
 @{
-    ViewBag.Title = "VeriTabani";
+    ViewBag.Title = "Site Yükleme Sayfası";
     Layout = "~/Views/Shared/_Layout_Install.cshtml";
 }
 
@@ -8,7 +10,7 @@
     <div class="row">
         <div class="offset-2 col-md-8 offset-2">
             <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width:5%" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
+                <div id="myProgressBar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:5%" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <h4 style="margin-top:15px">Lütfen Veri Tabanı Bilgilerinizi Giriniz:</h4>
 
@@ -16,42 +18,19 @@
                 <strong>Yükleniyor</strong>
             </div>
             @{
-                <div class="form-group">
-                    <label class="mr-sm-2" for="inlineFormCustomSelect">Veritabanı </label>
-                    <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="Veritabani_type">
-                        <option selected>Seçiniz</option>
-                        <option value="1">MSSQL Veritabanı</option>
-                        <option value="2">MySQL Veritabanı</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="veritabani_adresi" class="text-primary">Server Adresi:</label>
-                    <input class="form-control" id="veritabani_adresi" placeholder="Veritabanı server adresi">
-                </div>
-
-                <div class="form-group">
-                    <label for="veritabani_port" class="text-primary">Veritabanı Port Numarası:</label>
-                    <input class="form-control" id="veritabani_port" placeholder="Bağlanmak istediğiniz veritabanı port numarasını girin" />
-                </div>
-
-                <div class="form-group">
-                    <label for="veritabanı_adi" class="text-primary">Veritabanı Adı:</label>
-                    <input class="form-control" id="veritabani_adi" placeholder="Bağlanmak istediğiniz veritabanı adını girin" />
-                </div>
-
-                <div class="form-group">
-                    <label for="veritabani_kullaniciAdi" class="text-primary">Veritabanı Kullanıcı Adını Girin:</label>
-                    <input class="form-control" id="veritabani_kullaniciAdi" placeholder="Veritabanı kullanıcı adınızı girin" />
-                </div>
-
-                <div class="form-group">
-                    <label for="veritabani_sifre" class="text-primary">Veritabanı Parolanızı Girin:</label>
-                    <input type="password" class="form-control" id="veritabani_sifre" placeholder="Veritabanı parolanızı girin" />
-                </div>
-
-                <div class="form-group">
-                    <input type="submit" id="test_connection" class="btn btn-primary"value="Text Connection" />
-                </div>
+                using (Ajax.BeginForm("addConnection_String", new AjaxOptions()
+                {
+                    HttpMethod = "POST",
+                    LoadingElementId = "loading",
+                    OnSuccess = "ConnectionString_Added",
+                    UpdateTargetId= "installForm",
+                    InsertionMode = InsertionMode.ReplaceWith
+                }))
+                {
+                    <div id="installForm">
+                        @Html.Partial("_InstallPartialView",Model)
+                    </div>
+                }
             }
                 <div class="form-group">
                     <nav aria-label="Page navigation example">
@@ -69,34 +48,48 @@
     </div>
 </div>
 
-@section Scripts{
-    
-    <script>
-        $("#test_connection").click(function () {
+<div id="modalSection"></div>
 
-            var veriTabaniType = $("#Veritabani_type").val();
-            var adres = $("#veritabani_adresi").val();
-            var adi = $("#veritabani_adi").val();
-            var kullanici = $("#veritabani_kullaniciAdi").val();
-            var sifre = $("#veritabani_sifre").val();
-            var port = $("#veritabani_port").val();
+@section Scripts{
+
+    @Scripts.Render("~/script/validate")
+    @Scripts.Render("~/script/ajax")
+
+    <script>
+        window.control = 0
+
+        $(document).on('change', '#AuthenticationMode', function () {
+            if (control % 2 === 0) {
+                $("#Standart_Mode").hide(300);
+            } else {
+                $("#Standart_Mode").show(300);
+            }
+            control++;
+        });
+
+        function ConnectionString_Added() {
             $.ajax({
-                method: "POST",
-                url: "/Install/VeriTabanı_Control",
-                data: {
-                    veritabanıType: veriTabaniType, veritabani_adresi: adres,
-                    veritabani_adi: adi, veritabani_kullaniciAdi: kullanici,
-                    veritabani_sifre: sifre, veritabani_port:port
-                },
+                method: "GET",
+                url: "/Install/CheckDb_Working",
                 beforeSend: function () {
                     $("#loading").show(300);
                 }
             }).done(function (response) {
-                console.log(response);
-            }).always(function () {
-                $("#loading").hide(300);
-            });
-        });
+                if (response === true) {
+                    var modal = "@Html.Modal("myModal", "İşlem Başarılı", "Veritabanı ile bağlantı başarılı bir şekilde sağlandı") ";
+                    $("#modalSection").html(modal)
+                    $("#myModal").modal('toggle');
+                    $("#loading").hide(300);
+                    $('.progress-bar').css('width', 50 + '%').attr('aria-valuenow', 50); 
+                } else
+                {
+                    var modal = "@Html.Modal("myModal", "İşlem başarısız", "Verdiğiniz Bilgileri Kontrol Edin") ";
+                    $("#modalSection").html(modal)
+                    $("#myModal").modal('toggle');
+                    $("#loading").hide(300);
+                }
+            })
+        }
 
     </script>
         
