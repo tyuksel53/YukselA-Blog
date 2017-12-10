@@ -1,7 +1,10 @@
-﻿
+﻿@model Kullanici
 @{
     ViewBag.Title = "Ana Sayfa";
     Layout = "~/Areas/Blog/Views/Shared/_Home_Layout.cshtml";
+    ViewBag.SectionName1 = "Gönderiler";
+    ViewBag.SectionName2 = "Katagoriler";
+    ViewBag.Resim = "../../Areas/Blog/Uploads/matrix.jpg";
 }
 <article class="post">
     <div class="post-preview col-10  no-gutter">
@@ -15,3 +18,7 @@
         <img src="/img/profile-1.jpg" class="user-icon" alt="user-image">
     </div>
 </article>
+
+@section bolum2{
+    
+}

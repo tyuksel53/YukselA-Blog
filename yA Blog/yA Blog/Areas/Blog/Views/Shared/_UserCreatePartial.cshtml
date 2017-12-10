@@ -1,0 +1,12 @@
+﻿@model Kullanici
+
+<div class="form-group">
+    @Html.LabelFor(x => x.KullaniciAdi)
+    @Html.TextBoxFor(x => x.KullaniciAdi, new { @class = "form-control", placeholder = "Kullanici Adini Giriniz" })
+    @Html.ValidationMessageFor(x => x.KullaniciAdi)
+</div>
+<div class="form-group">
+    @Html.LabelFor(x => x.Parola)
+    @Html.TextBoxFor(x => x.Parola, new { @class = "form-control", placeholder = "Şifrenizi giriniz" })
+    @Html.ValidationMessageFor(x => x.Parola)
+</div>
