@@ -1,0 +1,40 @@
+﻿@model yA_Blog.Areas.Blog.Models.Kullanici
+
+@{
+    ViewBag.Title = "Yeni_Kayit";
+    Layout = "~/Areas/Blog/Views/Shared/_Home_Layout.cshtml";
+    ViewBag.SectionName1 = "Kayıt Ol";
+    ViewBag.Resim = "../../Areas/Blog/Uploads/matrix.jpg";
+}
+
+
+<div class="col-12 ml-auto main-content">
+    <h3>Giris Yapın</h3>
+    <strong id="LoadingCreate" class="text-warning" style="display:none;font-size:16px">yükleniyor...</strong>
+    @{
+        using (Html.BeginForm("Yeni_Kayit","Home","POST"))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.Partial("_UserCreatePartial", Model);
+
+            <div class="form-group form-inline">
+                <div class="g-recaptcha" data-sitekey="@ViewBag.recaptchaKey"></div>
+                <input class="btn btn-default" id="CreateUser" style="margin-left:63px" type="submit" value="Kayıt Ol">
+            </div>
+            <strong id="captchaError" class="text-danger" style="font-size:16px">@ViewBag.captcha_error</strong>
+        }
+    }
+
+</div>
+
+@section Scripts{
+<script>
+
+</script>
+
+    @Scripts.Render("~/script/validate")
+    @Scripts.Render("~/script/ajax")
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+
+}

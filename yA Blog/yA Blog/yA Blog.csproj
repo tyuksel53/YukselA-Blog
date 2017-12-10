@@ -137,6 +137,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Areas\Blog\Views\Home\GirisYap.cshtml" />
     <Content Include="Areas\Blog\Views\Shared\_UserCreatePartial.cshtml" />
+    <Content Include="Areas\Blog\Views\Home\Yeni_Kayit.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -226,6 +227,7 @@
     <Compile Include="Areas\Blog\Controllers\HomeController.cs" />
     <Compile Include="Areas\Blog\Models\Kullanici.cs" />
     <Compile Include="Areas\Blog\Models\Managers\DatabaseContext.cs" />
+    <Compile Include="Filters\CheckAuthorize.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

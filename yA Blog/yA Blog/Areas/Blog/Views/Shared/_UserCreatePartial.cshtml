@@ -1,12 +1,20 @@
 ﻿@model Kullanici
 
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 <div class="form-group">
     @Html.LabelFor(x => x.KullaniciAdi)
     @Html.TextBoxFor(x => x.KullaniciAdi, new { @class = "form-control", placeholder = "Kullanici Adini Giriniz" })
-    @Html.ValidationMessageFor(x => x.KullaniciAdi)
+    @Html.ValidationMessageFor(x => x.KullaniciAdi, "", new { @class = "text-danger", style = "font-size:14px" })
 </div>
+
 <div class="form-group">
     @Html.LabelFor(x => x.Parola)
-    @Html.TextBoxFor(x => x.Parola, new { @class = "form-control", placeholder = "Şifrenizi giriniz" })
-    @Html.ValidationMessageFor(x => x.Parola)
+    @Html.TextBoxFor(x => x.Parola, new { @class = "form-control", type="password", placeholder = "Şifrenizi giriniz" })
+    @Html.ValidationMessageFor(x => x.Parola, "", new { @class = "text-danger", style = "font-size:14px" })
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(x => x.Eposta)
+    @Html.TextBoxFor(x => x.Eposta, new { @class = "form-control", placeholder = "Eposta adresinizi giriniz" })
+    @Html.ValidationMessageFor(x => x.Eposta, "", new { @class = "text-danger", style = "font-size:14px" })
 </div>
