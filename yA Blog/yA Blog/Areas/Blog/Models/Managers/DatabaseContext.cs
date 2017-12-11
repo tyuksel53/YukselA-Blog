@@ -10,6 +10,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
     public class DatabaseContext : DbContext
     {
         public DbSet<Kullanici> Kullanicilar {get;set;}
+        public DbSet<Haber> Haberler { get; set; }
 
         public DatabaseContext()
         {

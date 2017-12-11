@@ -16,7 +16,13 @@ namespace yA_Blog.App_Start
                 "~/Content/css/main.min.css"
                 ));
 
-                 bundles.Add(new ScriptBundle("~/script/all").Include(
+
+            bundles.Add(new StyleBundle("~/css/admin").Include(
+                "~/Content/bootstrap.min.css",
+                "~/Content/adminCss.css"
+                ));
+
+            bundles.Add(new ScriptBundle("~/script/all").Include(
                 "~/Scripts/vendor/modernizr.custom.32229-2.8-respondjs-1-4-2.js",
                 "~/Scripts/jquery-3.2.1.min.js",
                 "~/Scripts/vendor/jquery.jpanelmenu.min.js",
@@ -34,6 +40,13 @@ namespace yA_Blog.App_Start
             bundles.Add(new ScriptBundle("~/script/ajax").Include(
                 "~/Scripts/jquery.unobtrusive-ajax.min.js"
                 ));
+
+            bundles.Add(new ScriptBundle("~/script/admin").Include(
+                "~/Scripts/jquery-3.2.1.min.js",
+                "~/Scripts/umd/popper.js",
+                "~/Scripts/bootstrap.min.js"
+                ));
+
 
             BundleTable.EnableOptimizations = true;
         }

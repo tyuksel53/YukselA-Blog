@@ -9,21 +9,50 @@
     <title>Bootstrap Example</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    @Styles.Render("~/css/admin")
     <link rel="stylesheet" href="~/Content/css/font-awesome.min.css">
-    <link rel="stylesheet" href="~/Content/adminCss.css" />
-    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
-    <script src="~/Scripts/umd/popper.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
+    @Scripts.Render("~/script/admin")
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="javascript:void(0)">Yuksel Algoritma Blog</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
+        <div class="collapse navbar-collapse" id="navb">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="#" data-target="#sidebar" data-toggle="collapse"><i class="fa fa-navicon fa-2x py-2 p-1"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href=""/Blog/Admin/Index" ">Ana Sayfa</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)">Haberler</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)">Katagoriler</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)">Üyeler</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)">Site Ayarları</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)">Takipçiler</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="margin-top:63px">
         <div class="row d-flex d-md-block flex-nowrap wrapper">
             <div class="col-md-3 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
                 <div class="list-group border-0 card text-center text-md-left">
-                    <a href="#menu1" class="list-group-item d-inline-block collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-dashboard"></i> <span class="d-none d-md-inline">Haberler</span> </a>
+                    <a href="/Blog/Admin/Index" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-dashboard"></i> <span class="d-none d-md-inline">Ana Sayfa</span></a>
+                    <a href="#menu1" class="list-group-item d-inline-block collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-newspaper-o"></i> <span class="d-none d-md-inline">Haberler</span> </a>
                     <div class="collapse" id="menu1">
                         <a href="#" class="list-group-item" data-parent="#menu1">Haber Ekle</a>
                         <a href="#" class="list-group-item" data-parent="#menu1">Haberleri Listele</a>
@@ -33,22 +62,25 @@
                         <a href="#" class="list-group-item" data-parent="#menu3">Katagori Ekle</a>
                         <a href="#" class="list-group-item" data-parent="#menu3">Katagori Listele</a>
                     </div>
-                    <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-heart"></i> <span class="d-none d-md-inline">Üyeler</span></a>
-                    <a href="#menu4" class="list-group-item d-inline-block collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-book"></i> <span class="d-none d-md-inline">Site Ayarlar</span></a>
+                    <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-users"></i> <span class="d-none d-md-inline">Üyeler</span></a>
+                    <a href="#menu4" class="list-group-item d-inline-block collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-cog"></i> <span class="d-none d-md-inline">Site Ayarlar</span></a>
                     <div class="collapse" id="menu4">
                         <a href="#" class="list-group-item" data-parent="#menu3">Site İsmi</a>
                         <a href="#" class="list-group-item" data-parent="#menu3">Site Logo</a>
                     </div>
+                    <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-heart"></i> <span class="d-none d-md-inline">Takipçiler</span></a>
+
 
                 </div>
             </div>
             <main class="col-md-9 float-left col px-5 pl-md-2 pt-2 main">
-                <a href="#" data-target="#sidebar" data-toggle="collapse"><i class="fa fa-navicon fa-2x py-2 p-1"></i></a>
                 @RenderBody()
             </main>
         </div>
     </div>
-    
+    @Scripts.Render("~/script/validate")
+    @Scripts.Render("~/script/ajax")
+
 </body>
 </html>
 

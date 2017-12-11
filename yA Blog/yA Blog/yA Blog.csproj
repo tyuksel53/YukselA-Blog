@@ -245,6 +245,7 @@
     <Compile Include="Areas\Blog\BlogAreaRegistration.cs" />
     <Compile Include="Areas\Blog\Controllers\AdminController.cs" />
     <Compile Include="Areas\Blog\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Blog\Models\Haber.cs" />
     <Compile Include="Areas\Blog\Models\Kullanici.cs" />
     <Compile Include="Areas\Blog\Models\Managers\DatabaseContext.cs" />
     <Compile Include="Filters\CheckAuthorize.cs" />
