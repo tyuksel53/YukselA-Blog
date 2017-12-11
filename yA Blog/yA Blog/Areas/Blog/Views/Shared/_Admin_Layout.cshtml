@@ -1,0 +1,54 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/adminCss.css" />
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    <script src="~/Scripts/umd/popper.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</head>
+<body>
+
+
+    <div class="container-fluid">
+        <div class="row d-flex d-md-block flex-nowrap wrapper">
+            <div class="col-md-3 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
+                <div class="list-group border-0 card text-center text-md-left">
+                    <a href="#menu1" class="list-group-item d-inline-block collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-dashboard"></i> <span class="d-none d-md-inline">Haberler</span> </a>
+                    <div class="collapse" id="menu1">
+                        <a href="#" class="list-group-item" data-parent="#menu1">Haber Ekle</a>
+                        <a href="#" class="list-group-item" data-parent="#menu1">Haberleri Listele</a>
+                    </div>
+                    <a href="#menu3" class="list-group-item d-inline-block collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-book"></i> <span class="d-none d-md-inline">Katagoriler</span></a>
+                    <div class="collapse" id="menu3">
+                        <a href="#" class="list-group-item" data-parent="#menu3">Katagori Ekle</a>
+                        <a href="#" class="list-group-item" data-parent="#menu3">Katagori Listele</a>
+                    </div>
+                    <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-heart"></i> <span class="d-none d-md-inline">Üyeler</span></a>
+                    <a href="#menu4" class="list-group-item d-inline-block collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-book"></i> <span class="d-none d-md-inline">Site Ayarlar</span></a>
+                    <div class="collapse" id="menu4">
+                        <a href="#" class="list-group-item" data-parent="#menu3">Site İsmi</a>
+                        <a href="#" class="list-group-item" data-parent="#menu3">Site Logo</a>
+                    </div>
+
+                </div>
+            </div>
+            <main class="col-md-9 float-left col px-5 pl-md-2 pt-2 main">
+                <a href="#" data-target="#sidebar" data-toggle="collapse"><i class="fa fa-navicon fa-2x py-2 p-1"></i></a>
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+    
+</body>
+</html>
+

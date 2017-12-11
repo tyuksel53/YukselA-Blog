@@ -114,6 +114,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Blog\Uploads\matrix.jpg" />
+    <Content Include="Content\adminCss.css" />
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\font-awesome.min.css" />
@@ -138,6 +145,14 @@
     <Content Include="Areas\Blog\Views\Home\GirisYap.cshtml" />
     <Content Include="Areas\Blog\Views\Shared\_UserCreatePartial.cshtml" />
     <Content Include="Areas\Blog\Views\Home\Yeni_Kayit.cshtml" />
+    <Content Include="Areas\Blog\Views\Admin\Index.cshtml" />
+    <Content Include="Areas\Blog\Views\Shared\_Admin_Layout.cshtml" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -181,6 +196,10 @@
     <Content Include="img\square-spain.jpg" />
     <Content Include="img\square-sunset.jpg" />
     <Content Include="img\square-woods.jpg" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -224,6 +243,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Blog\BlogAreaRegistration.cs" />
+    <Compile Include="Areas\Blog\Controllers\AdminController.cs" />
     <Compile Include="Areas\Blog\Controllers\HomeController.cs" />
     <Compile Include="Areas\Blog\Models\Kullanici.cs" />
     <Compile Include="Areas\Blog\Models\Managers\DatabaseContext.cs" />

@@ -8,8 +8,9 @@ using System.Web.Configuration;
 using System.Web.Mvc;
 using yA_Blog.Areas.Blog.Models;
 using yA_Blog.Areas.Blog.Models.Managers;
-using yA_Blog.Filters;
 using yA_Blog.Library;
+using System.Web.Optimization;
+using System.Web.Helpers;
 
 namespace yA_Blog.Areas.Blog.Controllers
 {
@@ -61,6 +62,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                     }
                     else
                     {
+                        model.Parola = Crypto.HashPassword(model.Parola);
                         db.Kullanicilar.Add(model);
                         db.SaveChanges();
                         Session["Kullanici"] = model;
@@ -85,7 +87,7 @@ namespace yA_Blog.Areas.Blog.Controllers
         public ActionResult Login_Check(string KullaniciAdi, string Parola)
         {
             bool isLogin = false;
-
+            
             var response = Request["g-recaptcha-response"];
             bool captcha_check = CheckCaptcha(response: response);
 
@@ -94,19 +96,21 @@ namespace yA_Blog.Areas.Blog.Controllers
                 Json("captchaError", JsonRequestBehavior.AllowGet);
             }
 
-
-            Kullanici check = (from s in db.Kullanicilar where (s.KullaniciAdi == KullaniciAdi && s.Parola == Parola) select s ).FirstOrDefault();
+            Kullanici check = (from s in db.Kullanicilar where (s.KullaniciAdi == KullaniciAdi )  select s ).FirstOrDefault();
            
             if (check != null)
             {
-                System.Threading.Thread.Sleep(1000);
-                Session["Kullanici"] = check;
-                HttpCookie acct = new HttpCookie("acct", check.KullaniciAdi + check.Parola)
+                if(Crypto.VerifyHashedPassword(check.Parola,Parola))
                 {
-                    Expires = DateTime.Now.AddMonths(1)
-                };
-                isLogin = true;
-                HttpContext.Response.Cookies.Add(acct);
+                    System.Threading.Thread.Sleep(1000);
+                    Session["Kullanici"] = check;
+                    HttpCookie acct = new HttpCookie("acct", check.KullaniciAdi + check.Parola)
+                    {
+                        Expires = DateTime.Now.AddMonths(1)
+                    };
+                    isLogin = true;
+                    HttpContext.Response.Cookies.Add(acct);
+                }
             }
 
             return Json(isLogin, JsonRequestBehavior.AllowGet);

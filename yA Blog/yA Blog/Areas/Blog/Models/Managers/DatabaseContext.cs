@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 
 namespace yA_Blog.Areas.Blog.Models.Managers
 {
@@ -22,6 +23,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
             Kullanici yeni = new Kullanici();
             yeni.KullaniciAdi = "reistaha";
             yeni.Parola = "123123";
+            yeni.Parola = Crypto.HashPassword(yeni.Parola);
             yeni.Eposta = "xcvtaha@hotmail.com";
 
             context.Kullanicilar.Add(yeni);
