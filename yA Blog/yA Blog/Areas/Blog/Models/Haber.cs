@@ -28,13 +28,18 @@ namespace yA_Blog.Areas.Blog.Models
         [Required, DisplayName("Haber İçeriği"), MinLength(100, ErrorMessage = "{0}niz minimum {1} karakter olmalıdır")]
         public string HaberIcerik { get; set; }
 
+        [DisplayName("Yayinlanam Tarihi"),DataType(DataType.DateTime)]
+        public string HaberYayinlamaTarih { get; set; }
 
-        public List<string> Tags { get; set; }
-
+        public string[] Tags { get; set; }
+        
         [Required]
         public string HaberResimUrl { get; set; }
 
-        [Required]
+
         public virtual Kullanici Yazar {get;set;}
+
+        [Required]
+        public virtual Katagori Katagorisi { get; set; }
     }
 }

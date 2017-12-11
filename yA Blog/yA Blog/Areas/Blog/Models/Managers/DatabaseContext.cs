@@ -11,6 +11,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
     {
         public DbSet<Kullanici> Kullanicilar {get;set;}
         public DbSet<Haber> Haberler { get; set; }
+        public DbSet<Katagori> Katagoriler { get; set; }
 
         public DatabaseContext()
         {
@@ -28,6 +29,14 @@ namespace yA_Blog.Areas.Blog.Models.Managers
             yeni.Eposta = "xcvtaha@hotmail.com";
 
             context.Kullanicilar.Add(yeni);
+
+            for(int i=0;i<5;i++)
+            {
+                Katagori yeniKatagori = new Katagori();
+                yeniKatagori.KatagoriIsım = FakeData.NameData.GetCompanyName();
+                yeniKatagori.KatagoriResim = FakeData.NetworkData.GetDomain();
+                context.Katagoriler.Add(yeniKatagori);
+            }
 
             context.SaveChanges();
         }

@@ -153,6 +153,7 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Areas\Blog\Views\Admin\HaberEkle.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -246,6 +247,7 @@
     <Compile Include="Areas\Blog\Controllers\AdminController.cs" />
     <Compile Include="Areas\Blog\Controllers\HomeController.cs" />
     <Compile Include="Areas\Blog\Models\Haber.cs" />
+    <Compile Include="Areas\Blog\Models\Katagori.cs" />
     <Compile Include="Areas\Blog\Models\Kullanici.cs" />
     <Compile Include="Areas\Blog\Models\Managers\DatabaseContext.cs" />
     <Compile Include="Filters\CheckAuthorize.cs" />
