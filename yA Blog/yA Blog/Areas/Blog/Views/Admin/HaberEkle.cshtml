@@ -36,7 +36,10 @@
     <script>
         var counter = 0;
         var addedTags = new Array();
-
+        $(document).on('click', function () {
+            for (var instanceName in CKEDITOR.instances)
+                CKEDITOR.instances[instanceName].updateElement();
+        });
 
         $(document).on('click', '#TagEkleButton', function () {
             if ($("#TagEkleText").val()) {
@@ -79,7 +82,7 @@
             counter = 0;
             addedTags = [];
             $("#LoadingHaber").show(300);
-
+            if (CKEDITOR.instances.HaberIcerik) CKEDITOR.instances.HaberIcerik.destroy();
             $('html, body').animate({
                 scrollTop: $("#kafasi").offset().top
             }, 2000);
