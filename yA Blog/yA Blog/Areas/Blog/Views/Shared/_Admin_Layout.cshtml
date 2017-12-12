@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <title>Bootstrap Example</title>
+    <title>@ViewBag.Title</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @Styles.Render("~/css/admin")
@@ -32,7 +32,7 @@
                     <a class="nav-link" href="/Blog/Admin/HaberEkle">Haberler</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)">Katagoriler</a>
+                    <a class="nav-link" href="javascript:void(0)">Kategoriler</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="javascript:void(0)">Üyeler</a>
@@ -57,10 +57,10 @@
                         <a href="/Blog/Admin/HaberEkle" class="list-group-item" data-parent="#menu1">Haber Ekle</a>
                         <a href="#" class="list-group-item" data-parent="#menu1">Haberleri Listele</a>
                     </div>
-                    <a href="#menu3" class="list-group-item d-inline-block collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-book"></i> <span class="d-none d-md-inline">Katagoriler</span></a>
+                    <a href="#menu3" class="list-group-item d-inline-block collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-book"></i> <span class="d-none d-md-inline">Kategoriler</span></a>
                     <div class="collapse" id="menu3">
-                        <a href="#" class="list-group-item" data-parent="#menu3">Katagori Ekle</a>
-                        <a href="#" class="list-group-item" data-parent="#menu3">Katagori Listele</a>
+                        <a href="#" class="list-group-item" data-parent="#menu3">Kategori Ekle</a>
+                        <a href="#" class="list-group-item" data-parent="#menu3">Kategori Listele</a>
                     </div>
                     <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-users"></i> <span class="d-none d-md-inline">Üyeler</span></a>
                     <a href="#menu4" class="list-group-item d-inline-block collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-cog"></i> <span class="d-none d-md-inline">Site Ayarlar</span></a>
@@ -72,7 +72,7 @@
                     <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-upload"></i> <span class="d-none d-md-inline">Dosya Yükle</span></a>
                 </div>
             </div>
-            <main class="col-md-9 float-left col px-5 pl-md-2 pt-2 main">
+            <main class="col-md-9 float-left col px-5 pl-md-2 pt-2 main" id="kafasi">
                 @RenderBody()
             </main>
         </div>

@@ -11,7 +11,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
     {
         public DbSet<Kullanici> Kullanicilar {get;set;}
         public DbSet<Haber> Haberler { get; set; }
-        public DbSet<Katagori> Katagoriler { get; set; }
+        public DbSet<Kategori> Kategoriler { get; set; }
 
         public DatabaseContext()
         {
@@ -32,10 +32,10 @@ namespace yA_Blog.Areas.Blog.Models.Managers
 
             for(int i=0;i<5;i++)
             {
-                Katagori yeniKatagori = new Katagori();
-                yeniKatagori.KatagoriIsım = FakeData.NameData.GetCompanyName();
-                yeniKatagori.KatagoriResim = FakeData.NetworkData.GetDomain();
-                context.Katagoriler.Add(yeniKatagori);
+                Kategori yeniKategori = new Kategori();
+                yeniKategori.KategoriIsım = FakeData.NameData.GetCompanyName();
+                yeniKategori.KategoriResim = FakeData.NetworkData.GetDomain();
+                context.Kategoriler.Add(yeniKategori);
             }
 
             context.SaveChanges();

@@ -10,67 +10,25 @@
 </style>
 
 <div class="col-md-12" style="margin-top:15px">
-    <h2>Haber Ekleyin</h2>
-    <div id="LoadingHaber" class="alert alert-warning" style="display:none">
-        <strong>Yükleniyor.....<i class="fa fa-circle-o-notch fa-spin" style="font-size:24px;float:right"></i> </strong>
-    </div>
-    <div id="SuccessHaber" class="alert alert-success" style="display:none">
-        <strong>Haber Eklendi <i class="fa fa-smile-o" aria-hidden="true" style="font-size:25px"></i></strong>
-    </div>
+    <h2 >Haber Ekleyin</h2>
     @{
         using (Ajax.BeginForm("HaberEkle", new AjaxOptions()
         {
             HttpMethod = "POST",
             OnBegin = "Haber_OnBegin",
-            OnComplete = "Haber_Complete"
+            OnComplete = "Haber_Complete",
+            UpdateTargetId = "haberCreate",
+            InsertionMode = InsertionMode.Replace
 
         }))
         {
-            <div class="form-group">
-                <strong>@Html.LabelFor(x => x.HaberBaslik, new { @class = "text-primary " })</strong>
-                @Html.TextBoxFor(x => x.HaberBaslik, new { @class = "form-control", placeholder = "Haber Başlığı" })
-                @Html.ValidationMessageFor(x => x.HaberBaslik, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group">
-                <strong>@Html.LabelFor(x => x.HaberOzet, new { @class = "text-primary " })</strong>
-                @Html.TextAreaFor(x => x.HaberOzet, new { @class = "form-control", rows = 3, colm = 80, placeholder = "Haberin Özeti" })
-                @Html.ValidationMessageFor(x => x.HaberOzet, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group">
-                <strong>@Html.LabelFor(x => x.HaberIcerik, new { @class = "text-primary " })</strong>
-                @Html.TextAreaFor(x => x.HaberIcerik, new { @class = "form-control", rows = 5, colm = 80 })
-                @Html.ValidationMessageFor(x => x.HaberIcerik, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group">
-                <strong>@Html.LabelFor(x => x.HaberResimUrl, new { @class = "text-primary " })</strong>
-                @Html.TextBoxFor(x => x.HaberResimUrl, new { @class = "form-control", placeholder = "örnek -> http://google.com/mundi.jpg" })
-                @Html.ValidationMessageFor(x => x.HaberResimUrl, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group">
-                <strong>@Html.LabelFor(x => x.Tags, new { @class = "text-success " })</strong>
-                <ul class="list-group" id="Taglar"></ul>
-                @Html.TextBox("TagEkleText","", new { @class = "form-control", placeholder = "tag ekleyin", style = "margin-top:15px" })
-                @Html.HiddenFor(x =>x.Tags)
-                <input type="button" id="TagEkleButton" style="margin-top:15px" class="btn btn-outline-primary" value="Tag Ekle" />
-            </div>
-
-            <div class="form-group">
-                <strong>@Html.LabelFor(x => x.Katagorisi, new { @class = "text-warning " })</strong>
-                @Html.DropDownList("KatagoriID", (List<SelectListItem>)ViewBag.Katagoriler, new { @class = "form-control", placeholder = "örnek -> http://google.com/mundi.jpg" })
-            </div>
-
-            <div class="form-group">
-                <input type="submit" class="btn btn-danger" value="Haberi Ekle" />
-            </div>
+            <div id="haberCreate">
+                @Html.Partial("_HaberCreatePartialView", Model)
+            </div>     
         }
 
     }
-        
-
+    
 </div>
 
 @section Script{
@@ -79,26 +37,28 @@
         var counter = 0;
         var addedTags = new Array();
 
-        $("#TagEkleButton").click(function () {
-            if ($("#TagEkleText").val())
-            {
+
+        $(document).on('click', '#TagEkleButton', function () {
+            if ($("#TagEkleText").val()) {
                 var newTag = $("#TagEkleText").val();
                 var index = addedTags.indexOf(newTag);
-                if (index === -1)
-                {
+                if (index === -1) {
                     addedTags[counter] = newTag;
                     counter++;
                     $("#Tags").val(addedTags);
-                    $("#Taglar").append(`<li id='Tag_${counter}' class='list-group-item'>${newTag}`+
+                    $("#Taglar").append(`<li id='Tag_${counter}' class='list-group-item'>${newTag}` +
                         `<span onclick="TagSil('Tag_${counter}','${newTag}')" class='btn btn-danger btn-sm' style='float:right'>Sil</span></li>`);
                     $("#TagEkleText").val("");
+                } else
+                {
+                    alert("bu tag' i zaten eklediniz")
                 }
-                
-            } else
-            {
-                alert("mundi");
+
+            } else {
+                alert("hiçbir tag yazmadınız");
             }
         });
+
         
         function TagSil(ID,Tag)
         {
@@ -108,22 +68,41 @@
             if (index > -1)
             {
                 addedTags.splice(index, 1);
-                var tags = { Tags: addedTags }
-                $("#Tags").val(tags);
-                console.log(addedTags);
+                $("#Tags").val(addedTags);
                 counter--;
             }
         }
 
         function Haber_OnBegin()
         {
-            
-            $("#LoadingHaber").show();
+            $("#SuccessHaber").hide();
+            counter = 0;
+            addedTags = [];
+            $("#LoadingHaber").show(300);
+
+            $('html, body').animate({
+                scrollTop: $("#kafasi").offset().top
+            }, 2000);
         }
 
         function Haber_Complete()
         {
             $("#LoadingHaber").hide(300);
+            TagleriEkle();
+        }
+
+        function TagleriEkle()
+        {
+            var tagler = $("#Tags").val();
+            $.each(tagler.split(','), function (index, value) {
+                var newTag = value;
+                addedTags[counter] = newTag;
+                counter++;
+                $("#Tags").val();
+                $("#Taglar").append(`<li id='Tag_${counter}' class='list-group-item'>${newTag}` +
+                    `<span onclick="TagSil('Tag_${counter}','${newTag}')" class='btn btn-danger btn-sm' style='float:right'>Sil</span></li>`);
+                $("#TagEkleText").val("");
+            });
         }
     </script>    
 }

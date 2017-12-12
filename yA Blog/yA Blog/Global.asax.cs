@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using yA_Blog.App_Start;
+using yA_Blog.Areas.Blog.Models;
+using yA_Blog.Areas.Blog.Models.Managers;
 
 namespace yA_Blog
 {

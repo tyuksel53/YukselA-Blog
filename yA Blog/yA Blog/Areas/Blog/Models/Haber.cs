@@ -31,7 +31,8 @@ namespace yA_Blog.Areas.Blog.Models
         [DisplayName("Yayinlanam Tarihi"),DataType(DataType.DateTime)]
         public string HaberYayinlamaTarih { get; set; }
 
-        public string[] Tags { get; set; }
+        [DisplayName("Tagler")]
+        public string Tags { get; set; }
         
         [Required]
         public string HaberResimUrl { get; set; }
@@ -39,7 +40,6 @@ namespace yA_Blog.Areas.Blog.Models
 
         public virtual Kullanici Yazar {get;set;}
 
-        [Required]
-        public virtual Katagori Katagorisi { get; set; }
+        public virtual Kategori Kategorisi { get; set; }
     }
 }

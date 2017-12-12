@@ -1,0 +1,52 @@
+﻿@model Haber
+
+    @if (ViewBag.Success != null)
+    {
+        <div id="SuccessHaber" class="alert alert-success">
+            <strong>Haber Eklendi <i class="fa fa-smile-o" aria-hidden="true" style="font-size:25px"></i></strong>
+        </div>
+    }
+    <div id="LoadingHaber" class="alert alert-warning" style="display:none">
+        <strong>Yükleniyor.....<i class="fa fa-circle-o-notch fa-spin" style="font-size:24px;float:right"></i> </strong>
+    </div>
+    @Html.ValidationSummary(true,"",new { @class="text-danger"})
+    <div class="form-group">
+        <strong>@Html.LabelFor(x => x.HaberBaslik, new { @class = "text-primary " })</strong>
+        @Html.TextBoxFor(x => x.HaberBaslik, new { @class = "form-control", placeholder = "Haber Başlığı" })
+        @Html.ValidationMessageFor(x => x.HaberBaslik, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <strong>@Html.LabelFor(x => x.HaberOzet, new { @class = "text-primary " })</strong>
+        @Html.TextAreaFor(x => x.HaberOzet, new { @class = "form-control", rows = 3, colm = 80, placeholder = "Haberin Özeti" })
+        @Html.ValidationMessageFor(x => x.HaberOzet, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <strong>@Html.LabelFor(x => x.HaberIcerik, new { @class = "text-primary " })</strong>
+        @Html.TextAreaFor(x => x.HaberIcerik, new { @class = "form-control", rows = 5, colm = 80 })
+        @Html.ValidationMessageFor(x => x.HaberIcerik, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <strong>@Html.LabelFor(x => x.HaberResimUrl, new { @class = "text-primary " })</strong>
+        @Html.TextBoxFor(x => x.HaberResimUrl, new { @class = "form-control", placeholder = "örnek -> http://google.com/mundi.jpg" })
+        @Html.ValidationMessageFor(x => x.HaberResimUrl, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <strong>@Html.LabelFor(x => x.Tags, new { @class = "text-success " })</strong>
+        <ul class="list-group" id="Taglar"></ul>
+        @Html.TextBox("TagEkleText", "", new { @class = "form-control", placeholder = "tag ekleyin", style = "margin-top:15px" })
+        @Html.HiddenFor(x => x.Tags)
+        <input type="button" id="TagEkleButton" style="margin-top:15px" class="btn btn-outline-primary" value="Tag Ekle" />
+    </div>
+
+    <div class="form-group">
+        <strong>@Html.LabelFor(x => x.Kategorisi.KategoriIsım, new { @class = "text-warning " })</strong>
+        @Html.DropDownList("KategoriID", (List<SelectListItem>)ViewBag.Kategoriler, new { @class = "form-control", placeholder = "örnek -> http://google.com/mundi.jpg" })
+    </div>
+
+    <div class="form-group">
+        <a href="haberCreate"><input type="submit" class="btn btn-danger" value="Haberi Ekle" /></a>
+    </div>
