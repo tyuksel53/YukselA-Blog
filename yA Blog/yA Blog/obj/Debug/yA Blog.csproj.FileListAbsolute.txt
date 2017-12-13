@@ -33,3 +33,4 @@ C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\yA Blog\bin\EntityFramework.xml
 C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\yA Blog\bin\EntityFramework.SqlServer.xml
 C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\yA Blog\bin\FakeData.dll
 C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\yA Blog\bin\FakeData.pdb
+C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\yA Blog\bin\WebActivatorEx.dll

@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @Styles.Render("~/css/admin")
     <link rel="stylesheet" href="~/Content/css/font-awesome.min.css">
+    @RenderSection("Css", false);
     @Scripts.Render("~/script/admin")
     <script src="~/Scripts/ckeditor/ckeditor.js"></script>
 </head>
@@ -48,7 +49,7 @@
         </div>
     </nav>
 
-    <div class="container-fluid" style="margin-top:56px">
+    <div class="container-fluid" style="margin-top:32px">
         <div class="row d-flex d-md-block flex-nowrap wrapper">
             <div class="col-md-3 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
                 <div class="list-group border-0 card text-center text-md-left">
@@ -56,7 +57,7 @@
                     <a href="#menu1" class="list-group-item d-inline-block collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-newspaper-o"></i> <span class="d-none d-md-inline">Haberler</span> </a>
                     <div class="collapse" id="menu1">
                         <a href="/Blog/Admin/HaberEkle" class="list-group-item" data-parent="#menu1">Haber Ekle</a>
-                        <a href="#" class="list-group-item" data-parent="#menu1">Haberleri Listele</a>
+                        <a href="/Blog/Admin/HaberleriListele?rowNum=1" class="list-group-item" data-parent="#menu1">Haberleri Listele</a>
                     </div>
                     <a href="#menu3" class="list-group-item d-inline-block collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-book"></i> <span class="d-none d-md-inline">Kategoriler</span></a>
                     <div class="collapse" id="menu3">

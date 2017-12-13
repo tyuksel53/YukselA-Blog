@@ -1,0 +1,76 @@
+﻿@model IEnumerable<yA_Blog.Areas.Blog.Models.Haber>
+@{
+    ViewBag.Title = "Haberleri Listele";
+    Layout = "~/Areas/Blog/Views/Shared/_Admin_Layout.cshtml";
+}
+
+<h2 style="margin-top:15px">Haberleri Listele</h2>
+
+<div class="col-md-12">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Haber Başlığı</th>
+                <th>Yayınlanma Tarihi</th>
+                <th>Katagorisi</th>
+                <th>Düzenle</th>
+                <th>Sil</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in Model)
+                {
+                    DateTime tarih = DateTime.Parse(item.HaberYayinlamaTarih);
+                    <tr>
+                        <th scope="row">@item.ID</th>
+                        <td>@item.HaberBaslik</td>
+                        <td>@tarih.ToString("dd-MM-yyyy")</td>
+                        <td>@item.Kategorisi.KategoriIsım</td>
+                        <td><a href="#" class="btn btn-primary" role="button">Düzenle</a></td>
+                        <td><a href="/demo/detail/370" class="btn btn-danger" role="button">Sil</a></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    @{ 
+        int sayfa_numarasi = Convert.ToInt32(Request.Params["rowNum"]);
+    }
+    <div class="text-center">
+        <nav aria-label="...">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="/Blog/Admin/HaberleriListele?rowNum=@(sayfa_numarasi +1)" tabindex="-1">Geri</a>
+                </li>
+                @{
+                    for (int i = 1; i <= ViewBag.HaberCount / 10 + 1; i++)
+                    {
+                        if (i == sayfa_numarasi)
+                        {
+                            <li class="page-item active">
+                                <a class="page-link" href="/Blog/Admin/HaberleriListele?rowNum=@i">@i<span class="sr-only">(current)</span></a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item"><a class="page-link" href="/Blog/Admin/HaberleriListele?rowNum=@i">@i</a></li>
+                        }
+                    }
+                }
+                <li class="page-item">
+                    <a class="page-link" href="/Blog/Admin/HaberleriListele?rowNum=@(sayfa_numarasi +1)">İleri</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+@section css{
+    <style>
+        #sidebar .list-group {
+            min-height: 130vh;
+        }
+    </style>
+}

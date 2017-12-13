@@ -75,5 +75,39 @@ namespace yA_Blog.Areas.Blog.Controllers
                 return PartialView("_HaberCreatePartialView", Model);
             }
         }
+        public ActionResult HaberleriListele(int? rowNum)
+        {
+            if (rowNum == null)
+            {
+                return RedirectToAction("HaberleriListele", "Admin", new { Area = "blog", rowNum = 1 });
+            }
+
+            if (rowNum >= 1)
+            {
+                var total = db.Haberler.Select(p => p.ID).Count();
+                ViewBag.HaberCount = total;
+                int sayfa_sayisi = (total / 10) + 1;
+
+                if (sayfa_sayisi < rowNum)
+                {
+                    return RedirectToAction("HaberleriListele", "Admin", new { Area = "blog", rowNum = 1 });
+                }
+                else
+                {
+                    int skip = (int)(rowNum - 1) * 10;
+
+                    var result = db.Haberler.OrderBy(x => x.ID).
+                        Skip(skip).
+                        Take(10).
+                        ToList();
+                    return View(result);
+
+                }
+            }
+            else
+            {
+                return RedirectToAction("HaberleriListele", "Admin", new { Area = "blog", rowNum = 1 });
+            }
+        }
     }
 }
