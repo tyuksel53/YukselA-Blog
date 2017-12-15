@@ -7,6 +7,13 @@
 <h2 style="margin-top:15px">Haberleri Listele</h2>
 
 <div class="col-md-12">
+    <div id="Success_HaberSil" class="alert alert-success" style="display:none">
+        <strong>Haber Silindi <i class="fa fa-smile-o" aria-hidden="true" style="font-size:25px"></i></strong>
+    </div>
+    <div id="Loading_HaberSil" class="alert alert-warning" style="display:none">
+        <strong>Yükleniyor.....<i class="fa fa-circle-o-notch fa-spin" style="font-size:24px;float:right"></i> </strong>
+    </div>
+
     <table class="table">
         <thead>
             <tr>
@@ -23,13 +30,13 @@
                 foreach (var item in Model)
                 {
                     DateTime tarih = DateTime.Parse(item.HaberYayinlamaTarih);
-                    <tr>
+                    <tr id="kolon_@item.ID">
                         <th scope="row">@item.ID</th>
                         <td>@item.HaberBaslik</td>
                         <td>@tarih.ToString("dd-MM-yyyy")</td>
                         <td>@item.Kategorisi.KategoriIsım</td>
                         <td><a href="#" class="btn btn-primary" role="button">Düzenle</a></td>
-                        <td><a href="/demo/detail/370" class="btn btn-danger" role="button">Sil</a></td>
+                        <td><a href="#" class="btn btn-danger" onclick="haberSil_baslat(@item.ID)" role="button">Sil</a></td>
                     </tr>
                 }
             }
@@ -65,12 +72,56 @@
             </ul>
         </nav>
     </div>
+    <input type="hidden" id="silinecek_haber_id" name="silinecek_haber_id" />
+    <div id="modalSection">
+        @Html.ModalSil("HaberSil_Modal", "Emin Misiniz ?", "Seçiğiniz Haber Silinecek. Yaptığınız Seçimden Emin Misiniz ?")
+    </div>
 </div>
 
 @section css{
     <style>
         #sidebar .list-group {
-            min-height: 130vh;
+            min-height: 150vh;
         }
     </style>
+}
+
+@section script{
+<script>
+    function haberSil_baslat(response)
+    {
+        $("#silinecek_haber_id").val(response);
+        $("#silinecek_haber_id").val(response);
+        $("#ModalDescription").html(" <b><i>#" + response + "</i></b> numaralı haber silinecek !!!");
+        $("#HaberSil_Modal").modal('toggle');
+    }
+
+    function haber_sil()
+    {
+        $("#HaberSil_Modal").modal('toggle');
+        $("#Success_HaberSil").hide();
+        var ID = $("#silinecek_haber_id").val();
+        $.ajax({
+            url: "/Blog/Admin/Haber_Sil",
+            data: { silinecek_ID: ID },
+            method: "POST",
+            beforeSend: function () {
+                $("#Loading_HaberSil").show(300);
+            }
+        }).done(function (response) {
+            if (response == true)
+            {
+                $("#Success_HaberSil").show(300);
+                $("#kolon_" + ID).remove();
+            }
+        }).always(function () {
+            $("#Loading_HaberSil").hide(300);
+            
+        }).fail(function () {
+
+        });
+    }
+
+</script>
+    
 }

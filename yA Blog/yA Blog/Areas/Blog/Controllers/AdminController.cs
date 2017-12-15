@@ -109,5 +109,22 @@ namespace yA_Blog.Areas.Blog.Controllers
                 return RedirectToAction("HaberleriListele", "Admin", new { Area = "blog", rowNum = 1 });
             }
         }
+
+        [HttpPost]
+        public JsonResult Haber_Sil(int silinecek_ID)
+        {
+            System.Threading.Thread.Sleep(3000);
+            Haber silenecekHaber = db.Haberler.Where(s => s.ID == silinecek_ID).FirstOrDefault();
+            if(silenecekHaber == null)
+            {
+                return Json(false);
+            }else
+            {
+                db.Haberler.Remove(silenecekHaber);
+                db.SaveChanges();
+                return Json(true);
+            }
+
+        }
     }
 }
