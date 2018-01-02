@@ -174,6 +174,31 @@ namespace yA_Blog.Areas.Blog.Controllers
                 return PartialView("_HaberPartialView", Model);
             }
         }
+        [HttpGet]
+        public ActionResult KatagoriEkle()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult KatagoriEkle(Kategori Model)
+        {
+            if(ModelState.IsValid)
+            {
+                Kategori yeniKategori = Model;
+
+                db.Kategoriler.Add(Model);
+
+                db.SaveChanges();
+                ViewBag.Success = true;
+
+                return View(Model);
+
+            }else
+            {
+                return View(Model);
+            }
+        }
+
         public List<SelectListItem> Katagorileri_Getir(int ID)
         {
             List<SelectListItem> kisilerListe =
