@@ -255,7 +255,70 @@ namespace yA_Blog.Areas.Blog.Controllers
             db.SaveChanges();
             return Json(true);
         }
+        [HttpGet]
+        public ActionResult KategoriGuncelle(int? ID)
+        {
+            if(ID == null)
+            {
+                return RedirectToAction("Kategoriler","Admin", new { Area = "blog" });
+            }
+            Kategori guncelle = db.Kategoriler.Where(x => x.ID == ID).FirstOrDefault();
 
+            if(guncelle == null)
+            {
+                return HttpNotFound();
+            }else
+            {
+                ViewBag.ID = ID;
+                return View(guncelle);
+            }
+        }
+        [HttpPost]
+        public ActionResult KategoriGuncelle(Kategori Model)
+        {
+            if(ModelState.IsValid)
+            {
+                Kategori guncelle = db.Kategoriler.Where(x => x.ID == Model.ID).FirstOrDefault();
+                if(guncelle == null)
+                {
+                    ModelState.AddModelError("", "Bir seyler ters gitti");
+                    return View(Model);
+                }
+
+                Kategori check = db.Kategoriler.Where(x => x.KategoriIsım == Model.KategoriIsım).FirstOrDefault();
+
+                if(check == null)
+                {
+                    guncelle.KategoriIsım = Model.KategoriIsım;
+                    guncelle.KategoriResim = Model.KategoriResim;
+                    db.SaveChanges();
+                    ViewBag.Success = true;
+                    ViewBag.ID = guncelle.ID;
+                    return View(Model);
+                }else
+                {
+                    if(check.ID == guncelle.ID)
+                    {
+                        guncelle.KategoriIsım = Model.KategoriIsım;
+                        guncelle.KategoriResim = Model.KategoriResim;
+                        db.SaveChanges();
+                        ViewBag.Success = true;
+                        ViewBag.ID = guncelle.ID;
+                        return View(Model);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Bu isimde zaten kategori mevcut. Farklı bir isimle tekrar deneyin");
+                        return View(Model);
+                    }
+                    
+                }
+
+            }else
+            {
+                return View(Model);
+            }
+        }
         public List<SelectListItem> Katagorileri_Getir(int ID)
         {
             List<SelectListItem> kisilerListe =

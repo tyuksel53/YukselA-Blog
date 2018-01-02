@@ -162,6 +162,7 @@
     <Content Include="Areas\Blog\Views\Admin\HaberGuncelle.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\KategoriEkle.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\Kategoriler.cshtml" />
+    <Content Include="Areas\Blog\Views\Admin\KategoriGuncelle.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
