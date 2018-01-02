@@ -4,6 +4,15 @@
     Layout = "~/Areas/Blog/Views/Shared/_Admin_Layout.cshtml";
 }
 
+
+@section css{
+    <style>
+        #sidebar .list-group {
+            min-height: 150vh;
+        }
+    </style>
+}
+
 <h2 style="margin-top:15px">Haberleri Listele</h2>
 
 <div class="col-md-12">
@@ -78,26 +87,17 @@
     </div>
 </div>
 
-@section css{
-    <style>
-        #sidebar .list-group {
-            min-height: 150vh;
-        }
-    </style>
-}
-
 @section script{
 <script>
     function haberSil_baslat(response)
     {
         $("#silinecek_haber_id").val(response);
-        $("#silinecek_haber_id").val(response);
         $("#ModalDescription").html(" <b><i>#" + response + "</i></b> numaralı haber silinecek !!!");
         $("#HaberSil_Modal").modal('toggle');
     }
 
-    function haber_sil()
-    {
+    $(document).on('click', "#sil_onay", function () {
+
         $("#HaberSil_Modal").modal('toggle');
         $("#Success_HaberSil").hide();
         var ID = $("#silinecek_haber_id").val();
@@ -109,18 +109,17 @@
                 $("#Loading_HaberSil").show(300);
             }
         }).done(function (response) {
-            if (response == true)
-            {
+            if (response == true) {
                 $("#Success_HaberSil").show(300);
                 $("#kolon_" + ID).remove();
             }
         }).always(function () {
             $("#Loading_HaberSil").hide(300);
-            
+
         }).fail(function () {
 
         });
-    }
+    });
 
 </script>
     

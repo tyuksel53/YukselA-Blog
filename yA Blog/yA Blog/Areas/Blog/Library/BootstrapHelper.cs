@@ -43,7 +43,7 @@ namespace yA_Blog.Library
                       "<div class='form-group-inline text-center text-danger' style='margin-bottom:15px'>" +
                         "<p>{2}</p>"+
                         "<p id='ModalDescription' class='text-center'></p>"+
-                        "<button class='btn btn-danger' onclick='haber_sil();'>Evet</button>" +
+                        "<button class='btn btn-danger' id='sil_onay'>Evet</button>" +
                         "<button class='btn btn-primary' style='margin-left:15px' data-dismiss='modal'>Hayır</button>"+
                     "</div>" +
                   "</div>" +

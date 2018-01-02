@@ -1,0 +1,146 @@
+﻿@model IEnumerable<yA_Blog.Areas.Blog.Models.Kategori>
+
+@{
+    ViewBag.Title = "Kategoriler";
+    Layout = "~/Areas/Blog/Views/Shared/_Admin_Layout.cshtml";
+}
+
+
+@section css{
+    <style>
+        #sidebar .list-group {
+            min-height: 150vh;
+        }
+    </style>
+}
+<div class="col-md-12">
+    <h2 style="margin-top:15px">Kategoriler</h2>
+    @Html.ActionLink("Kategori Ekleyin","KategoriEkle" ,null, new { @class="btn btn-success", style="margin-bottom:15px"})
+    <div id="Success_KategoriSil" class="alert alert-success" style="display:none">
+        <strong>Kategori Silindi <i class="fa fa-smile-o" aria-hidden="true" style="font-size:25px"></i></strong>
+    </div>
+
+    <div id="Loading_KategoriSil" class="alert alert-warning" style="display:none">
+        <strong>Yükleniyor.....<i class="fa fa-circle-o-notch fa-spin" style="font-size:24px;float:right"></i> </strong>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KategoriIsım)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KategoriResim)
+            </th>
+            <th>
+                Güncelle
+            </th>
+            <th>
+                Sil
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr id="kolon_@item.ID">
+                <td>
+                    @Html.DisplayFor(Modelitem => item.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KategoriIsım)
+                </td>
+                <td>
+                    <img class="rounded mx-auto d-block" style="width:12%" src="@item.KategoriResim" />
+                </td>
+                <td>
+                    <a href="/Blog/Admin/KategoriGuncelle/@item.ID" class="btn btn-primary" role="button">Düzenle</a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-danger" onclick="kategoriSil_baslat(@item.ID)" role="button">Sil</a>
+                </td>
+            </tr>
+        }
+
+    </table>
+    @{
+        int sayfa_numarasi = Convert.ToInt32(Request.Params["page"]);
+    }
+    <div class="text-center">
+        <nav aria-label="...">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="/Blog/Admin/HaberleriListele?page=@(sayfa_numarasi +1)" tabindex="-1">Geri</a>
+                </li>
+                @{
+                    for (int i = 1; i <= ViewBag.KategoriCount / 10 + 1; i++)
+                    {
+                        if (i == sayfa_numarasi)
+                        {
+                            <li class="page-item active">
+                                <a class="page-link" href="/Blog/Admin/Kategoriler?page=@i">@i<span class="sr-only">(current)</span></a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item"><a class="page-link" href="/Blog/Admin/Kategoriler?page=@i">@i</a></li>
+                        }
+                    }
+                }
+                <li class="page-item">
+                    <a class="page-link" href="/Blog/Admin/HaberleriListele?page=@(sayfa_numarasi +1)">İleri</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <input type="hidden" id="silinecek_kategori_id" name="silinecek_kategori_id" />
+    <div id="modalSection">
+        @Html.ModalSil("KategoriSil_Modal", "Emin Misiniz ?", "Seçiğiniz Kategori Silinecek. Yaptığınız Seçimden Emin Misiniz ?")
+    </div>
+</div>
+
+
+@section script{
+    <script>
+        function kategoriSil_baslat(response)
+        {
+            $("#Success_KategoriSil").hide();
+            $("#silinecek_kategori_id").val(response);
+            $("#ModalDescription").html(" <b><i>#" + response + "</i></b> numaralı haber silinecek !!!");
+            $("#KategoriSil_Modal").modal('toggle');
+        }
+        $(document).on('click', '#sil_onay', function () {
+            $("#KategoriSil_Modal").modal('toggle');
+            $("#Success_KategoriSil").hide();
+            var ID = $("#silinecek_kategori_id").val();
+            $.ajax({
+                url: "/Blog/Admin/KategoriSil",
+                data: { silenecek_Id: ID },
+                method: "POST",
+                beforeSend: function () {
+                    $("#Loading_KategoriSil").show(300);
+                }
+            }).fail(function () { alert("Bir seyler ters gitti") })
+                .done(function (response) {
+                    if (response === true)
+                    {
+                        $("#Success_KategoriSil").show(300);
+                        $("#kolon_" + ID).remove();
+                    } else
+                    {
+                        alert("Bir seyler Ters Gitti");
+                    }
+                }).always(function () {
+                    $("#Loading_KategoriSil").hide();
+                })
+        });
+
+
+
+
+    </script>
+    
+    
+}

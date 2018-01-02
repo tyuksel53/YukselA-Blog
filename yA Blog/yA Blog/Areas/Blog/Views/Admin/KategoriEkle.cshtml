@@ -19,6 +19,7 @@
     
     <div class="form-horizontal" style="margin-top:15px">
         <h4>Kategori Ekle</h4>
+        @Html.ActionLink("Kategoriler", "Kategoriler", null, new { @class = "btn btn-success", style = "margin-bottom:15px" })
         @if (ViewBag.Success != null)
         {
             <div id="KategoriEkle_Success" class="alert alert-success">

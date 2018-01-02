@@ -175,18 +175,28 @@ namespace yA_Blog.Areas.Blog.Controllers
             }
         }
         [HttpGet]
-        public ActionResult KatagoriEkle()
+        public ActionResult KategoriEkle()
         {
             return View();
         }
         [HttpPost]
-        public ActionResult KatagoriEkle(Kategori Model)
+        [ValidateAntiForgeryToken]
+        public ActionResult KategoriEkle(Kategori Model)
         {
             if(ModelState.IsValid)
             {
-                Kategori yeniKategori = Model;
 
-                db.Kategoriler.Add(Model);
+                Kategori yeniKategori = db.Kategoriler.Where(x => x.KategoriIsım == Model.KategoriIsım).FirstOrDefault();
+
+                if (yeniKategori != null)
+                {
+                    ModelState.AddModelError("", "Bu isimde kategori zaten mevcut. Farklı bir isimle tekrer deneyin");
+                    return View(Model);
+                }
+
+                yeniKategori = Model;
+
+                db.Kategoriler.Add(yeniKategori);
 
                 db.SaveChanges();
                 ViewBag.Success = true;
@@ -197,6 +207,53 @@ namespace yA_Blog.Areas.Blog.Controllers
             {
                 return View(Model);
             }
+        }
+        [HttpGet]
+        public ActionResult Kategoriler(int? page)
+        {
+            if (page == null)
+            {
+                return RedirectToAction("Kategoriler", "Admin", new { Area = "blog", page = 1 });
+            }
+
+            if (page >= 1)
+            {
+                var total = db.Kategoriler.Select(p => p.ID).Count();
+                ViewBag.KategoriCount = total;
+                int sayfa_sayisi = (total / 10) + 1;
+
+                if (sayfa_sayisi < page)
+                {
+                    return RedirectToAction("HaberleriListele", "Admin", new { Area = "blog", page = 1 });
+                }
+                else
+                {
+                    int skip = (int)(page - 1) * 10;
+
+                    var result = db.Kategoriler.OrderBy(x => x.ID).
+                        Skip(skip).
+                        Take(10).
+                        ToList();
+                    return View(result);
+
+                }
+            }
+            else
+            {
+                return RedirectToAction("Kategoriler", "Admin", new { Area = "blog", page = 1 });
+            }
+        }
+        public JsonResult KategoriSil(int silenecek_Id)
+        {
+            Kategori sil_kategori = db.Kategoriler.Where(x => x.ID == silenecek_Id).FirstOrDefault();
+            if(sil_kategori == null)
+            {
+                return Json(false);
+            }
+
+            db.Kategoriler.Remove(sil_kategori);
+            db.SaveChanges();
+            return Json(true);
         }
 
         public List<SelectListItem> Katagorileri_Getir(int ID)

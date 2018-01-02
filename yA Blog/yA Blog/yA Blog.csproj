@@ -160,7 +160,8 @@
     <Content Include="Areas\Blog\Views\Shared\_HaberPartialView.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\HaberleriListele.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\HaberGuncelle.cshtml" />
-    <Content Include="Areas\Blog\Views\Admin\KatagoriEkle.cshtml" />
+    <Content Include="Areas\Blog\Views\Admin\KategoriEkle.cshtml" />
+    <Content Include="Areas\Blog\Views\Admin\Kategoriler.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
