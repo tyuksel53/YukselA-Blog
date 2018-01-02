@@ -1,0 +1,135 @@
+﻿@model Haber
+@{
+    ViewBag.Title = "Haberi Güncelle";
+    Layout = "~/Areas/Blog/Views/Shared/_Admin_Layout.cshtml";
+}
+
+@section css{
+    <style>
+        #sidebar .list-group {
+            min-height: 200vh;
+        }
+    </style>
+}
+
+<div class="col-md-12" style="margin-top:15px">
+    <h2><b><i>#@(ViewBag.ID)</i></b> Numaralı haberi güncelliyorsunuz</h2>
+    @{
+        using (Ajax.BeginForm("HaberGuncelle", new AjaxOptions()
+        {
+            HttpMethod = "POST",
+            OnBegin = "HaberUpdate_OnBegin",
+            OnComplete = "HaberUpdate_Complete",
+            UpdateTargetId = "haberUpdate",
+            InsertionMode = InsertionMode.Replace
+
+        }))
+        {
+            <div id="haberUpdate">
+                @Html.Partial("_HaberPartialView", Model)
+            </div>
+
+            <div class="form-group">
+                <input type="submit" id="haberCreateButton" class="btn btn-danger" value="Haberi Güncelle" />
+            </div>
+        }
+
+    }
+
+</div>
+@section script{
+<script>
+
+    var counter = 0;
+    var addedTags = new Array();
+
+    $(document).on('click', function () {
+        for (var instanceName in CKEDITOR.instances)
+            CKEDITOR.instances[instanceName].updateElement();
+    });
+
+    $(document).ready(function () {
+        var tags = $("#Tags").val().split(',');
+        console.log(tags);
+        $.each(tags, function (index, val) {
+            addedTags[counter] = val;
+            counter++;
+            $("#Taglar").append(`<li id='Tag_${counter}' class='list-group-item'>${val}` +
+                `<span onclick="TagSil('Tag_${counter}','${val}')" class='btn btn-danger btn-sm' style='float:right'>Sil</span></li>`);
+        });
+
+    });
+
+    function HaberUpdate_OnBegin()
+    {
+        $("#SuccessUpdateHaber").hide();
+        $("#HaberIcerik").val('');
+        counter = 0;
+        addedTags = [];
+        $("#LoadingHaber").show(300);
+        if (CKEDITOR.instances.HaberIcerik) CKEDITOR.instances.HaberIcerik.destroy();
+        $('html, body').animate({
+            scrollTop: $("#kafasi").offset().top
+        }, 2000);
+
+    }
+    function refleshPage()
+    {
+        location.reload();
+    }
+
+    function HaberUpdate_Complete() {
+        $("#LoadingHaber").hide(300);
+        TagleriEkle();
+        setTimeout(refleshPage, 2000);
+    }
+
+    $(document).on('click', '#TagEkleButton', function () {
+        if ($("#TagEkleText").val()) {
+            var newTag = $("#TagEkleText").val();
+            var index = addedTags.indexOf(newTag);
+            if (index === -1) {
+                addedTags[counter] = newTag;
+                counter++;
+                $("#Tags").val(addedTags);
+                $("#Taglar").append(`<li id='Tag_${counter}' class='list-group-item'>${newTag}` +
+                    `<span onclick="TagSil('Tag_${counter}','${newTag}')" class='btn btn-danger btn-sm' style='float:right'>Sil</span></li>`);
+                $("#TagEkleText").val("");
+            } else {
+                alert("bu tag' i zaten eklediniz")
+            }
+
+        } else {
+            alert("hiçbir tag yazmadınız");
+        }
+    });
+
+    function TagleriEkle() {
+        var tagler = $("#Tags").val();
+        $.each(tagler.split(','), function (index, value) {
+            var newTag = value;
+            addedTags[counter] = newTag;
+            counter++;
+            $("#Tags").val();
+            $("#Taglar").append(`<li id='Tag_${counter}' class='list-group-item'>${newTag}` +
+                `<span onclick="TagSil('Tag_${counter}','${newTag}')" class='btn btn-danger btn-sm' style='float:right'>Sil</span></li>`);
+            $("#TagEkleText").val("");
+        });
+    }
+
+    function TagSil(ID, Tag) {
+        console.log(addedTags);
+        $("#" + ID).remove();
+        var index = addedTags.indexOf(Tag);
+        if (index > -1) {
+            addedTags.splice(index, 1);
+            $("#Tags").val(addedTags);
+            counter--;
+        }
+    }
+
+
+</script>    
+    
+    
+}

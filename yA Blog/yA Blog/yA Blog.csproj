@@ -157,8 +157,9 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Areas\Blog\Views\Admin\HaberEkle.cshtml" />
-    <Content Include="Areas\Blog\Views\Shared\_HaberCreatePartialView.cshtml" />
+    <Content Include="Areas\Blog\Views\Shared\_HaberPartialView.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\HaberleriListele.cshtml" />
+    <Content Include="Areas\Blog\Views\Admin\HaberGuncelle.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

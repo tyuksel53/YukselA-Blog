@@ -27,8 +27,12 @@
         }))
         {
             <div id="haberCreate">
-                @Html.Partial("_HaberCreatePartialView", Model)
-            </div>     
+                @Html.Partial("_HaberPartialView", Model)
+            </div>
+            <div class="form-group">
+                <a href="haberCreate"><input type="submit" id="haberCreateButton" class="btn btn-danger" value="Haberi Ekle" /></a>
+            </div>
+
         }
 
     }

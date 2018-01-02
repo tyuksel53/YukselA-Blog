@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -21,33 +22,16 @@ namespace yA_Blog.Areas.Blog.Controllers
         [HttpGet]
         public ActionResult HaberEkle()
         {
-            List<SelectListItem> kisilerListe =
-            (from s in CacheHelper.KategoriGet() select new SelectListItem()
-            {
-                Text = s.KategoriIsım,
-                Value = s.ID.ToString()
-            }
-            ).ToList();
-
-            ViewBag.Kategoriler = kisilerListe;
+            ViewBag.Kategoriler = Katagorileri_Getir(-1);
             return View(new Haber());
         }
 
         [HttpPost]
         public ActionResult HaberEkle(Haber Model,int KategoriID)
         {
-            var mundi = db.Haberler.ToList();
             System.Threading.Thread.Sleep(3000);
 
-            List<SelectListItem> kisilerListe =
-            (from s in CacheHelper.KategoriGet() select new SelectListItem()
-             {
-                 Text = s.KategoriIsım,
-                 Value = s.ID.ToString()
-             }
-            ).ToList();
-
-            ViewBag.Kategoriler = kisilerListe;
+            ViewBag.Kategoriler = Katagorileri_Getir(KategoriID);
 
             if (ModelState.IsValid)
             {
@@ -56,45 +40,45 @@ namespace yA_Blog.Areas.Blog.Controllers
                 if (Model.Kategorisi == null)
                 {
                     ModelState.AddModelError("", "Lütfen Kategori Seçiniz");
-                    return PartialView("_HaberCreatePartialView", Model);
+                    return PartialView("_HaberPartialView", Model);
                 }
 
                 Model.HaberYayinlamaTarih = DateTime.Now.ToString("dd-MM-yyyy");
 
                 Model.Yazar = (Kullanici)(from s in db.Kullanicilar select s).FirstOrDefault();
 
-                ViewBag.Success = true;
+                ViewBag.SuccessAdd = true;
 
                 db.Haberler.Add(Model);
                 db.SaveChanges();
 
-                return PartialView("_HaberCreatePartialView", new Haber() );
+                return PartialView("_HaberPartialView", new Haber() );
             }
             else
             {
-                return PartialView("_HaberCreatePartialView", Model);
+                return PartialView("_HaberPartialView", Model);
             }
         }
-        public ActionResult HaberleriListele(int? rowNum)
+        public ActionResult HaberleriListele(int? page)
         {
-            if (rowNum == null)
+            if (page == null)
             {
-                return RedirectToAction("HaberleriListele", "Admin", new { Area = "blog", rowNum = 1 });
+                return RedirectToAction("HaberleriListele", "Admin", new { Area = "blog", page = 1 });
             }
 
-            if (rowNum >= 1)
+            if (page >= 1)
             {
                 var total = db.Haberler.Select(p => p.ID).Count();
                 ViewBag.HaberCount = total;
                 int sayfa_sayisi = (total / 10) + 1;
 
-                if (sayfa_sayisi < rowNum)
+                if (sayfa_sayisi < page)
                 {
-                    return RedirectToAction("HaberleriListele", "Admin", new { Area = "blog", rowNum = 1 });
+                    return RedirectToAction("HaberleriListele", "Admin", new { Area = "blog", page = 1 });
                 }
                 else
                 {
-                    int skip = (int)(rowNum - 1) * 10;
+                    int skip = (int)(page - 1) * 10;
 
                     var result = db.Haberler.OrderBy(x => x.ID).
                         Skip(skip).
@@ -106,7 +90,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             }
             else
             {
-                return RedirectToAction("HaberleriListele", "Admin", new { Area = "blog", rowNum = 1 });
+                return RedirectToAction("HaberleriListele", "Admin", new { Area = "blog", page = 1 });
             }
         }
 
@@ -125,6 +109,84 @@ namespace yA_Blog.Areas.Blog.Controllers
                 return Json(true);
             }
 
+        }
+
+        [HttpGet]
+        public ActionResult HaberGuncelle(int? ID)
+        {
+            if(ID == null)
+            {
+                ID = 1;
+            }
+            Haber haber_guncelle = db.Haberler.Where(x => x.ID == ID).FirstOrDefault();
+            if(haber_guncelle == null)
+            {
+                return HttpNotFound();
+            }else
+            {
+                ViewBag.ID = ID;
+                ViewBag.Kategoriler = Katagorileri_Getir(haber_guncelle.Kategorisi.ID);
+                haber_guncelle.HaberIcerik = HttpUtility.HtmlDecode(haber_guncelle.HaberIcerik);
+                return View(haber_guncelle);
+            }
+            
+        }
+        [HttpPost]
+        public ActionResult HaberGuncelle(Haber Model, int KategoriID)
+        {
+            System.Threading.Thread.Sleep(3000);
+
+            ViewBag.Kategoriler = Katagorileri_Getir(KategoriID);
+
+            if (ModelState.IsValid)
+            {
+                Haber update = db.Haberler.Where(x => x.ID == Model.ID).FirstOrDefault();
+
+                if (update == null)
+                {
+                    ModelState.AddModelError("", "bir şeyler ters gitti :(");
+                    return PartialView("_HaberPartialView", Model);
+                }
+                
+                Kategori updateKategori = (from s in db.Kategoriler where s.ID == KategoriID select s).FirstOrDefault();
+
+                if (updateKategori == null)
+                {
+                    ModelState.AddModelError("", "Lütfen Kategori Seçiniz");
+                    return PartialView("_HaberPartialView", Model);
+                }
+
+                update.HaberBaslik = Model.HaberBaslik;
+                update.HaberOzet = Model.HaberOzet;
+                update.HaberIcerik = HttpUtility.HtmlDecode(Model.HaberIcerik);
+                update.HaberResimUrl = Model.HaberResimUrl;
+                update.Tags = Model.Tags;
+                update.Kategorisi = updateKategori;
+
+                ViewBag.SuccessUpdate = true;
+
+                db.SaveChanges();
+
+                return PartialView("_HaberPartialView",update);
+            }
+            else
+            {
+                return PartialView("_HaberPartialView", Model);
+            }
+        }
+        public List<SelectListItem> Katagorileri_Getir(int ID)
+        {
+            List<SelectListItem> kisilerListe =
+            (from s in CacheHelper.KategoriGet()
+             select new SelectListItem()
+             {
+                 Text = s.KategoriIsım,
+                 Value = s.ID.ToString(),
+                 Selected = s.ID == ID ? true : false
+             }
+            ).ToList();
+
+            return kisilerListe;
         }
     }
 }
