@@ -1,0 +1,82 @@
+﻿@model yA_Blog.Areas.Blog.Library.File
+@{
+    ViewBag.Title = "DosyaYukle";
+    Layout = "~/Areas/Blog/Views/Shared/_Admin_Layout.cshtml";
+}
+
+<h2 style="margin-top: 25px">Dosya Yükleyin</h2>
+
+@{
+    if (ViewBag.error != null)
+    {
+        <script>alert("bir hata olustu");</script>
+    }
+}
+
+@using (Html.BeginForm("DosyaYukle", "Admin", FormMethod.Post, new { ID = "dosyaGonder", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.files, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.files, "", new { @type = "file", @multiple = "multiple" })
+            @Html.ValidationMessageFor(model => model.files, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Yükle" class="btn btn-primary" />
+        </div>
+    </div>
+    <div class="form-group" id="progressBar" style="display: none">
+        <div class="col-md-offset-2 col-md-10">
+            <p>Yüklenme Durumu:</p>
+            <div class="progress">
+                <div class="progress-bar" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10 text-success">
+            @ViewBag.UploadStatus
+        </div>
+    </div>
+    <div class="form-group">
+        <div id="status"></div>
+    </div>
+    
+
+</div>
+}
+<div>
+</div>
+@section Script
+{
+    <script>
+        $(document).ready(function () {
+            var bar = $('.progress-bar');
+            var status = $('#status');
+
+            $('#dosyaGonder').ajaxForm({
+                beforeSend: function () {
+                    bar.width("0%");
+                    status.empty();
+                    $("#progressBar").show();
+                },
+                uploadProgress: function (event, position, total, percentComplete) {
+                    var percentVal = percentComplete + '%';
+                    bar.width(percentVal);
+                },
+                complete: function (xhr) {
+                    status.html(xhr.responseText);
+                }
+            });
+        });
+    </script>
+}
+<script src="~/Scripts/jquery.form.min.js"></script>
+@Scripts.Render("~/script/validate")
