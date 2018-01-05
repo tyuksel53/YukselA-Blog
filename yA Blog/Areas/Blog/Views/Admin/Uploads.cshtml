@@ -13,7 +13,13 @@
 }
 
 <div class="col-md-12">
-    <h2 style="margin-top: 25px">Dosya Yükleyin</h2>
+    <h2 style="margin-top: 25px;margin-bottom: 15px">Dosya Yükleyin</h2>
+    <div id="Success_DosyaSil" class="alert alert-success" style="display:none">
+        <strong>Dosya Silindi <i class="fa fa-smile-o" aria-hidden="true" style="font-size:25px"></i></strong>
+    </div>
+    <div id="Loading_DosyaSil" class="alert alert-warning" style="display:none">
+        <strong>Yükleniyor.....<i class="fa fa-circle-o-notch fa-spin" style="font-size:24px;float:right"></i> </strong>
+    </div>
     @using (Html.BeginForm("Uploads", "Admin", FormMethod.Post, new { ID = "dosyaGonder", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
@@ -48,13 +54,6 @@
             </div>
         </div>
     }
-    <div id="Success_DosyaSil" class="alert alert-success" style="display:none">
-        <strong>Dosya Silindi <i class="fa fa-smile-o" aria-hidden="true" style="font-size:25px"></i></strong>
-    </div>
-    <div id="Loading_DosyaSil" class="alert alert-warning" style="display:none">
-        <strong>Yükleniyor.....<i class="fa fa-circle-o-notch fa-spin" style="font-size:24px;float:right"></i> </strong>
-    </div>
-
     <table class="table">
         <thead>
             <tr>
@@ -63,7 +62,6 @@
                 <th>Yüklenme Tarihi</th>
                 <th>Dosya Yolu</th>
                 <th>Dosya Türü</th>
-                <th>Düzenle</th>
                 <th>Sil</th>
             </tr>
         </thead>
@@ -75,10 +73,9 @@
                     <tr id="kolon_@item.ID">
                         <th scope="row">@item.ID</th>
                         <td>@item.DosyaAdı</td>
-                        <td>@item.YuklenmeTarihi.ToString("dd-MM-yyyy")</td>
+                        <td>@item.YuklenmeTarihi</td>
                         <td>@item.DosyaYolu</td>
                         <td>@item.DosyaUzantisi</td>
-                        <td><a href="/Blog/Admin/DosyaGuncelle/@item.ID" class="btn btn-primary" role="button">Düzenle</a></td>
                         <td><a href="#" class="btn btn-danger" onclick="dosyaSil_baslat(@item.ID)" role="button">Sil</a></td>
                     </tr>
                 }
@@ -86,18 +83,18 @@
         </tbody>
     </table>
     @{
-        int sayfa_numarasi = Convert.ToInt32(Request.Params["page"]);
+        int sayfaNumarasi = Convert.ToInt32(Request.Params["page"]);
     }
     <div class="text-center">
         <nav aria-label="...">
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link" href="/Blog/Admin/Uploads?page=@(sayfa_numarasi -1)" tabindex="-1">Geri</a>
+                    <a class="page-link" href="/Blog/Admin/Uploads?page=@(sayfaNumarasi -1)" tabindex="-1">Geri</a>
                 </li>
                 @{
                     for (int i = 1; i <= ViewBag.UploadsCount / 10 + 1; i++)
                     {
-                        if (i == sayfa_numarasi)
+                        if (i == sayfaNumarasi)
                         {
                             <li class="page-item active">
                                 <a class="page-link" href="/Blog/Admin/Uploads?page=@i">@i<span class="sr-only">(current)</span></a>
@@ -110,7 +107,7 @@
                     }
                 }
                 <li class="page-item">
-                    <a class="page-link" href="/Blog/Admin/Uploads?page=@(sayfa_numarasi +1)">İleri</a>
+                    <a class="page-link" href="/Blog/Admin/Uploads?page=@(sayfaNumarasi +1)">İleri</a>
                 </li>
             </ul>
         </nav>
@@ -124,31 +121,80 @@
 @section Script
 {
     <script>
-        $(document).ready(function () {
+        function dosyaSil_baslat(response) {
+            $("#silinecek_dosya_id").val(response);
+            $("#ModalDescription").html(" <b><i>#" + response + "</i></b> numaralı haber silinecek !!!");
+            $("#DosyaSil_Modal").modal('toggle');
+        }
+
+        $(document).on('click',
+            '#sil_onay',
+            function() {
+
+                $("#DosyaSil_Modal").modal('toggle');
+                $("#Success_DosyaSil").hide();
+                var ID = $("#silinecek_dosya_id").val();
+                $.ajax({
+                    url: "/Blog/Admin/DosyaSil",
+                    data: { silinecekId: ID },
+                    method: "POST",
+                    beforeSend: function () {
+                        $("#progressBar").hide();
+                        var status = $('#status');
+                        status.empty();
+                        $("#Loading_DosyaSil").show(300);
+                        $("#Success_DosyaSil").hide(300);
+                    }
+                }).done(function(response) {
+                    if (response === true) {
+                        $("#Success_DosyaSil").show(300);
+                        $("#kolon_" + ID).remove();
+                    }
+                }).always(function() {
+                    $("#Loading_DosyaSil").hide(300);
+
+                }).fail(function() {
+                    alert("bir seyler ters gitti");
+                });
+            });
+
+        $(document).ready(function() {
             var bar = $('.progress-bar');
             var status = $('#status');
 
             $('#dosyaGonder').ajaxForm({
-                beforeSend: function () {
+                beforeSend: function() {
                     bar.width("0%");
                     status.empty();
                     $("#progressBar").show();
+                    $("#Success_DosyaSil").hide();
                 },
-                uploadProgress: function (event, position, total, percentComplete) {
+                uploadProgress: function(event, position, total, percentComplete) {
                     var percentVal = percentComplete + '%';
                     bar.width(percentVal);
                 },
-                complete: function (xhr) {
+                complete: function(xhr) {
                     console.log(xhr.responseJSON);
+                    var kolon = "";
                     $.each(xhr.responseJSON,
-                        function (index, value) {
+                        function(index, value) {
                             if (index === 'Item1') {
                                 status.html(value);
                             } else {
-                                console.log(value[0], value[1], value[2]);
+                                for (var i = 0; i < value.length; i++) {
+                                    kolon = kolon + `<tr id='kolon_${value[i].ID}'>
+                                        <th scope='row'>${value[i].ID}</th>
+                                        <td>${value[i].DosyaAdı}</td>
+                                        <td>${value[i].YuklenmeTarihi}</td>
+                                        <td>${value[i].DosyaYolu}</td>
+                                        <td>${value[i].DosyaUzantisi}</td>
+                                        <td><a href='#' class='btn btn-danger' onclick='dosyaSil_baslat(${value[i].ID})' role='button'>Sil</a></td>
+                                                </tr>`;
+                                }
                             }
 
                         });
+                    $("#tableBody").append(kolon);
                 }
             });
         });

@@ -12,7 +12,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 {
     public class AdminController : Controller
     {
-        DatabaseContext dB = new DatabaseContext();
+        readonly DatabaseContext _dB = new DatabaseContext();
 
         [HttpGet]
         public ActionResult Index()
@@ -36,7 +36,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
             if (ModelState.IsValid)
             {
-                model.Kategorisi = (from s in dB.Kategoriler where s.ID == kategoriId select s).FirstOrDefault();
+                model.Kategorisi = (from s in _dB.Kategoriler where s.ID == kategoriId select s).FirstOrDefault();
 
                 if (model.Kategorisi == null)
                 {
@@ -46,12 +46,12 @@ namespace yA_Blog.Areas.Blog.Controllers
 
                 model.HaberYayinlamaTarih = DateTime.Now.ToString("dd-MM-yyyy");
 
-                model.Yazar = (from s in dB.Kullanicilar select s).FirstOrDefault();
+                model.Yazar = (from s in _dB.Kullanicilar select s).FirstOrDefault();
 
                 ViewBag.SuccessAdd = true;
 
-                dB.Haberler.Add(model);
-                dB.SaveChanges();
+                _dB.Haberler.Add(model);
+                _dB.SaveChanges();
 
                 return PartialView("_HaberPartialView", new Haber() );
             }
@@ -69,7 +69,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
             if (page >= 1)
             {
-                var total = dB.Haberler.Select(p => p.ID).Count();
+                var total = _dB.Haberler.Select(p => p.ID).Count();
                 ViewBag.HaberCount = total;
                 int sayfaSayisi = (total / 10) + 1;
 
@@ -81,7 +81,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                 {
                     int skip = (int)(page - 1) * 10;
 
-                    var result = dB.Haberler.OrderBy(x => x.ID).
+                    var result = _dB.Haberler.OrderBy(x => x.ID).
                         Skip(skip).
                         Take(10).
                         ToList();
@@ -99,14 +99,14 @@ namespace yA_Blog.Areas.Blog.Controllers
         public JsonResult Haber_Sil(int silinecekId)
         {
             System.Threading.Thread.Sleep(3000);
-            Haber silenecekHaber = dB.Haberler.Where(s => s.ID == silinecekId).FirstOrDefault();
+            Haber silenecekHaber = _dB.Haberler.FirstOrDefault(s => s.ID == silinecekId);
             if(silenecekHaber == null)
             {
                 return Json(false);
             }else
             {
-                dB.Haberler.Remove(silenecekHaber);
-                dB.SaveChanges();
+                _dB.Haberler.Remove(silenecekHaber);
+                _dB.SaveChanges();
                 return Json(true);
             }
 
@@ -119,7 +119,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             {
                 ID = 1;
             }
-            Haber haberGuncelle = dB.Haberler.Where(x => x.ID == ID).FirstOrDefault();
+            Haber haberGuncelle = _dB.Haberler.FirstOrDefault(x => x.ID == ID);
             if(haberGuncelle == null)
             {
                 return HttpNotFound();
@@ -142,7 +142,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
             if (ModelState.IsValid)
             {
-                Haber update = dB.Haberler.Where(x => x.ID == model.ID).FirstOrDefault();
+                Haber update = _dB.Haberler.FirstOrDefault(x => x.ID == model.ID);
 
                 if (update == null)
                 {
@@ -150,7 +150,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                     return PartialView("_HaberPartialView", model);
                 }
                 
-                Kategori updateKategori = (from s in dB.Kategoriler where s.ID == kategoriId select s).FirstOrDefault();
+                Kategori updateKategori = (from s in _dB.Kategoriler where s.ID == kategoriId select s).FirstOrDefault();
 
                 if (updateKategori == null)
                 {
@@ -167,7 +167,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
                 ViewBag.SuccessUpdate = true;
 
-                dB.SaveChanges();
+                _dB.SaveChanges();
 
                 return PartialView("_HaberPartialView",update);
             }
@@ -181,6 +181,7 @@ namespace yA_Blog.Areas.Blog.Controllers
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult KategoriEkle(Kategori model)
@@ -188,7 +189,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             if(ModelState.IsValid)
             {
 
-                Kategori yeniKategori = dB.Kategoriler.Where(x => x.KategoriIsım == model.KategoriIsım).FirstOrDefault();
+                Kategori yeniKategori = _dB.Kategoriler.FirstOrDefault(x => x.KategoriIsım == model.KategoriIsım);
 
                 if (yeniKategori != null)
                 {
@@ -198,9 +199,9 @@ namespace yA_Blog.Areas.Blog.Controllers
 
                 yeniKategori = model;
 
-                dB.Kategoriler.Add(yeniKategori);
+                _dB.Kategoriler.Add(yeniKategori);
 
-                dB.SaveChanges();
+                _dB.SaveChanges();
                 ViewBag.Success = true;
 
                 return View(model);
@@ -220,7 +221,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
             if (page >= 1)
             {
-                var total = dB.Kategoriler.Select(p => p.ID).Count();
+                var total = _dB.Kategoriler.Select(p => p.ID).Count();
                 ViewBag.KategoriCount = total;
                 int sayfaSayisi = (total / 10) + 1;
 
@@ -232,7 +233,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                 {
                     int skip = (int)(page - 1) * 10;
 
-                    var result = dB.Kategoriler.OrderBy(x => x.ID).
+                    var result = _dB.Kategoriler.OrderBy(x => x.ID).
                         Skip(skip).
                         Take(10).
                         ToList();
@@ -247,14 +248,14 @@ namespace yA_Blog.Areas.Blog.Controllers
         }
         public JsonResult KategoriSil(int silenecekId)
         {
-            Kategori silKategori = dB.Kategoriler.Where(x => x.ID == silenecekId).FirstOrDefault();
+            Kategori silKategori = _dB.Kategoriler.FirstOrDefault(x => x.ID == silenecekId);
             if(silKategori == null)
             {
                 return Json(false);
             }
 
-            dB.Kategoriler.Remove(silKategori);
-            dB.SaveChanges();
+            _dB.Kategoriler.Remove(silKategori);
+            _dB.SaveChanges();
             return Json(true);
         }
         [HttpGet]
@@ -264,7 +265,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             {
                 return RedirectToAction("Kategoriler","Admin", new { Area = "blog" });
             }
-            Kategori guncelle = dB.Kategoriler.Where(x => x.ID == ID).FirstOrDefault();
+            Kategori guncelle = _dB.Kategoriler.FirstOrDefault(x => x.ID == ID);
 
             if(guncelle == null)
             {
@@ -280,20 +281,20 @@ namespace yA_Blog.Areas.Blog.Controllers
         {
             if(ModelState.IsValid)
             {
-                Kategori guncelle = dB.Kategoriler.Where(x => x.ID == model.ID).FirstOrDefault();
+                Kategori guncelle = _dB.Kategoriler.FirstOrDefault(x => x.ID == model.ID);
                 if(guncelle == null)
                 {
                     ModelState.AddModelError("", "Bir seyler ters gitti");
                     return View(model);
                 }
 
-                Kategori check = dB.Kategoriler.Where(x => x.KategoriIsım == model.KategoriIsım).FirstOrDefault();
+                Kategori check = _dB.Kategoriler.FirstOrDefault(x => x.KategoriIsım == model.KategoriIsım);
 
                 if(check == null)
                 {
                     guncelle.KategoriIsım = model.KategoriIsım;
                     guncelle.KategoriResim = model.KategoriResim;
-                    dB.SaveChanges();
+                    _dB.SaveChanges();
                     ViewBag.Success = true;
                     ViewBag.ID = guncelle.ID;
                     return View(model);
@@ -303,7 +304,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                     {
                         guncelle.KategoriIsım = model.KategoriIsım;
                         guncelle.KategoriResim = model.KategoriResim;
-                        dB.SaveChanges();
+                        _dB.SaveChanges();
                         ViewBag.Success = true;
                         ViewBag.ID = guncelle.ID;
                         return View(model);
@@ -332,7 +333,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
             if (page >= 1)
             {
-                var total = dB.Kategoriler.Select(p => p.ID).Count();
+                var total = _dB.Kategoriler.Select(p => p.ID).Count();
 
                 ViewBag.UploadsCount = total;
 
@@ -346,7 +347,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                 {
                     int skip = (int)(page - 1) * 10;
 
-                    ViewBag.Uploads = dB.Uploads.OrderBy(x => x.ID).
+                    ViewBag.Uploads = _dB.Uploads.OrderBy(x => x.ID).
                         Skip(skip).
                         Take(10).
                         ToList();
@@ -356,7 +357,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             }
             else
             {
-                return RedirectToAction("Kategoriler", "Admin", new { Area = "blog", page = 1 });
+                return RedirectToAction("Uploads", "Admin", new { Area = "blog", page = 1 });
             }
         }
 
@@ -378,17 +379,17 @@ namespace yA_Blog.Areas.Blog.Controllers
                         };
                         for (int i = 0; i < 1000; i++)
                         {
-                            var check = dB.Uploads.FirstOrDefault(x => x.DosyaAdı == upload.DosyaAdı);
+                            var check = _dB.Uploads.FirstOrDefault(x => x.DosyaAdı == upload.DosyaAdı);
                             if (check == null)
                             {
                                 upload.DosyaUzantisi = file.ContentType;
-                                upload.YuklenmeTarihi = DateTime.Now;
+                                upload.YuklenmeTarihi = DateTime.Now.ToString("dd-MM-yyyy");
 
                                 upload.DosyaYolu = Path.Combine(Server.MapPath("~/Areas/Blog/Uploads"),upload.DosyaAdı);
                                 file.SaveAs(upload.DosyaYolu);
 
-                                dB.Uploads.Add(upload);
-                                dB.SaveChanges();
+                                _dB.Uploads.Add(upload);
+                                _dB.SaveChanges();
                                 dosyalar.Add(upload);
                                 uploadStatus = files.Count().ToString() + " tane dosya başarıyla yüklendi";
                                 break;
@@ -405,6 +406,38 @@ namespace yA_Blog.Areas.Blog.Controllers
             }
             Tuple<string,List<Uploads>> message = new Tuple<string, List<Uploads>>(uploadStatus,dosyalar);
             return  Json(message);
+        }
+
+        [HttpPost]
+        public JsonResult DosyaSil(int silinecekId)
+        {
+            System.Threading.Thread.Sleep(3000);
+            Uploads dosya = _dB.Uploads.FirstOrDefault(x => x.ID == silinecekId);
+            if (dosya != null)
+            {
+                try
+                {
+                    _dB.Uploads.Remove(dosya);
+                    _dB.SaveChanges();
+
+                    string strFileFullPath = dosya.DosyaYolu;
+
+                    if (System.IO.File.Exists(strFileFullPath))
+                    {
+                        System.IO.File.Delete(strFileFullPath);
+                    }
+                    return Json(true);
+                }
+                catch (Exception ex)
+                {
+                    return Json(false);
+                }
+                
+            }
+            else
+            {
+                return Json(false);
+            }
         }
         public List<SelectListItem> Katagorileri_Getir(int ID)
         {

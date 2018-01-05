@@ -107,9 +107,10 @@
             method: "POST",
             beforeSend: function () {
                 $("#Loading_HaberSil").show(300);
+                $("#Success_HaberSil").hide(0);
             }
         }).done(function (response) {
-            if (response == true) {
+            if (response === true) {
                 $("#Success_HaberSil").show(300);
                 $("#kolon_" + ID).remove();
             }
@@ -117,7 +118,7 @@
             $("#Loading_HaberSil").hide(300);
 
         }).fail(function () {
-
+            alert("Bir hata olustu !");
         });
     });
 

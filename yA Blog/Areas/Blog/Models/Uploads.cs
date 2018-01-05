@@ -14,7 +14,7 @@ namespace yA_Blog.Areas.Blog.Models
 
         public string DosyaAdı { get; set; }
 
-        public DateTime YuklenmeTarihi { get; set; }
+        public string YuklenmeTarihi { get; set; }
 
         public string DosyaYolu { get; set; }
 

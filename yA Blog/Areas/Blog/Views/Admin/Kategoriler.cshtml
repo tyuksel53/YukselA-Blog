@@ -106,7 +106,6 @@
     <script>
         function kategoriSil_baslat(response)
         {
-            $("#Success_KategoriSil").hide();
             $("#silinecek_kategori_id").val(response);
             $("#ModalDescription").html(" <b><i>#" + response + "</i></b> numaralı haber silinecek !!!");
             $("#KategoriSil_Modal").modal('toggle');
@@ -121,20 +120,19 @@
                 method: "POST",
                 beforeSend: function () {
                     $("#Loading_KategoriSil").show(300);
+                    $("#Success_KategoriSil").hide(0);
                 }
             }).fail(function () { alert("Bir seyler ters gitti") })
                 .done(function (response) {
-                    if (response === true)
-                    {
+                    if (response === true) {
                         $("#Success_KategoriSil").show(300);
                         $("#kolon_" + ID).remove();
-                    } else
-                    {
+                    } else {
                         alert("Bir seyler Ters Gitti");
                     }
                 }).always(function () {
                     $("#Loading_KategoriSil").hide();
-                })
+                });
         });
 
 
