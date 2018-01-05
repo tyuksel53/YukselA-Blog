@@ -226,7 +226,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
                 if (sayfaSayisi < page)
                 {
-                    return RedirectToAction("HaberleriListele", "Admin", new { Area = "blog", page = 1 });
+                    return RedirectToAction("Kategoriler", "Admin", new { Area = "blog", page = 1 });
                 }
                 else
                 {
@@ -323,36 +323,88 @@ namespace yA_Blog.Areas.Blog.Controllers
         }
         [HttpGet]
         [ExcFilter]
-        public ActionResult DosyaYukle()
+        public ActionResult Uploads(int? page)
         {
-            if (TempData["error"] != null)
+            if (page == null)
             {
-                ViewBag.Error = TempData["error"];
+                return RedirectToAction("Uploads", "Admin", new { Area = "blog", page = 1 });
             }
-            return View();
+
+            if (page >= 1)
+            {
+                var total = dB.Kategoriler.Select(p => p.ID).Count();
+
+                ViewBag.UploadsCount = total;
+
+                int sayfaSayisi = (total / 10) + 1;
+
+                if (sayfaSayisi < page)
+                {
+                    return RedirectToAction("Uploads", "Admin", new { Area = "blog", page = 1 });
+                }
+                else
+                {
+                    int skip = (int)(page - 1) * 10;
+
+                    ViewBag.Uploads = dB.Uploads.OrderBy(x => x.ID).
+                        Skip(skip).
+                        Take(10).
+                        ToList();
+                    return View();
+
+                }
+            }
+            else
+            {
+                return RedirectToAction("Kategoriler", "Admin", new { Area = "blog", page = 1 });
+            }
         }
 
         [HttpPost]
-        [ExcFilter]
-        public JsonResult DosyaYukle(HttpPostedFileBase[] files)
+        public JsonResult Uploads(HttpPostedFileBase[] files)
         {
-            System.Threading.Thread.Sleep(3000);
+            List<Uploads> dosyalar = new List<Uploads>();
             string uploadStatus = "";
             if (ModelState.IsValid)
             {
                 foreach (HttpPostedFileBase file in files)
                 {
+                    
                     if (file != null)
                     {
-                        var inputFileName = Path.GetFileName(file.FileName);
-                        var serverSavePath = Path.Combine(Server.MapPath("~/Areas/Blog/Uploads"), inputFileName);
-                        file.SaveAs(serverSavePath);
-                        uploadStatus = files.Count().ToString() + " tane dosya başarıyla yüklendi";
+                        Uploads upload = new Uploads
+                        {
+                            DosyaAdı = Path.GetFileName(file.FileName)
+                        };
+                        for (int i = 0; i < 1000; i++)
+                        {
+                            var check = dB.Uploads.FirstOrDefault(x => x.DosyaAdı == upload.DosyaAdı);
+                            if (check == null)
+                            {
+                                upload.DosyaUzantisi = file.ContentType;
+                                upload.YuklenmeTarihi = DateTime.Now;
+
+                                upload.DosyaYolu = Path.Combine(Server.MapPath("~/Areas/Blog/Uploads"),upload.DosyaAdı);
+                                file.SaveAs(upload.DosyaYolu);
+
+                                dB.Uploads.Add(upload);
+                                dB.SaveChanges();
+                                dosyalar.Add(upload);
+                                uploadStatus = files.Count().ToString() + " tane dosya başarıyla yüklendi";
+                                break;
+                            }
+                            else
+                            {
+                                upload.DosyaAdı = upload.DosyaAdı.Replace("(" + (i - 1) + ")", "");
+                                upload.DosyaAdı = "(" + i + ")" + upload.DosyaAdı;
+                            }
+                        }
+                        
                     }
                 }
             }
-
-            return  Json(uploadStatus);
+            Tuple<string,List<Uploads>> message = new Tuple<string, List<Uploads>>(uploadStatus,dosyalar);
+            return  Json(message);
         }
         public List<SelectListItem> Katagorileri_Getir(int ID)
         {

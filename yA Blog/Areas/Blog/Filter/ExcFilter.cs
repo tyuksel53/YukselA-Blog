@@ -12,7 +12,7 @@ namespace yA_Blog.Areas.Blog.Filter
         {
             filterContext.ExceptionHandled = true;
             filterContext.Controller.TempData["error"] = filterContext.Exception;
-            filterContext.Result = new RedirectResult("/Blog/Admin/DosyaYukle");
+            filterContext.Result = new RedirectResult("/Blog/Admin/Uploads");
         }
     }
 }

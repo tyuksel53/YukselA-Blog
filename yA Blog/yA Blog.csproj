@@ -163,7 +163,7 @@
     <Content Include="Areas\Blog\Views\Admin\KategoriEkle.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\Kategoriler.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\KategoriGuncelle.cshtml" />
-    <Content Include="Areas\Blog\Views\Admin\DosyaYukle.cshtml" />
+    <Content Include="Areas\Blog\Views\Admin\Uploads.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -610,6 +610,7 @@
     <Compile Include="Areas\Blog\Filter\ExcFilter.cs" />
     <Compile Include="Areas\Blog\Library\File.cs" />
     <Compile Include="Areas\Blog\Models\CacheHelper.cs" />
+    <Compile Include="Areas\Blog\Models\Uploads.cs" />
     <Compile Include="Areas\Blog\Models\Haber.cs" />
     <Compile Include="Areas\Blog\Models\Kategori.cs" />
     <Compile Include="Areas\Blog\Models\Kullanici.cs" />

@@ -12,6 +12,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
         public DbSet<Kullanici> Kullanicilar {get;set;}
         public DbSet<Haber> Haberler { get; set; }
         public DbSet<Kategori> Kategoriler { get; set; }
+        public DbSet<Uploads> Uploads { get; set; }
 
         public DatabaseContext()
         {
@@ -22,9 +23,11 @@ namespace yA_Blog.Areas.Blog.Models.Managers
     {
         protected override void Seed(DatabaseContext context)
         {
-            Kullanici yeni = new Kullanici();
-            yeni.KullaniciAdi = "reistaha";
-            yeni.Parola = "123123";
+            Kullanici yeni = new Kullanici
+            {
+                KullaniciAdi = "reistaha",
+                Parola = "123123"
+            };
             yeni.Parola = Crypto.HashPassword(yeni.Parola);
             yeni.Eposta = "xcvtaha@hotmail.com";
 
@@ -32,9 +35,11 @@ namespace yA_Blog.Areas.Blog.Models.Managers
 
             for(int i=0;i<5;i++)
             {
-                Kategori yeniKategori = new Kategori();
-                yeniKategori.KategoriIsım = FakeData.NameData.GetCompanyName();
-                yeniKategori.KategoriResim = FakeData.NetworkData.GetDomain();
+                Kategori yeniKategori = new Kategori
+                {
+                    KategoriIsım = FakeData.NameData.GetCompanyName(),
+                    KategoriResim = FakeData.NetworkData.GetDomain()
+                };
                 context.Kategoriler.Add(yeniKategori);
             }
 

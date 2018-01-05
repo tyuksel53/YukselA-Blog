@@ -1,0 +1,158 @@
+﻿@model yA_Blog.Areas.Blog.Library.File
+@{
+    ViewBag.Title = "Uploads";
+    Layout = "~/Areas/Blog/Views/Shared/_Admin_Layout.cshtml";
+}
+
+@section css{
+    <style>
+        #sidebar .list-group {
+            min-height: 170vh;
+        }
+    </style>
+}
+
+<div class="col-md-12">
+    <h2 style="margin-top: 25px">Dosya Yükleyin</h2>
+    @using (Html.BeginForm("Uploads", "Admin", FormMethod.Post, new { ID = "dosyaGonder", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.files, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.files, "", new { @type = "file", @multiple = "multiple" })
+                    @Html.ValidationMessageFor(model => model.files, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Yükle" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="form-group" id="progressBar" style="display: none">
+                <div class="col-md-offset-2 col-md-10">
+                    <p>Yüklenme Durumu:</p>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 text-success">
+                    <div id="status"></div>
+                </div>
+            </div>
+        </div>
+    }
+    <div id="Success_DosyaSil" class="alert alert-success" style="display:none">
+        <strong>Dosya Silindi <i class="fa fa-smile-o" aria-hidden="true" style="font-size:25px"></i></strong>
+    </div>
+    <div id="Loading_DosyaSil" class="alert alert-warning" style="display:none">
+        <strong>Yükleniyor.....<i class="fa fa-circle-o-notch fa-spin" style="font-size:24px;float:right"></i> </strong>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Dosya Adı</th>
+                <th>Yüklenme Tarihi</th>
+                <th>Dosya Yolu</th>
+                <th>Dosya Türü</th>
+                <th>Düzenle</th>
+                <th>Sil</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            @{
+                foreach (var item in ViewBag.Uploads)
+                {
+
+                    <tr id="kolon_@item.ID">
+                        <th scope="row">@item.ID</th>
+                        <td>@item.DosyaAdı</td>
+                        <td>@item.YuklenmeTarihi.ToString("dd-MM-yyyy")</td>
+                        <td>@item.DosyaYolu</td>
+                        <td>@item.DosyaUzantisi</td>
+                        <td><a href="/Blog/Admin/DosyaGuncelle/@item.ID" class="btn btn-primary" role="button">Düzenle</a></td>
+                        <td><a href="#" class="btn btn-danger" onclick="dosyaSil_baslat(@item.ID)" role="button">Sil</a></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    @{
+        int sayfa_numarasi = Convert.ToInt32(Request.Params["page"]);
+    }
+    <div class="text-center">
+        <nav aria-label="...">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="/Blog/Admin/Uploads?page=@(sayfa_numarasi -1)" tabindex="-1">Geri</a>
+                </li>
+                @{
+                    for (int i = 1; i <= ViewBag.UploadsCount / 10 + 1; i++)
+                    {
+                        if (i == sayfa_numarasi)
+                        {
+                            <li class="page-item active">
+                                <a class="page-link" href="/Blog/Admin/Uploads?page=@i">@i<span class="sr-only">(current)</span></a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item"><a class="page-link" href="/Blog/Admin/Uploads?page=@i">@i</a></li>
+                        }
+                    }
+                }
+                <li class="page-item">
+                    <a class="page-link" href="/Blog/Admin/Uploads?page=@(sayfa_numarasi +1)">İleri</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <input type="hidden" id="silinecek_dosya_id" name="silinecek_dosya_id" />
+    <div id="modalSection">
+        @Html.ModalSil("DosyaSil_Modal", "Emin Misiniz ?", "Seçiğiniz dosya Silinecek. Yaptığınız Seçimden Emin Misiniz ?")
+    </div>
+</div>
+
+@section Script
+{
+    <script>
+        $(document).ready(function () {
+            var bar = $('.progress-bar');
+            var status = $('#status');
+
+            $('#dosyaGonder').ajaxForm({
+                beforeSend: function () {
+                    bar.width("0%");
+                    status.empty();
+                    $("#progressBar").show();
+                },
+                uploadProgress: function (event, position, total, percentComplete) {
+                    var percentVal = percentComplete + '%';
+                    bar.width(percentVal);
+                },
+                complete: function (xhr) {
+                    console.log(xhr.responseJSON);
+                    $.each(xhr.responseJSON,
+                        function (index, value) {
+                            if (index === 'Item1') {
+                                status.html(value);
+                            } else {
+                                console.log(value[0], value[1], value[2]);
+                            }
+
+                        });
+                }
+            });
+        });
+    </script>
+}
+<script src="~/Scripts/jquery.form.min.js"></script>
+@Scripts.Render("~/script/validate")

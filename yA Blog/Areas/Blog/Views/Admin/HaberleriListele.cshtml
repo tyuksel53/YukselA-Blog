@@ -58,7 +58,7 @@
         <nav aria-label="...">
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link" href="/Blog/Admin/HaberleriListele?page=@(sayfa_numarasi +1)" tabindex="-1">Geri</a>
+                    <a class="page-link" href="/Blog/Admin/HaberleriListele?page=@(sayfa_numarasi -1)" tabindex="-1">Geri</a>
                 </li>
                 @{
                     for (int i = 1; i <= ViewBag.HaberCount / 10 + 1; i++)
