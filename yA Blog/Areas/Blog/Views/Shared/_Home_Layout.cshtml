@@ -60,9 +60,29 @@
                     </div>
                     <div class="secondary-info">
                         <p>
-                            <a class="btn btn-primary" href="#"><i class="fa fa-user-plus"></i>Join Our Newsletter</a>
+                            <a class="btn btn-primary" href="#" style="margin-bottom: 15px" onclick="bultenKayit()"><i class="fa fa-user-plus"></i>Bültene Kayıt Olun</a>
                         </p>
                     </div>
+                    <strong id="emailResponse" class="text-success" style="display: none;font-size:15px">Takip ettiğiniz için teşekkürler</strong>
+                    <strong id="loadingTakipciEmail" class="text-warning" style="display: none;font-size: 15px">yükleniyor.....</strong>
+
+                    @using(Ajax.BeginForm("takipciKaydet", "Home",new AjaxOptions()
+                    {
+                        HttpMethod = "POST",
+                        OnFailure = "emailTakip_fail",
+                        OnSuccess = "emailTakip_success",
+                        LoadingElementDuration = 300,
+                        LoadingElementId = "loadingTakipciEmail",
+                    },new {style="margin-top:15px;display:none",id="takipciler" }))
+                    {
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <input id="email" style="border-color:white" type="text" class="form-control" name="email" placeholder=" Email Girin">
+                    </div>
+                    <div class="input-group">
+                        <input type="submit" class="btn btn-default" value="Kaydet" href="#" style="float:right"/>
+                    </div>
+                    }
                 </div>
             </section>
 
@@ -83,7 +103,7 @@
                 <div class="home-page-categories hide animated fadeIn ">
                     <div class="category row">
 
-                        @RenderSection("Bolum2",false)
+                        @RenderSection("Bolum2", false)
 
                     </div>
                 </div>
@@ -97,11 +117,11 @@
             </section><!-- main content -->
         </div> <!--/row -->
     </main> <!-- /container -->
-
     @Scripts.Render("~/script/all")
 
-
-    @RenderSection("Scripts",false)
-
+    @RenderSection("Scripts", false)
+    @Scripts.Render("~/script/ajax")
+    <script src="~/Scripts/blogJs/common.js"></script>
+    
 </body>
 </html>

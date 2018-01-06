@@ -1,22 +1,22 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using yA_Blog.Areas.Blog.Models;
 using yA_Blog.Areas.Blog.Models.Managers;
 using yA_Blog.Library;
-using System.Web.Optimization;
 using System.Web.Helpers;
+using yA_Blog.Areas.Blog.Library;
 
 namespace yA_Blog.Areas.Blog.Controllers
 {
     public class HomeController : Controller
     {
-        DatabaseContext db = new DatabaseContext();
+        readonly DatabaseContext _db = new DatabaseContext();
 
         [HttpGet]
         public ActionResult Index()
@@ -33,7 +33,7 @@ namespace yA_Blog.Areas.Blog.Controllers
         [HttpGet]
         public ActionResult Yeni_Kayit()
         {
-            ViewBag.recaptchaKey =  WebConfigurationManager.AppSettings["recaptcha_sitekey"].ToString();
+            ViewBag.recaptchaKey =  WebConfigurationManager.AppSettings["recaptcha_sitekey"];
             return View(new Kullanici());
         }
 
@@ -41,11 +41,11 @@ namespace yA_Blog.Areas.Blog.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Yeni_Kayit(Kullanici model)
         {
-            ViewBag.recaptchaKey = WebConfigurationManager.AppSettings["recaptcha_sitekey"].ToString();
+            ViewBag.recaptchaKey = WebConfigurationManager.AppSettings["recaptcha_sitekey"];
             var response = Request["g-recaptcha-response"];
-            bool captcha_check = CheckCaptcha(response: response);
+            bool captchaCheck = CheckCaptcha(response: response);
 
-            if (!captcha_check)
+            if (!captchaCheck)
             {
                 ViewBag.captcha_error = "Lütfen güvenligi dogrulayınız";
                 return View(model);
@@ -54,7 +54,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Kullanici yeniUser = (from s in db.Kullanicilar where s.KullaniciAdi == model.KullaniciAdi select s).FirstOrDefault();
+                    Kullanici yeniUser = (from s in _db.Kullanicilar where s.KullaniciAdi == model.KullaniciAdi select s).FirstOrDefault();
                     if (yeniUser != null)
                     {
                         ModelState.AddModelError("", "Girdiginiz kullanici adi kullanılmaktadır");
@@ -63,8 +63,8 @@ namespace yA_Blog.Areas.Blog.Controllers
                     else
                     {
                         model.Parola = Crypto.HashPassword(model.Parola);
-                        db.Kullanicilar.Add(model);
-                        db.SaveChanges();
+                        _db.Kullanicilar.Add(model);
+                        _db.SaveChanges();
                         Session["Kullanici"] = model;
                         HttpCookie acct = new HttpCookie("acct", model.KullaniciAdi + model.Parola)
                         {
@@ -84,23 +84,23 @@ namespace yA_Blog.Areas.Blog.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login_Check(string KullaniciAdi, string Parola)
+        public ActionResult Login_Check(string kullaniciAdi, string parola)
         {
             bool isLogin = false;
             
             var response = Request["g-recaptcha-response"];
-            bool captcha_check = CheckCaptcha(response: response);
+            bool captchaCheck = CheckCaptcha(response: response);
 
-            if(!captcha_check)
+            if(!captchaCheck)
             {
                 Json("captchaError", JsonRequestBehavior.AllowGet);
             }
 
-            Kullanici check = (from s in db.Kullanicilar where (s.KullaniciAdi == KullaniciAdi )  select s ).FirstOrDefault();
+            Kullanici check = (from s in _db.Kullanicilar where (s.KullaniciAdi == kullaniciAdi )  select s ).FirstOrDefault();
            
             if (check != null)
             {
-                if(Crypto.VerifyHashedPassword(check.Parola,Parola))
+                if(Crypto.VerifyHashedPassword(check.Parola,parola))
                 {
                     System.Threading.Thread.Sleep(1000);
                     Session["Kullanici"] = check;
@@ -135,6 +135,36 @@ namespace yA_Blog.Areas.Blog.Controllers
             {
                 return true;
             }
+        }
+
+        [HttpPost]
+        public JsonResult takipciKaydet(string Email)
+        {
+            bool check = Portal.IsValidMail(Email);
+            string message = "Lütfen düzgün bir mail adresi girin";
+
+            if (check)
+            {
+                Takipciler isMailExists = _db.Subscribers.FirstOrDefault(x => x.Email == Email);
+                if (isMailExists != null)
+                {
+                    message = "zaten var";
+                }
+                else
+                {
+                    Takipciler yeniTakipci = new Takipciler()
+                    {
+                        Email = Email,
+                        KayitTarihi = DateTime.Now.ToString("dd-MM-yyyy"),
+                        DelToken = Guid.NewGuid()
+                    };
+                    _db.Subscribers.Add(yeniTakipci);
+                    _db.SaveChanges();
+                    message = "basarili";
+                }
+               
+            }
+            return Json(message);
         }
     }
 }

@@ -207,6 +207,7 @@
     <Content Include="img\square-spain.jpg" />
     <Content Include="img\square-sunset.jpg" />
     <Content Include="img\square-woods.jpg" />
+    <Content Include="Scripts\blogJs\common.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -609,7 +610,9 @@
     <Compile Include="Areas\Blog\Controllers\HomeController.cs" />
     <Compile Include="Areas\Blog\Filter\ExcFilter.cs" />
     <Compile Include="Areas\Blog\Library\File.cs" />
+    <Compile Include="Areas\Blog\Library\Portal.cs" />
     <Compile Include="Areas\Blog\Models\CacheHelper.cs" />
+    <Compile Include="Areas\Blog\Models\Takipciler.cs" />
     <Compile Include="Areas\Blog\Models\Uploads.cs" />
     <Compile Include="Areas\Blog\Models\Haber.cs" />
     <Compile Include="Areas\Blog\Models\Kategori.cs" />

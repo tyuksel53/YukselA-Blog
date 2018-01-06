@@ -333,7 +333,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
             if (page >= 1)
             {
-                var total = _dB.Kategoriler.Select(p => p.ID).Count();
+                var total = _dB.Uploads.Select(p => p.ID).Count();
 
                 ViewBag.UploadsCount = total;
 
