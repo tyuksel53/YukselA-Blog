@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Helpers;
+using yA_Blog.Areas.Blog.Models;
 using yA_Blog.Areas.Blog.Models.Managers;
 
-namespace yA_Blog.Areas.Blog.Models
+namespace yA_Blog.Areas.Blog.Library
 {
     public class CacheHelper
     {

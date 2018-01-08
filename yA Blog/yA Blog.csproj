@@ -164,6 +164,7 @@
     <Content Include="Areas\Blog\Views\Admin\Kategoriler.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\KategoriGuncelle.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\Uploads.cshtml" />
+    <Content Include="Areas\Blog\Views\Admin\Takipciler.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -611,7 +612,7 @@
     <Compile Include="Areas\Blog\Filter\ExcFilter.cs" />
     <Compile Include="Areas\Blog\Library\File.cs" />
     <Compile Include="Areas\Blog\Library\Portal.cs" />
-    <Compile Include="Areas\Blog\Models\CacheHelper.cs" />
+    <Compile Include="Areas\Blog\Library\CacheHelper.cs" />
     <Compile Include="Areas\Blog\Models\Takipciler.cs" />
     <Compile Include="Areas\Blog\Models\Uploads.cs" />
     <Compile Include="Areas\Blog\Models\Haber.cs" />

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using yA_Blog.Areas.Blog.Filter;
+using yA_Blog.Areas.Blog.Library;
 using yA_Blog.Areas.Blog.Models;
 using yA_Blog.Areas.Blog.Models.Managers;
 
@@ -113,19 +114,19 @@ namespace yA_Blog.Areas.Blog.Controllers
         }
 
         [HttpGet]
-        public ActionResult HaberGuncelle(int? ID)
+        public ActionResult HaberGuncelle(int? id)
         {
-            if(ID == null)
+            if(id == null)
             {
-                ID = 1;
+                id = 1;
             }
-            Haber haberGuncelle = _dB.Haberler.FirstOrDefault(x => x.ID == ID);
+            Haber haberGuncelle = _dB.Haberler.FirstOrDefault(x => x.ID == id);
             if(haberGuncelle == null)
             {
                 return HttpNotFound();
             }else
             {
-                ViewBag.ID = ID;
+                ViewBag.ID = id;
                 ViewBag.Kategoriler = Katagorileri_Getir(haberGuncelle.Kategorisi.ID);
                 haberGuncelle.HaberIcerik = HttpUtility.HtmlDecode(haberGuncelle.HaberIcerik);
 
@@ -202,6 +203,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                 _dB.Kategoriler.Add(yeniKategori);
 
                 _dB.SaveChanges();
+                CacheHelper.Remove("kategori-cache");
                 ViewBag.Success = true;
 
                 return View(model);
@@ -256,23 +258,24 @@ namespace yA_Blog.Areas.Blog.Controllers
 
             _dB.Kategoriler.Remove(silKategori);
             _dB.SaveChanges();
+            CacheHelper.Remove("kategori-cache");
             return Json(true);
         }
         [HttpGet]
-        public ActionResult KategoriGuncelle(int? ID)
+        public ActionResult KategoriGuncelle(int? id)
         {
-            if(ID == null)
+            if(id == null)
             {
                 return RedirectToAction("Kategoriler","Admin", new { Area = "blog" });
             }
-            Kategori guncelle = _dB.Kategoriler.FirstOrDefault(x => x.ID == ID);
+            Kategori guncelle = _dB.Kategoriler.FirstOrDefault(x => x.ID == id);
 
             if(guncelle == null)
             {
                 return HttpNotFound();
             }else
             {
-                ViewBag.ID = ID;
+                ViewBag.ID = id;
                 return View(guncelle);
             }
         }
@@ -297,6 +300,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                     _dB.SaveChanges();
                     ViewBag.Success = true;
                     ViewBag.ID = guncelle.ID;
+                    CacheHelper.Remove("kategori-cache");
                     return View(model);
                 }else
                 {
@@ -307,6 +311,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                         _dB.SaveChanges();
                         ViewBag.Success = true;
                         ViewBag.ID = guncelle.ID;
+                        CacheHelper.Remove("kategori-cache");
                         return View(model);
                     }
                     else
@@ -439,7 +444,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                 return Json(false);
             }
         }
-        public List<SelectListItem> Katagorileri_Getir(int ID)
+        public List<SelectListItem> Katagorileri_Getir(int id)
         {
             List<SelectListItem> kisilerListe =
             (from s in CacheHelper.KategoriGet()
@@ -447,11 +452,44 @@ namespace yA_Blog.Areas.Blog.Controllers
              {
                  Text = s.KategoriIsım,
                  Value = s.ID.ToString(),
-                 Selected = s.ID == ID ? true : false
+                 Selected = s.ID == id ? true : false
              }
             ).ToList();
 
             return kisilerListe;
+        }
+
+        public ActionResult Takipciler(int? page)
+        {
+            if (page == null)
+            {
+                return RedirectToAction("Takipciler", "Admin", new { Area = "blog", page = 1 });
+            }
+
+            if (page >= 1)
+            {
+                var total = _dB.Subscribers.Select(p => p.ID).Count();
+
+                ViewBag.SubscribersCount = total;
+
+                int sayfaSayisi = (total / 10) + 1;
+
+                if (sayfaSayisi < page)
+                {
+                    return RedirectToAction("Takipciler", "Admin", new { Area = "blog", page = 1 });
+                }
+                else
+                {
+                    int skip = (int)(page - 1) * 10;
+
+                    return View( _dB.Subscribers.OrderBy(x => x.ID).Skip(skip).Take(10).ToList() );
+
+                }
+            }
+            else
+            {
+                return RedirectToAction("Takipciler", "Admin", new { Area = "blog", page = 1 });
+            }
         }
     }
 }

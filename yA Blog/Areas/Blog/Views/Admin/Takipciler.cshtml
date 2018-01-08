@@ -1,0 +1,79 @@
+﻿@model IEnumerable<yA_Blog.Areas.Blog.Models.Takipciler>
+
+@{
+    ViewBag.Title = "Takipciler";
+    Layout = "~/Areas/Blog/Views/Shared/_Admin_Layout.cshtml";
+}
+
+<h2>Takipciler</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            #
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KayitTarihi)
+        </th>
+        <th>
+            Sil
+        </th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KayitTarihi)
+            </td>
+            <td>
+                <a href="#" class="btn btn-danger" onclick="takipciSil_baslat(@item.ID)" role="button">Sil</a>
+            </td>
+        </tr>
+    }
+
+</table>
+@{
+    int sayfaNumarasi = Convert.ToInt32(Request.Params["page"]);
+}
+<div class="text-center">
+    <nav aria-label="...">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="/Blog/Admin/Takipciler?page=@(sayfaNumarasi -1)" tabindex="-1">Geri</a>
+            </li>
+            @{
+                for (int i = 1; i <= ViewBag.SubscribersCount / 10 + 1; i++)
+                {
+                    if (i == sayfaNumarasi)
+                    {
+                        <li class="page-item active">
+                            <a class="page-link" href="/Blog/Admin/Takipciler?page=@i">@i<span class="sr-only">(current)</span></a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item"><a class="page-link" href="/Blog/Admin/Takipciler?page=@i">@i</a></li>
+                    }
+                }
+            }
+            <li class="page-item">
+                <a class="page-link" href="/Blog/Admin/Takipciler?page=@(sayfaNumarasi +1)">İleri</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<input type="hidden" id="silinecek_takipci_id" name="silinecek_takipciler_id" />
+
+<div id="modalSection">
+    @Html.ModalSil("TakipciSil_Modal", "Emin Misiniz ?", "Seçiğiniz Takipci Silinecek. Yaptığınız Seçimden Emin Misiniz ?")
+</div>
