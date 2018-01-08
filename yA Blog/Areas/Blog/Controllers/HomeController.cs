@@ -163,7 +163,9 @@ namespace yA_Blog.Areas.Blog.Controllers
 
         public ActionResult UserActivate(Guid activateId)
         {
-            Kullanici active = 
+
+            Kullanici active = _db.Kullanicilar.FirstOrDefault(x => x.ActivateGuid == activateId);
+
             if (active != null)
             {
                 if (active.IsActive)

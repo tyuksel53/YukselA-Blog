@@ -27,11 +27,11 @@ namespace yA_Blog.Areas.Blog.Models
 
         public string ImgUrl { get; set; }
 
-        public string Role;
+        public string Role { get; set; }
 
-        public Guid ActivateGuid;
+        public Guid ActivateGuid { get; set; }
 
-        public bool IsActive;
+        public bool IsActive { get; set; }
 
     }
 }
