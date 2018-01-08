@@ -26,5 +26,19 @@ namespace yA_Blog.Areas.Blog.Library
         {
             WebCache.Remove(key:key);
         }
+
+        public static string GetWebSiteName()
+        {
+            var result = WebCache.Get("websiteConfig-cache");
+
+            if (result == null)
+            {
+                DatabaseContext _dB = new DatabaseContext();
+                result = _dB.Ayarlar.First().WebsiteName;
+                WebCache.Set("websiteConfig-cache",result,20,true);
+            }
+
+            return result;
+        }
     }
 }

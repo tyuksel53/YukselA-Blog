@@ -158,13 +158,16 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Areas\Blog\Views\Admin\HaberEkle.cshtml" />
     <Content Include="Areas\Blog\Views\Shared\_HaberPartialView.cshtml" />
-    <Content Include="Areas\Blog\Views\Admin\HaberleriListele.cshtml" />
+    <Content Include="Areas\Blog\Views\Admin\Haberler.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\HaberGuncelle.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\KategoriEkle.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\Kategoriler.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\KategoriGuncelle.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\Uploads.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\Takipciler.cshtml" />
+    <Content Include="Areas\Blog\Views\Shared\_Activation_Layout.cshtml" />
+    <Content Include="Areas\Blog\Views\Home\UserActivate.cshtml" />
+    <Content Include="Areas\Blog\Views\Home\UserCreate.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -619,6 +622,7 @@
     <Compile Include="Areas\Blog\Models\Kategori.cs" />
     <Compile Include="Areas\Blog\Models\Kullanici.cs" />
     <Compile Include="Areas\Blog\Models\Managers\DatabaseContext.cs" />
+    <Compile Include="Areas\Blog\Models\WebSiteConfig.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

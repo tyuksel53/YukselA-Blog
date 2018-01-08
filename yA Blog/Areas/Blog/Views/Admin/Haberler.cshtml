@@ -14,7 +14,7 @@
 }
 
 <h2 style="margin-top:15px">Haberleri Listele</h2>
-
+<a class="btn btn-success" href="/Blog/Admin/HaberEkle" style="margin-bottom:15px">Haber Ekleyin</a>
 <div class="col-md-12">
     <div id="Success_HaberSil" class="alert alert-success" style="display:none">
         <strong>Haber Silindi <i class="fa fa-smile-o" aria-hidden="true" style="font-size:25px"></i></strong>
@@ -58,7 +58,7 @@
         <nav aria-label="...">
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link" href="/Blog/Admin/HaberleriListele?page=@(sayfa_numarasi -1)" tabindex="-1">Geri</a>
+                    <a class="page-link" href="/Blog/Admin/Haberler?page=@(sayfa_numarasi -1)" tabindex="-1">Geri</a>
                 </li>
                 @{
                     for (int i = 1; i <= ViewBag.HaberCount / 10 + 1; i++)
@@ -66,17 +66,17 @@
                         if (i == sayfa_numarasi)
                         {
                             <li class="page-item active">
-                                <a class="page-link" href="/Blog/Admin/HaberleriListele?page=@i">@i<span class="sr-only">(current)</span></a>
+                                <a class="page-link" href="/Blog/Admin/Haberler?page=@i">@i<span class="sr-only">(current)</span></a>
                             </li>
                         }
                         else
                         {
-                            <li class="page-item"><a class="page-link" href="/Blog/Admin/HaberleriListele?page=@i">@i</a></li>
+                            <li class="page-item"><a class="page-link" href="/Blog/Admin/Haberler?page=@i">@i</a></li>
                         }
                     }
                 }
                 <li class="page-item">
-                    <a class="page-link" href="/Blog/Admin/HaberleriListele?page=@(sayfa_numarasi +1)">İleri</a>
+                    <a class="page-link" href="/Blog/Admin/Haberler?page=@(sayfa_numarasi +1)">İleri</a>
                 </li>
             </ul>
         </nav>

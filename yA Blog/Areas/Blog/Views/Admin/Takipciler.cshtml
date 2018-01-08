@@ -5,75 +5,129 @@
     Layout = "~/Areas/Blog/Views/Shared/_Admin_Layout.cshtml";
 }
 
-<h2>Takipciler</h2>
-
-<table class="table">
-    <tr>
-        <th>
-            #
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.KayitTarihi)
-        </th>
-        <th>
-            Sil
-        </th>
-    </tr>
-
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KayitTarihi)
-            </td>
-            <td>
-                <a href="#" class="btn btn-danger" onclick="takipciSil_baslat(@item.ID)" role="button">Sil</a>
-            </td>
-        </tr>
-    }
-
-</table>
-@{
-    int sayfaNumarasi = Convert.ToInt32(Request.Params["page"]);
+@section css{
+    <style>
+        #sidebar .list-group {
+            min-height: 150vh;
+        }
+    </style>
 }
-<div class="text-center">
-    <nav aria-label="...">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="/Blog/Admin/Takipciler?page=@(sayfaNumarasi -1)" tabindex="-1">Geri</a>
-            </li>
-            @{
-                for (int i = 1; i <= ViewBag.SubscribersCount / 10 + 1; i++)
-                {
-                    if (i == sayfaNumarasi)
+    <div class="col-md-12">
+        <h2>Takipciler</h2>
+        <div id="Success_TakipciSil" class="alert alert-success" style="display:none">
+            <strong>Kategori Silindi <i class="fa fa-smile-o" aria-hidden="true" style="font-size:25px"></i></strong>
+        </div>
+
+        <div id="Loading_TakipciSil" class="alert alert-warning" style="display:none">
+            <strong>Yükleniyor.....<i class="fa fa-circle-o-notch fa-spin" style="font-size:24px;float:right"></i> </strong>
+        </div>
+        <table class="table">
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.KayitTarihi)
+                </th>
+                <th>
+                    Sil
+                </th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr id="kolon_@(item.ID)">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KayitTarihi)
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-danger" onclick="takipciSil_baslat(@item.ID)" role="button">Sil</a>
+                    </td>
+                </tr>
+             }
+
+        </table>
+        @{
+        int sayfaNumarasi = Convert.ToInt32(Request.Params["page"]);
+        }
+        <div class="text-center">
+            <nav aria-label="...">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="/Blog/Admin/Takipciler?page=@(sayfaNumarasi -1)" tabindex="-1">Geri</a>
+                    </li>
+                    @{
+                    for (int i = 1; i <= ViewBag.SubscribersCount / 10 + 1; i++)
                     {
-                        <li class="page-item active">
-                            <a class="page-link" href="/Blog/Admin/Takipciler?page=@i">@i<span class="sr-only">(current)</span></a>
-                        </li>
+                        if (i == sayfaNumarasi)
+                        {
+                            <li class="page-item active">
+                                <a class="page-link" href="/Blog/Admin/Takipciler?page=@i">@i<span class="sr-only">(current)</span></a>
+                            </li>
                     }
                     else
                     {
                         <li class="page-item"><a class="page-link" href="/Blog/Admin/Takipciler?page=@i">@i</a></li>
-                    }
                 }
             }
-            <li class="page-item">
-                <a class="page-link" href="/Blog/Admin/Takipciler?page=@(sayfaNumarasi +1)">İleri</a>
-            </li>
-        </ul>
-    </nav>
-</div>
+                    }
+                    <li class="page-item">
+                        <a class="page-link" href="/Blog/Admin/Takipciler?page=@(sayfaNumarasi +1)">İleri</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
-<input type="hidden" id="silinecek_takipci_id" name="silinecek_takipciler_id" />
+        <input type="hidden" id="silinecek_takipci_id" name="silinecek_takipci_id" />
 
-<div id="modalSection">
-    @Html.ModalSil("TakipciSil_Modal", "Emin Misiniz ?", "Seçiğiniz Takipci Silinecek. Yaptığınız Seçimden Emin Misiniz ?")
-</div>
+        <div id="modalSection">
+            @Html.ModalSil("TakipciSil_Modal", "Emin Misiniz ?", "Seçiğiniz Takipci Silinecek. Yaptığınız Seçimden Emin Misiniz ?")
+        </div>
+    </div>
+@section Script
+{
+    <script>
+        function takipciSil_baslat(response) {
+            $("#silinecek_takipci_id").val(response);
+            $("#ModalDescription").html(" <b><i>#" + response + "</i></b> numaralı takipci silinecek !!!");
+            $("#TakipciSil_Modal").modal('toggle');
+        }
+
+        $(document).on('click', '#sil_onay', function () {
+            $("#TakipciSil_Modal").modal('toggle');
+            $("#Success_TakipciSil").hide();
+            var ID = $("#silinecek_takipci_id").val();
+            console.log(ID);
+            $.ajax({
+                url: "/Blog/Admin/TakipciSil",
+                data: { silinecekId: ID },
+                method: "POST",
+                beforeSend: function () {
+                    $("#Loading_TakipciSil").show(300);
+                    $("#Success_TakipciSil").hide(0);
+                }
+            }).fail(function () { alert("Bir seyler ters gitti") })
+                .done(function (response) {
+                    if (response === true) {
+                        $("#Success_TakipciSil").show(300);
+                        $("#kolon_" + ID).remove();
+                    } else {
+                        alert("Bir seyler Ters Gitti");
+                    }
+                }).always(function () {
+                    $("#Loading_TakipciSil").hide();
+                });
+        });
+
+    </script>
+
+
+}

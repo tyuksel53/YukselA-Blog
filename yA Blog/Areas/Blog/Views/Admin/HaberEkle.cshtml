@@ -14,7 +14,7 @@
 
 
 <div class="col-md-12" style="margin-top:15px">
-    <h2 >Haber Ekleyin</h2>
+    <h2>Haber Ekleyin</h2>
     @{
         using (Ajax.BeginForm("HaberEkle", new AjaxOptions()
         {
@@ -30,13 +30,14 @@
                 @Html.Partial("_HaberPartialView", Model)
             </div>
             <div class="form-group">
-                <a href="haberCreate"><input type="submit" id="haberCreateButton" class="btn btn-danger" value="Haberi Ekle" /></a>
+                <a href="#"><input type="submit" id="haberCreateButton" class="btn btn-danger" value="Haberi Ekle" /></a>
             </div>
 
         }
 
     }
-    
+    <hr />
+    <a class="btn btn-outline-primary" href="/Blog/Admin/Haberler" style="margin-bottom:15px">Haberler</a>
 </div>
 
 @section Script{

@@ -1,14 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using yA_Blog.Areas.Blog.Models;
 using yA_Blog.Areas.Blog.Models.Managers;
-using yA_Blog.Library;
 using System.Web.Helpers;
 using yA_Blog.Areas.Blog.Library;
 
@@ -43,7 +39,7 @@ namespace yA_Blog.Areas.Blog.Controllers
         {
             ViewBag.recaptchaKey = WebConfigurationManager.AppSettings["recaptcha_sitekey"];
             var response = Request["g-recaptcha-response"];
-            bool captchaCheck = CheckCaptcha(response: response);
+            bool captchaCheck = Portal.CheckCaptcha(response: response);
 
             if (!captchaCheck)
             {
@@ -62,17 +58,28 @@ namespace yA_Blog.Areas.Blog.Controllers
                     }
                     else
                     {
+
                         model.Parola = Crypto.HashPassword(model.Parola);
+                        model.ActivateGuid = Guid.NewGuid();
+                        model.IsActive = false;
+                        model.Role = "user";
+
                         _db.Kullanicilar.Add(model);
                         _db.SaveChanges();
-                        Session["Kullanici"] = model;
-                        HttpCookie acct = new HttpCookie("acct", model.KullaniciAdi + model.Parola)
-                        {
-                            Expires = DateTime.Now.AddMonths(1)
-                        };
-                        HttpContext.Response.Cookies.Add(acct);
 
-                        return RedirectToAction("Index");
+                        string siteURL = Portal.WebConfigGet<string>("SiteRootUri");
+
+                        string activateURL = $"{siteURL}/Blog/Home/UserActivate?activateId={model.ActivateGuid}";
+
+                        string activateLink = $"<a href='{activateURL}' target='_blank' > tıklayınız.</a>.";
+
+                        string siteName = CacheHelper.GetWebSiteName();
+
+                        string body = $"Merhaba {model.KullaniciAdi},<br/><br/> Hesabınızı Aktifleştirmek için {activateLink}";
+
+                        Portal.SendMail(body, model.Eposta, (siteName + " Hesabınızı Aktifleştirme"));
+
+                        return RedirectToAction("UserCreate");
                     }
                 }else
                 {
@@ -89,7 +96,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             bool isLogin = false;
             
             var response = Request["g-recaptcha-response"];
-            bool captchaCheck = CheckCaptcha(response: response);
+            bool captchaCheck = Portal.CheckCaptcha(response: response);
 
             if(!captchaCheck)
             {
@@ -115,30 +122,9 @@ namespace yA_Blog.Areas.Blog.Controllers
 
             return Json(isLogin, JsonRequestBehavior.AllowGet);
         }
-        public bool CheckCaptcha(string response)
-        {
-
-            string secret = WebConfigurationManager.AppSettings["recaptcha_privatekey"].ToString();
-
-            var client = new WebClient();
-            var reply =
-                client.DownloadString(
-                    string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secret, response));
-
-            var captchaResponse = JsonConvert.DeserializeObject<CaptchaResponse>(reply);
-
-            if (!captchaResponse.Success)
-            {
-                return false;
-
-            }else
-            {
-                return true;
-            }
-        }
 
         [HttpPost]
-        public JsonResult takipciKaydet(string Email)
+        public JsonResult TakipciKaydet(string Email)
         {
             bool check = Portal.IsValidMail(Email);
             string message = "Lütfen düzgün bir mail adresi girin";
@@ -165,6 +151,37 @@ namespace yA_Blog.Areas.Blog.Controllers
                
             }
             return Json(message);
+        }
+
+        public ActionResult UserCreate()
+        {
+            ViewBag.ResultMessage =
+                "Hesabınız oluşturuldu. Kullanmaya başlamadan önce eposta adresinizi doğrulamalısınız.";
+
+            return View();
+        }
+
+        public ActionResult UserActivate(Guid activateId)
+        {
+            Kullanici active = 
+            if (active != null)
+            {
+                if (active.IsActive)
+                {
+                    ViewBag.ResultMessage = "Kullanıcı zaten aktif edilmiştir.";
+                }
+                else
+                {
+                    ViewBag.ResultMessage = "Hesabınız aktifleştirildi.";
+                    active.IsActive = true;
+                    _db.SaveChanges();
+                }
+            }
+            else
+            {
+                ViewBag.ResultMessage = "Aktifleştirilecek kullanıcı bulunamadı !";
+            }
+            return View();
         }
     }
 }

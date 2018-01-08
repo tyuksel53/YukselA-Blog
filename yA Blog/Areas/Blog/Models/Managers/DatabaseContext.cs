@@ -15,6 +15,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
         public DbSet<Kategori> Kategoriler { get; set; }
         public DbSet<Uploads> Uploads { get; set; }
         public DbSet<Takipciler> Subscribers { get; set; }
+        public DbSet<WebSiteConfig> Ayarlar { get; set; }
 
         public DatabaseContext()
         {
@@ -25,6 +26,13 @@ namespace yA_Blog.Areas.Blog.Models.Managers
     {
         protected override void Seed(DatabaseContext context)
         {
+            WebSiteConfig config = new WebSiteConfig()
+            {
+                WebsiteName = "Yüksel Algoritma"
+            };
+
+            context.Ayarlar.Add(config);
+
             Kullanici yeni = new Kullanici
             {
                 KullaniciAdi = "reistaha",
@@ -32,7 +40,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
             };
             yeni.Parola = Crypto.HashPassword(yeni.Parola);
             yeni.Eposta = "xcvtaha@hotmail.com";
-            yeni.ActiveGuid = new Guid();
+            yeni.ActivateGuid = new Guid();
             yeni.IsActive = true;
             yeni.Role = "user";
 

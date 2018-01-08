@@ -107,7 +107,7 @@
         function kategoriSil_baslat(response)
         {
             $("#silinecek_kategori_id").val(response);
-            $("#ModalDescription").html(" <b><i>#" + response + "</i></b> numaralı haber silinecek !!!");
+            $("#ModalDescription").html(" <b><i>#" + response + "</i></b> numaralı kategori silinecek !!!");
             $("#KategoriSil_Modal").modal('toggle');
         }
         $(document).on('click', '#sil_onay', function () {
@@ -116,7 +116,7 @@
             var ID = $("#silinecek_kategori_id").val();
             $.ajax({
                 url: "/Blog/Admin/KategoriSil",
-                data: { silenecekId: ID },
+                data: { silinecekId: ID },
                 method: "POST",
                 beforeSend: function () {
                     $("#Loading_KategoriSil").show(300);

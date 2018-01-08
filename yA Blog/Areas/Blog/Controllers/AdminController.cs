@@ -61,11 +61,11 @@ namespace yA_Blog.Areas.Blog.Controllers
                 return PartialView("_HaberPartialView", model);
             }
         }
-        public ActionResult HaberleriListele(int? page)
+        public ActionResult Haberler(int? page)
         {
             if (page == null)
             {
-                return RedirectToAction("HaberleriListele", "Admin", new { Area = "blog", page = 1 });
+                return RedirectToAction("Haberler", "Admin", new { Area = "blog", page = 1 });
             }
 
             if (page >= 1)
@@ -76,7 +76,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
                 if (sayfaSayisi < page)
                 {
-                    return RedirectToAction("HaberleriListele", "Admin", new { Area = "blog", page = 1 });
+                    return RedirectToAction("Haberler", "Admin", new { Area = "blog", page = 1 });
                 }
                 else
                 {
@@ -92,7 +92,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             }
             else
             {
-                return RedirectToAction("HaberleriListele", "Admin", new { Area = "blog", page = 1 });
+                return RedirectToAction("Haberler", "Admin", new { Area = "blog", page = 1 });
             }
         }
 
@@ -248,9 +248,9 @@ namespace yA_Blog.Areas.Blog.Controllers
                 return RedirectToAction("Kategoriler", "Admin", new { Area = "blog", page = 1 });
             }
         }
-        public JsonResult KategoriSil(int silenecekId)
+        public JsonResult KategoriSil(int silinecekId)
         {
-            Kategori silKategori = _dB.Kategoriler.FirstOrDefault(x => x.ID == silenecekId);
+            Kategori silKategori = _dB.Kategoriler.FirstOrDefault(x => x.ID == silinecekId);
             if(silKategori == null)
             {
                 return Json(false);
@@ -489,6 +489,24 @@ namespace yA_Blog.Areas.Blog.Controllers
             else
             {
                 return RedirectToAction("Takipciler", "Admin", new { Area = "blog", page = 1 });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult TakipciSil(int silinecekId) //TakipciSil
+        {
+            System.Threading.Thread.Sleep(3000);
+            Models.Takipciler silinecekTakipci = _dB.Subscribers.FirstOrDefault(x => x.ID == silinecekId);
+
+            if (silinecekTakipci == null)
+            {
+                return Json(false);
+            }
+            else
+            {
+                _dB.Subscribers.Remove(silinecekTakipci);
+                _dB.SaveChanges();
+                return Json(true);
             }
         }
     }

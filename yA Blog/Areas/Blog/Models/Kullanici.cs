@@ -29,7 +29,7 @@ namespace yA_Blog.Areas.Blog.Models
 
         public string Role;
 
-        public Guid ActiveGuid;
+        public Guid ActivateGuid;
 
         public bool IsActive;
 
