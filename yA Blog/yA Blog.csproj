@@ -169,6 +169,7 @@
     <Content Include="Areas\Blog\Views\Home\UserActivate.cshtml" />
     <Content Include="Areas\Blog\Views\Home\UserCreate.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\Kullanicilar.cshtml" />
+    <Content Include="Areas\Blog\Views\Admin\KullaniciEkle.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

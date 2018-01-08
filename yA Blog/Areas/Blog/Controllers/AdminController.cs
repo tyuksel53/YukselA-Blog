@@ -24,7 +24,7 @@ namespace yA_Blog.Areas.Blog.Controllers
         [HttpGet]
         public ActionResult HaberEkle()
         {
-            ViewBag.Kategoriler = Katagorileri_Getir(-1);
+            ViewBag.Kategoriler = Portal.Katagorileri_Getir(-1);
             return View(new Haber());
         }
 
@@ -33,7 +33,7 @@ namespace yA_Blog.Areas.Blog.Controllers
         {
             System.Threading.Thread.Sleep(3000); // burayı değiş
 
-            ViewBag.Kategoriler = Katagorileri_Getir(kategoriId);
+            ViewBag.Kategoriler = Portal.Katagorileri_Getir(kategoriId);
 
             if (ModelState.IsValid)
             {
@@ -127,7 +127,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             }else
             {
                 ViewBag.ID = id;
-                ViewBag.Kategoriler = Katagorileri_Getir(haberGuncelle.Kategorisi.ID);
+                ViewBag.Kategoriler = Portal.Katagorileri_Getir(haberGuncelle.Kategorisi.ID);
                 haberGuncelle.HaberIcerik = HttpUtility.HtmlDecode(haberGuncelle.HaberIcerik);
 
                 return View(haberGuncelle);
@@ -139,7 +139,7 @@ namespace yA_Blog.Areas.Blog.Controllers
         {
             System.Threading.Thread.Sleep(3000);
 
-            ViewBag.Kategoriler = Katagorileri_Getir(kategoriId);
+            ViewBag.Kategoriler = Portal.Katagorileri_Getir(kategoriId);
 
             if (ModelState.IsValid)
             {
@@ -444,20 +444,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                 return Json(false);
             }
         }
-        public List<SelectListItem> Katagorileri_Getir(int id)
-        {
-            List<SelectListItem> kisilerListe =
-            (from s in CacheHelper.KategoriGet()
-             select new SelectListItem()
-             {
-                 Text = s.KategoriIsım,
-                 Value = s.ID.ToString(),
-                 Selected = s.ID == id ? true : false
-             }
-            ).ToList();
 
-            return kisilerListe;
-        }
 
         public ActionResult Takipciler(int? page)
         {
@@ -556,6 +543,50 @@ namespace yA_Blog.Areas.Blog.Controllers
             }
 
             return Json(false);
+        }
+
+        [HttpGet]
+        public ActionResult KullaniciEkle()
+        {
+            ViewBag.Roller = Portal.Roller();
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult KullaniciEkle(Kullanici model, int role)
+        {
+            ViewBag.Roller = Portal.Roller();
+
+            if (ModelState.IsValid)
+            {
+                if (role < 0 || role > 2)
+                {
+                    ModelState.AddModelError("","Lütfen düzgün bir rol seçin");
+                    return View();
+                }
+
+                Kullanici checkExists = _dB.Kullanicilar.FirstOrDefault(x => x.KullaniciAdi == model.KullaniciAdi);
+                if (checkExists != null)
+                {
+                    ModelState.AddModelError("","Bu kullanici ismi zaten mevcut");
+                    return View();
+                }
+
+                model.ActivateGuid = Guid.NewGuid();
+                model.ImgUrl = "";
+                model.Role = role == 1 ? "user" : "admin";
+                model.IsActive = model.Role.Equals("admin");
+                ViewBag.Message = "Kullanici Eklendi";
+
+                _dB.Kullanicilar.Add(model);
+                _dB.SaveChanges();
+
+                return View();
+            }
+
+            return View();
         }
     }
 }

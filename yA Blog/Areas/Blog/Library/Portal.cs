@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Web.Configuration;
+using System.Web.Mvc;
 using Newtonsoft.Json;
 using yA_Blog.Library;
 
@@ -91,6 +93,41 @@ namespace yA_Blog.Areas.Blog.Library
             {
                 return true;
             }
+        }
+        public static List<SelectListItem> Katagorileri_Getir(int id)
+        {
+            List<SelectListItem> kisilerListe =
+            (from s in CacheHelper.KategoriGet()
+                select new SelectListItem()
+                {
+                    Text = s.KategoriIsım,
+                    Value = s.ID.ToString(),
+                    Selected = s.ID == id ? true : false
+                }
+            ).ToList();
+
+            return kisilerListe;
+        }
+
+        public static List<SelectListItem> Roller()
+        {
+            List<SelectListItem> roller = new List<SelectListItem>();
+
+            roller.Add(new SelectListItem()
+            {
+                Text = "user",
+                Value = 1.ToString(),
+                Selected = true
+
+            });
+
+            roller.Add(new SelectListItem()
+            {
+                Text = "admin",
+                Value = 2.ToString()
+            });
+
+            return roller;
         }
     }
 }

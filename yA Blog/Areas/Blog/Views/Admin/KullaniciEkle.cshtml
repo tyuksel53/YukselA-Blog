@@ -1,0 +1,64 @@
+﻿@model yA_Blog.Areas.Blog.Models.Kullanici
+
+@{
+    ViewBag.Title = "KullaniciEkle";
+    Layout = "~/Areas/Blog/Views/Shared/_Admin_Layout.cshtml";
+}
+
+@if (ViewBag.Message != null)
+{
+    <div id="KullaniciEkle_Success" style="margin-top: 20px" class="alert alert-success">
+        <strong>Kullanici Eklendi <i class="fa fa-smile-o" aria-hidden="true" style="font-size:25px"></i></strong>
+    </div>
+}
+
+@using (Html.BeginForm("KullaniciEkle")) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4 style="margin-top: 15px">Yeni kullanici ekle</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <strong>@Html.LabelFor(model => model.KullaniciAdi, htmlAttributes: new { @class = "control-label col-md-2 text-primary" })</strong>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.KullaniciAdi, new { htmlAttributes = new { @class = "form-control",placeholder="Kullanici Adı Girin" } })
+                @Html.ValidationMessageFor(model => model.KullaniciAdi, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <strong>@Html.LabelFor(model => model.Parola, htmlAttributes: new { @class = "control-label col-md-2 text-primary" })</strong>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Parola, new { htmlAttributes = new { @class = "form-control", type = "password", placeholder = "Şifre Girin" } })
+                @Html.ValidationMessageFor(model => model.Parola, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <strong>@Html.LabelFor(model => model.Eposta, htmlAttributes: new { @class = "control-label col-md-2 text-primary" })</strong>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Eposta, new { htmlAttributes = new { @class = "form-control" ,placeholder = "Eposta Adresi Girin" } })
+                @Html.ValidationMessageFor(model => model.Eposta, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <strong>@Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2 text-primary" })</strong>
+            <div class="col-md-10">
+                @Html.DropDownList("Role", (List<SelectListItem>)ViewBag.Roller, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 20px;margin-bottom: 20px">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Gönder" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Kullanicilar", "Kullanicilar", null, new { @class = "btn btn-outline-primary" })
+</div>
