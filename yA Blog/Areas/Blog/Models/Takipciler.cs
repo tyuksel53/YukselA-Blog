@@ -20,6 +20,6 @@ namespace yA_Blog.Areas.Blog.Models
 
         public string KayitTarihi { get; set; }
 
-        public Guid DelToken;
+        public Guid DelToken { get; set; }
     }
 }

@@ -177,6 +177,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                     ViewBag.ResultMessage = "Hesabınız aktifleştirildi.";
                     active.IsActive = true;
                     _db.SaveChanges();
+                    //TODO burada login yapacan kullanıcııyı
                 }
             }
             else

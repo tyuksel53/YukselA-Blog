@@ -493,7 +493,7 @@ namespace yA_Blog.Areas.Blog.Controllers
         }
 
         [HttpPost]
-        public JsonResult TakipciSil(int silinecekId) //TakipciSil
+        public JsonResult TakipciSil(int silinecekId)
         {
             System.Threading.Thread.Sleep(3000);
             Models.Takipciler silinecekTakipci = _dB.Subscribers.FirstOrDefault(x => x.ID == silinecekId);
@@ -508,6 +508,54 @@ namespace yA_Blog.Areas.Blog.Controllers
                 _dB.SaveChanges();
                 return Json(true);
             }
+        }
+
+        [HttpGet]
+        public ActionResult Kullanicilar(int? page)
+        {
+            if (page == null)
+            {
+                return RedirectToAction("Kullanicilar", "Admin", new { Area = "blog", page = 1 });
+            }
+
+            if (page >= 1)
+            {
+                var total = _dB.Kullanicilar.Select(p => p.ID).Count();
+
+                ViewBag.KullaniciCount = total;
+
+                int sayfaSayisi = (total / 10) + 1;
+
+                if (sayfaSayisi < page)
+                {
+                    return RedirectToAction("Kullanicilar", "Admin", new { Area = "blog", page = 1 });
+                }
+                else
+                {
+                    int skip = (int)(page - 1) * 10;
+
+                    return View(_dB.Kullanicilar.OrderBy(x => x.ID).Skip(skip).Take(10).ToList());
+
+                }
+            }
+            else
+            {
+                return RedirectToAction("Kullanicilar", "Admin", new { Area = "blog", page = 1 });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult KullaniciSil(int silinecekId)
+        {
+            Kullanici silinecekKullanici = _dB.Kullanicilar.FirstOrDefault(x => x.ID == silinecekId);
+            if (silinecekKullanici != null)
+            {
+                _dB.Kullanicilar.Remove(silinecekKullanici);
+                _dB.SaveChanges();
+                return Json(true);
+            }
+
+            return Json(false);
         }
     }
 }

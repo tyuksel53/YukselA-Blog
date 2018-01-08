@@ -1,4 +1,5 @@
-﻿
+﻿@using yA_Blog.Areas.Blog.Library
+
 @{
     Layout = null;
 }
@@ -17,7 +18,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="javascript:void(0)">Yuksel Algoritma Blog</a>
+        <a class="navbar-brand" href="javascript:void(0)">@CacheHelper.GetWebSiteName()</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -64,7 +65,7 @@
                     <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-users"></i> <span class="d-none d-md-inline">Üyeler</span></a>
                     <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-cog"></i> <span class="d-none d-md-inline">Site Ayarları</span></a>
                     <a href="/Blog/Admin/Takipciler" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-heart"></i> <span class="d-none d-md-inline">Takipçiler</span></a>
-                    <a href="/Blog/Admin/DosyaYukle" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-upload"></i> <span class="d-none d-md-inline">Dosya Yükle</span></a>
+                    <a href="/Blog/Admin/Uploads" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-upload"></i> <span class="d-none d-md-inline">Dosya Yükle</span></a>
                 </div>
             </div>
             <main class="col-md-9 float-left col px-5 pl-md-2 pt-2 main" id="kafasi">

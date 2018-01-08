@@ -1,11 +1,12 @@
-﻿
+﻿@using yA_Blog.Areas.Blog.Library
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Blog/Views/Shared/_Admin_Layout.cshtml";
 }
 
 <div class="col-md-12">
-    <h1 class="display-4">Yuksel Algoritma Blog</h1>
+    <h1 class="display-4">@CacheHelper.GetWebSiteName()</h1>
     <p class="lead">Sitenizin <i>admin panel</i>'ine hoş geldiniz. Bu kısımda sitenizi dinamik olarak yeni içerikler ekleyebilir,
     varolan içerikleri günceleyebilir, siteninizi istediğiniz gibi yönetebilirsiniz</p>
     <hr class="my-4">
