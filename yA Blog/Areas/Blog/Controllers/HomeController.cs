@@ -12,7 +12,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 {
     public class HomeController : Controller
     {
-        readonly DatabaseContext _db = new DatabaseContext();
+        private DatabaseContext _db = new DatabaseContext();
 
         [HttpGet]
         public ActionResult Index()
@@ -67,19 +67,9 @@ namespace yA_Blog.Areas.Blog.Controllers
                         _db.Kullanicilar.Add(model);
                         _db.SaveChanges();
 
-                        string siteURL = Portal.WebConfigGet<string>("SiteRootUri");
+                        Portal.AktivasyonMailGonder(model);
 
-                        string activateURL = $"{siteURL}/Blog/Home/UserActivate?activateId={model.ActivateGuid}";
-
-                        string activateLink = $"<a href='{activateURL}' target='_blank' > tıklayınız.</a>.";
-
-                        string siteName = CacheHelper.GetWebSiteName();
-
-                        string body = $"Merhaba {model.KullaniciAdi},<br/><br/> Hesabınızı Aktifleştirmek için {activateLink}";
-
-                        Portal.SendMail(body, model.Eposta, (siteName + " Hesabınızı Aktifleştirme"));
-
-                        return RedirectToAction("UserCreate");
+                        return RedirectToAction("UserCreate","Home");
                     }
                 }else
                 {
@@ -91,36 +81,59 @@ namespace yA_Blog.Areas.Blog.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login_Check(string kullaniciAdi, string parola)
+        public ActionResult GirisYap(string kullaniciAdi, string parola)
         {
-            bool isLogin = false;
-            
+            var kullanici = new Kullanici()
+            {
+                KullaniciAdi = kullaniciAdi,
+                Parola = parola
+            };
             var response = Request["g-recaptcha-response"];
             bool captchaCheck = Portal.CheckCaptcha(response: response);
 
             if(!captchaCheck)
             {
-                Json("captchaError", JsonRequestBehavior.AllowGet);
+                ModelState.AddModelError("","Lütfen günveligi dogrulayınız");
+                return View(kullanici);
             }
 
-            Kullanici check = (from s in _db.Kullanicilar where (s.KullaniciAdi == kullaniciAdi )  select s ).FirstOrDefault();
+            Kullanici check = _db.Kullanicilar.FirstOrDefault(x => x.KullaniciAdi == kullaniciAdi);
            
             if (check != null)
             {
                 if(Crypto.VerifyHashedPassword(check.Parola,parola))
                 {
                     System.Threading.Thread.Sleep(1000);
-                    Session["Kullanici"] = check;
-                    HttpCookie acct = new HttpCookie("acct", check.KullaniciAdi + check.Parola)
+
+                    if (check.IsActive)
                     {
-                        Expires = DateTime.Now.AddMonths(1)
-                    };
-                    isLogin = true;
-                    HttpContext.Response.Cookies.Add(acct);
+                        Session["Kullanici"] = check;
+                        HttpCookie acct = new HttpCookie("acct", check.KullaniciAdi + check.Parola)
+                        {
+                            Expires = DateTime.Now.AddMonths(1)
+                        };
+                        HttpContext.Response.Cookies.Add(acct);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Hesabınızı aktiflestirmediniz. Hesabınızı aktiflestirmek için size" +
+                                                     " tekrar mail gönderdik. Maildeki talimatları uygulayarak hesabınızı" +
+                                                     " aktiflestirebilirsiniz.");
+
+                        Portal.AktivasyonMailGonder(check);
+
+                        return View(kullanici);
+                    }
+                    
+
                 }
             }
 
-            return Json(isLogin, JsonRequestBehavior.AllowGet);
+            ModelState.AddModelError("", "Yanlıs kullanici adı veya sifre");
+            return View(kullanici);
+
+
         }
 
         [HttpPost]

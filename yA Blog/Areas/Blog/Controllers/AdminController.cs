@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Helpers;
 using yA_Blog.Areas.Blog.Filter;
 using yA_Blog.Areas.Blog.Library;
 using yA_Blog.Areas.Blog.Models;
@@ -53,6 +54,8 @@ namespace yA_Blog.Areas.Blog.Controllers
 
                 _dB.Haberler.Add(model);
                 _dB.SaveChanges();
+
+                //todo bu kısımda takipcilere mesaj atılacak
 
                 return PartialView("_HaberPartialView", new Haber() );
             }
@@ -372,7 +375,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                     }
                     return Json(true);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return Json(false);
                 }
@@ -404,7 +407,7 @@ namespace yA_Blog.Areas.Blog.Controllers
         public JsonResult TakipciSil(int silinecekId)
         {
             System.Threading.Thread.Sleep(3000);
-            Models.Takipciler silinecekTakipci = _dB.Subscribers.FirstOrDefault(x => x.ID == silinecekId);
+            var silinecekTakipci = _dB.Subscribers.FirstOrDefault(x => x.ID == silinecekId);
 
             if (silinecekTakipci == null)
             {
@@ -477,6 +480,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                     return View();
                 }
 
+                model.Parola = Crypto.HashPassword(model.Parola);
                 model.ActivateGuid = Guid.NewGuid();
                 model.ImgUrl = "";
                 model.Role = role == 1 ? "user" : "admin";

@@ -615,7 +615,7 @@
     <Compile Include="Areas\Blog\Library\File.cs" />
     <Compile Include="Areas\Blog\Library\Portal.cs" />
     <Compile Include="Areas\Blog\Library\CacheHelper.cs" />
-    <Compile Include="Areas\Blog\Library\Sayfalama.cs" />
+    <Compile Include="Areas\Blog\Library\Repository.cs" />
     <Compile Include="Areas\Blog\Models\Takipciler.cs" />
     <Compile Include="Areas\Blog\Models\Uploads.cs" />
     <Compile Include="Areas\Blog\Models\Haber.cs" />

@@ -7,6 +7,7 @@ using System.Net.Mail;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using yA_Blog.Areas.Blog.Models;
 using yA_Blog.Library;
 
 namespace yA_Blog.Areas.Blog.Library
@@ -75,7 +76,7 @@ namespace yA_Blog.Areas.Blog.Library
         public static bool CheckCaptcha(string response)
         {
 
-            string secret = WebConfigurationManager.AppSettings["recaptcha_privatekey"].ToString();
+            string secret = WebConfigGet<string>("recaptcha_privatekey");
 
             var client = new WebClient();
             var reply =
@@ -128,6 +129,21 @@ namespace yA_Blog.Areas.Blog.Library
             });
 
             return roller;
+        }
+
+        public static void AktivasyonMailGonder(Kullanici model)
+        {
+            string siteURL = Portal.WebConfigGet<string>("SiteRootUri");
+
+            string activateURL = $"{siteURL}/Blog/Home/UserActivate?activateId={model.ActivateGuid}";
+
+            string activateLink = $"<a href='{activateURL}' target='_blank' > tıklayınız.</a>.";
+
+            string siteName = CacheHelper.GetWebSiteName();
+
+            string body = $"Merhaba {model.KullaniciAdi},<br/><br/> Hesabınızı Aktifleştirmek için {activateLink}";
+
+            Portal.SendMail(body, model.Eposta, (siteName + " Hesabınızı Aktifleştirme"));
         }
     }
 }

@@ -3,28 +3,23 @@
     ViewBag.Title = "Giris Yap";
     Layout = "~/Areas/Blog/Views/Shared/_Home_Layout.cshtml";
     ViewBag.SectionName1 = "Giris Yap";
-    ViewBag.SectionName2 = "Kayıt Ol";
     ViewBag.Resim = "../../Areas/Blog/Uploads/matrix.jpg";
 }
 
 
 <div class="col-12 ml-auto main-content">
     <h3>Giris Yapın</h3>
-    <strong id="LoadingLogin" class="text-warning" style="display:none;font-size:16px">yükleniyor...</strong>
-    <strong id="LoginCheck" class="text-danger" style="display:none;font-size:16px;">Yanlıs Kullanıcı Adı veya Sifre</strong>
     @{ 
-        using(Ajax.BeginForm("Login_Check", new AjaxOptions() {
-            HttpMethod = "Post",
-            OnBegin = "Login_Begin",
-            OnComplete = "Login_Complete",
-            OnFailure = "Login_Failure"
-        })){
-            
+        using (Html.BeginForm("GirisYap","Home"))
+        {
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
             @Html.AntiForgeryToken()
+
             <div class="form-group">
                 @Html.LabelFor(x => x.KullaniciAdi)
                 @Html.TextBoxFor(x => x.KullaniciAdi, new { @class = "form-control", placeholder = "Kullanici Adini Giriniz" })
-                @Html.ValidationMessageFor(x => x.KullaniciAdi,"", new { @class = "text-danger", style = "font-size:14px" })
+                @Html.ValidationMessageFor(x => x.KullaniciAdi, "", new { @class = "text-danger", style = "font-size:14px" })
             </div>
             <div class="form-group">
                 @Html.LabelFor(x => x.Parola)
@@ -34,7 +29,6 @@
 
             <div class="form-group form-inline">
                 <div class="g-recaptcha" data-sitekey="6LcncjwUAAAAAHclYUU7yXyvVaOMZd_FLOCcb0mJ"></div>
-                <strong id="captchaError" class="text-danger" style="display:none;font-size:16px">Lütfen güvenliği doğrulayınız</strong>
                 <input class="btn btn-default" id="LoginButton" style="margin-left:63px" type="submit" value="Giris Yap">
             </div>
            }
@@ -43,93 +37,6 @@
 
 
 @section Scripts{
-<script>
-
-    function Login_Begin()
-    {
-        $("#captchaError").hide();
-        $("#LoginCheck").hide();
-        $("#LoadingLogin").show(300);
-    }
-
-    function Login_Complete(response)
-    {
-        $("#LoadingLogin").hide(300);
-
-        console.log(response);
-
-        if (response.responseJSON === false)
-        {
-            $("#LoginCheck").show(300);
-            grecaptcha.reset();
-        }
-        else if (response.responseJSON === 'captchaError' ) {
-
-            $("#captchaError").show(300);
-
-        } else
-        {
-            window.location = "/Blog/Home/Index";
-        }
-    }
-
-    function Login_Failure()
-    {
-        alert("Birseyler Ters Gitti");
-    }
-
-
-    //$("#LoginButton").click(function () {
-
-    //    $("#LoginCheck").hide();
-    //    $("#ParolaError").hide();
-    //    $("#KullaniciAdiError").hide();
-
-    //    var Kullanici_adi = $("#KullaniciAdi").val();
-    //    var parola = $("#Parola").val();
-
-    //    if (!Kullanici_adi)
-    //    {
-    //        $("#KullaniciAdiError").show();
-    //    } else if (!parola)
-    //    {
-    //        $("#ParolaError").show();
-    //    }
-    //    else
-    //    {
-    //        $.ajax({
-    //            url: "/Area/Home/Login_Check",
-    //            method: "POST",
-    //            data: { KullaniciAdi: Kullanici_adi, Parola: parola },
-    //            beforeSend: function () {
-    //                $("#LoadingLogin").show(300);
-    //            }
-    //        }).done(function (response) {
-    //            if (response === true)
-    //            {
-    //                window.location = "/Index";
-    //            }
-    //            else
-    //            {
-    //                $("#LoginCheck").show(300);
-    //            }
-    //        }).fail(function () {
-
-    //            alert("Bir seyler ters gitti....");
-
-    //        }).always(function () {
-
-    //            $("#LoadingLogin").hide(300);
-
-    //        });
-    //    }
-        
-    //});
-
-
-</script>    
-    
     @Scripts.Render("~/script/validate")
-    @Scripts.Render("~/script/ajax")
     <script src="https://www.google.com/recaptcha/api.js"></script>
 }

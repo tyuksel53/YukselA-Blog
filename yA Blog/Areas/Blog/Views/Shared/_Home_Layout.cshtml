@@ -10,21 +10,68 @@
     <link rel="stylesheet" href="~/Content/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/Content/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/Content/css/main.css">
+    
+    <style>
+        .stylish-input-group .input-group-addon{
+            background: white !important; 
+        }
+        .stylish-input-group .form-control{
+            border-right:0; 
+            box-shadow:0 0 0; 
+            border-color:#ccc;
+        }
+        .stylish-input-group button{
+            border:0;
+            background:transparent;
+        }
+        #query {
+            border-color: #495057;
+            /* color: #DADADA; */
+            font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+            font-weight: 700;
+            border-bottom: 0 transparent;
+            /* font-size: 12px; */
+            font-size: 1.6rem !important;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+        .takipci {
+            border-top-right-radius: 3px !important;
+            border-bottom-right-radius: 3px !important;
+        }
+    </style>
 </head>
 <body>
 
     <noscript>
         <div class="no-js-menu">
             <ul>
-                <li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
-                <li><i class="fa fa-user"></i><a href="author.html">Giriş yap yada Kayıt ol</a></li>
-                <li><i class="fa fa-anchor"></i><a href="page.html">About</a></li>
-                <li><i class="fa fa-star"></i><a href="favorites.html">Favorites</a></li>
-                <li><i class="fa fa-paper-plane"></i><a href="contact.html">Contact</a></li>
-                <li><i class="fa fa-file"></i><a href="post.html">Post Page</a></li>
-                <li><i class="fa fa-file"></i><a href="post-sidebar.html">Post with Sidebar</a></li>
-                <li><i class="fa fa-home"></i><a href="alt-home.html">Alternate Home</a></li>
-                <li><i class="fa fa-image"></i><a href="category.html">Category Page</a></li>
+                <li><i class="fa fa-home"></i><a href="/Blog/Home/Index">Ana Sayfa</a></li>
+                @{
+                    if (Session["User"] != null)
+                    {
+                        Kullanici logedIn = Session["User"] as Kullanici;
+                        <li><i class="fa fa-user"></i><a href="author.html">@( logedIn.KullaniciAdi)</a></li>
+                        <li><i class="fa fa-power-off"></i><a href="author.html">Çıkış Yap</a></li>
+
+                    }
+                    else
+                    {
+                        <li><i class="fa fa-code"></i><a href="/Blog/Home/Girisyap">Giriş Yap</a></li>
+                        <li><i class="fa fa-sign-in"></i><a href="/Blog/Home/Yeni_Kayıt">Kayıt Ol</a></li>
+                    }
+                    <form class="form-inline" style="margin-left: 7px;">
+                        <div class="input-group stylish-input-group">
+                            <input type="text" class="form-control" id="query" name="query" placeholder="Ne aramak istiyorsun">
+                            <span class="input-group-addon">
+                                <button type="submit">
+                                    <span class="fa fa-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                }
+
             </ul>
         </div>
     </noscript>
@@ -33,19 +80,34 @@
         <div class="row">
             <div id="menu-target">
                 <ul>
-                    <li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
-                    <li><i class="fa fa-user"></i><a href="author.html">John Smith</a></li>
-                    <li><i class="fa fa-anchor"></i><a href="page.html">About</a></li>
-                    <li><i class="fa fa-star"></i><a href="favorites.html">Favorites</a></li>
-                    <li><i class="fa fa-paper-plane"></i><a href="contact.html">Contact</a></li>
+                    <li><i class="fa fa-home"></i><a href="/Blog/Home/Index">Ana Sayfa</a></li>
+                    @{
+                        if (Session["User"] != null)
+                        {
+                            Kullanici logedIn = Session["User"] as Kullanici;
+                            <li><i class="fa fa-user"></i><a href="author.html">@( logedIn.KullaniciAdi)</a></li>
+                            <li><i class="fa fa-power-off"></i><a href="author.html">Çıkış Yap</a></li>
+
+                        }
+                        else
+                        {
+                            <li><i class="fa fa-code"></i><a href="/Blog/Home/Girisyap">Giriş Yap</a></li>
+                            <li><i class="fa fa-sign-in"></i><a href="/Blog/Home/Yeni_Kayit">Kayıt Ol</a></li>
+                        }
+                        <form class="form-inline" style="margin-left: 7px;">
+                            <div class="input-group stylish-input-group">
+                                <input type="text" class="form-control" id="query" name="query" placeholder="Ne aramak istiyorsun?">
+                                <span class="input-group-addon">
+                                    <button type="submit">
+                                        <span class="fa fa-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+
+                    }
                 </ul>
                 <hr>
-                <ul>
-                    <li><i class="fa fa-file"></i><a href="post.html">Post Page</a></li>
-                    <li><i class="fa fa-file"></i><a href="post-sidebar.html">Post with Sidebar</a></li>
-                    <li><i class="fa fa-home"></i><a href="alt-home.html">Alternate Home</a></li>
-                    <li><i class="fa fa-image"></i><a href="category.html">Category Page</a></li>
-                </ul>
             </div>
             <section class="sidebar col-lg-5 col-12" style="background-image: url(@ViewBag.Resim)">
                 <span class="menu-trigger animated fadeInDown">
@@ -66,22 +128,22 @@
                     <strong id="emailResponse" class="text-success" style="display: none;font-size:15px">Takip ettiğiniz için teşekkürler</strong>
                     <strong id="loadingTakipciEmail" class="text-warning" style="display: none;font-size: 15px">yükleniyor.....</strong>
 
-                    @using(Ajax.BeginForm("TakipciKaydet", "Home",new AjaxOptions()
+                    @using (Ajax.BeginForm("TakipciKaydet", "Home", new AjaxOptions()
                     {
                         HttpMethod = "POST",
                         OnFailure = "emailTakip_fail",
                         OnSuccess = "emailTakip_success",
                         LoadingElementDuration = 300,
                         LoadingElementId = "loadingTakipciEmail",
-                    },new {style="margin-top:15px;display:none",id="takipciler" }))
+                    }, new { style = "margin-top:15px;display:none", id = "takipciler" }))
                     {
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        <input id="email" style="border-color:white" type="text" class="form-control" name="email" placeholder=" Email Girin">
-                    </div>
-                    <div class="input-group">
-                        <input type="submit" class="btn btn-default" value="Kaydet" href="#" style="float:right"/>
-                    </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" style="border-color:white"><i class="fa fa-user"></i></span>
+                            <input id="email" style="border-color:white" type="text" class="form-control takipci" name="email" placeholder=" Email Girin">
+                        </div>
+                        <div class="input-group">
+                            <input type="submit" class="btn btn-default" value="Kaydet" href="#" style="float:right" />
+                        </div>
                     }
                 </div>
             </section>
@@ -120,8 +182,9 @@
     @Scripts.Render("~/script/all")
 
     @RenderSection("Scripts", false)
+    @Scripts.Render("~/script/validate")
     @Scripts.Render("~/script/ajax")
     <script src="~/Scripts/blogJs/common.js"></script>
-    
+
 </body>
 </html>
