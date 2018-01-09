@@ -106,15 +106,18 @@
         function TagleriEkle()
         {
             var tagler = $("#Tags").val();
-            $.each(tagler.split(','), function (index, value) {
-                var newTag = value;
-                addedTags[counter] = newTag;
-                counter++;
-                $("#Tags").val();
-                $("#Taglar").append(`<li id='Tag_${counter}' class='list-group-item'>${newTag}` +
-                    `<span onclick="TagSil('Tag_${counter}','${newTag}')" class='btn btn-danger btn-sm' style='float:right'>Sil</span></li>`);
-                $("#TagEkleText").val("");
-            });
+            if (tagler) {
+                $.each(tagler.split(','), function (index, value) {
+                    var newTag = value;
+                    addedTags[counter] = newTag;
+                    counter++;
+                    $("#Tags").val();
+                    $("#Taglar").append(`<li id='Tag_${counter}' class='list-group-item'>${newTag}` +
+                        `<span onclick="TagSil('Tag_${counter}','${newTag}')" class='btn btn-danger btn-sm' style='float:right'>Sil</span></li>`);
+                    $("#TagEkleText").val("");
+                });
+            }
+
         }
     </script>    
 }

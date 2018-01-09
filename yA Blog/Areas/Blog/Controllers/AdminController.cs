@@ -63,37 +63,17 @@ namespace yA_Blog.Areas.Blog.Controllers
         }
         public ActionResult Haberler(int? page)
         {
-            if (page == null)
+            Repository<Haber> repo = new Repository<Haber>();
+            List<Haber> haberler = repo.SayfalariGetir(page,(x => x.ID) );
+
+            if (haberler == null)
             {
-                return RedirectToAction("Haberler", "Admin", new { Area = "blog", page = 1 });
+                return RedirectToAction("Haberler","Admin", new {Area = "Blog", page = 1});
             }
 
-            if (page >= 1)
-            {
-                var total = _dB.Haberler.Select(p => p.ID).Count();
-                ViewBag.HaberCount = total;
-                int sayfaSayisi = (total / 10) + 1;
+            ViewBag.HaberCount = repo.IcerikSayisi(x => x.ID);
 
-                if (sayfaSayisi < page)
-                {
-                    return RedirectToAction("Haberler", "Admin", new { Area = "blog", page = 1 });
-                }
-                else
-                {
-                    int skip = (int)(page - 1) * 10;
-
-                    var result = _dB.Haberler.OrderBy(x => x.ID).
-                        Skip(skip).
-                        Take(10).
-                        ToList();
-                    return View(result);
-
-                }
-            }
-            else
-            {
-                return RedirectToAction("Haberler", "Admin", new { Area = "blog", page = 1 });
-            }
+            return View(haberler);
         }
 
         [HttpPost]
@@ -216,37 +196,17 @@ namespace yA_Blog.Areas.Blog.Controllers
         [HttpGet]
         public ActionResult Kategoriler(int? page)
         {
-            if (page == null)
+            Repository<Kategori> repo = new Repository<Kategori>();
+            List<Kategori> kategoriler = repo.SayfalariGetir(page, (x => x.ID));
+
+            if (kategoriler == null)
             {
-                return RedirectToAction("Kategoriler", "Admin", new { Area = "blog", page = 1 });
+                return RedirectToAction("Kategoriler", "Admin", new { Area = "Blog", page = 1 });
             }
 
-            if (page >= 1)
-            {
-                var total = _dB.Kategoriler.Select(p => p.ID).Count();
-                ViewBag.KategoriCount = total;
-                int sayfaSayisi = (total / 10) + 1;
+            ViewBag.KategoriCount = repo.IcerikSayisi(x => x.ID);
 
-                if (sayfaSayisi < page)
-                {
-                    return RedirectToAction("Kategoriler", "Admin", new { Area = "blog", page = 1 });
-                }
-                else
-                {
-                    int skip = (int)(page - 1) * 10;
-
-                    var result = _dB.Kategoriler.OrderBy(x => x.ID).
-                        Skip(skip).
-                        Take(10).
-                        ToList();
-                    return View(result);
-
-                }
-            }
-            else
-            {
-                return RedirectToAction("Kategoriler", "Admin", new { Area = "blog", page = 1 });
-            }
+            return View(kategoriler);
         }
         public JsonResult KategoriSil(int silinecekId)
         {
@@ -331,39 +291,18 @@ namespace yA_Blog.Areas.Blog.Controllers
         [ExcFilter]
         public ActionResult Uploads(int? page)
         {
-            if (page == null)
+            Repository<Uploads> repo = new Repository<Uploads>();
+            List<Uploads> uploads = repo.SayfalariGetir(page, (x => x.ID));
+
+            if (uploads == null)
             {
-                return RedirectToAction("Uploads", "Admin", new { Area = "blog", page = 1 });
+                return RedirectToAction("Uploads", "Admin", new { Area = "Blog", page = 1 });
             }
 
-            if (page >= 1)
-            {
-                var total = _dB.Uploads.Select(p => p.ID).Count();
+            ViewBag.UploadsCount = repo.IcerikSayisi(x => x.ID);
+            ViewBag.Uploads = uploads;
 
-                ViewBag.UploadsCount = total;
-
-                int sayfaSayisi = (total / 10) + 1;
-
-                if (sayfaSayisi < page)
-                {
-                    return RedirectToAction("Uploads", "Admin", new { Area = "blog", page = 1 });
-                }
-                else
-                {
-                    int skip = (int)(page - 1) * 10;
-
-                    ViewBag.Uploads = _dB.Uploads.OrderBy(x => x.ID).
-                        Skip(skip).
-                        Take(10).
-                        ToList();
-                    return View();
-
-                }
-            }
-            else
-            {
-                return RedirectToAction("Uploads", "Admin", new { Area = "blog", page = 1 });
-            }
+            return View();
         }
 
         [HttpPost]
@@ -448,35 +387,17 @@ namespace yA_Blog.Areas.Blog.Controllers
 
         public ActionResult Takipciler(int? page)
         {
-            if (page == null)
+            Repository<Takipciler> repo = new Repository<Takipciler>();
+            List<Takipciler> takipciler = repo.SayfalariGetir(page, (x => x.ID));
+
+            if (takipciler == null)
             {
-                return RedirectToAction("Takipciler", "Admin", new { Area = "blog", page = 1 });
+                return RedirectToAction("Takipciler", "Admin", new { Area = "Blog", page = 1 });
             }
 
-            if (page >= 1)
-            {
-                var total = _dB.Subscribers.Select(p => p.ID).Count();
+            ViewBag.SubscribersCount = repo.IcerikSayisi(x => x.ID);
 
-                ViewBag.SubscribersCount = total;
-
-                int sayfaSayisi = (total / 10) + 1;
-
-                if (sayfaSayisi < page)
-                {
-                    return RedirectToAction("Takipciler", "Admin", new { Area = "blog", page = 1 });
-                }
-                else
-                {
-                    int skip = (int)(page - 1) * 10;
-
-                    return View( _dB.Subscribers.OrderBy(x => x.ID).Skip(skip).Take(10).ToList() );
-
-                }
-            }
-            else
-            {
-                return RedirectToAction("Takipciler", "Admin", new { Area = "blog", page = 1 });
-            }
+            return View(takipciler);
         }
 
         [HttpPost]
@@ -500,35 +421,17 @@ namespace yA_Blog.Areas.Blog.Controllers
         [HttpGet]
         public ActionResult Kullanicilar(int? page)
         {
-            if (page == null)
+            Repository<Kullanici> repo = new Repository<Kullanici>();
+            List<Kullanici> kullanicilar = repo.SayfalariGetir(page, (x => x.ID));
+
+            if (kullanicilar == null)
             {
-                return RedirectToAction("Kullanicilar", "Admin", new { Area = "blog", page = 1 });
+                return RedirectToAction("Kullanicilar", "Admin", new { Area = "Blog", page = 1 });
             }
 
-            if (page >= 1)
-            {
-                var total = _dB.Kullanicilar.Select(p => p.ID).Count();
+            ViewBag.KullaniciCount = repo.IcerikSayisi(x => x.ID);
 
-                ViewBag.KullaniciCount = total;
-
-                int sayfaSayisi = (total / 10) + 1;
-
-                if (sayfaSayisi < page)
-                {
-                    return RedirectToAction("Kullanicilar", "Admin", new { Area = "blog", page = 1 });
-                }
-                else
-                {
-                    int skip = (int)(page - 1) * 10;
-
-                    return View(_dB.Kullanicilar.OrderBy(x => x.ID).Skip(skip).Take(10).ToList());
-
-                }
-            }
-            else
-            {
-                return RedirectToAction("Kullanicilar", "Admin", new { Area = "blog", page = 1 });
-            }
+            return View(kullanicilar);
         }
 
         [HttpPost]
