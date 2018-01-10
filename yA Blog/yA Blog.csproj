@@ -172,6 +172,9 @@
     <Content Include="Areas\Blog\Views\Admin\KullaniciEkle.cshtml" />
     <Content Include="Areas\Blog\Views\User\Profil.cshtml" />
     <Content Include="Areas\Blog\Views\Home\UnSubscribe.cshtml" />
+    <Content Include="Areas\Blog\Views\Home\ForgetPassword.cshtml" />
+    <Content Include="Areas\Blog\Views\Home\PasswordReset.cshtml" />
+    <Content Include="Areas\Blog\Views\Home\UserPasswordResetSuccess.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

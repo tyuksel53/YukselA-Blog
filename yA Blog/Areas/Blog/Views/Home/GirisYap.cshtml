@@ -1,4 +1,5 @@
-﻿@model Kullanici
+﻿@using yA_Blog.Areas.Blog.Library
+@model Kullanici
 @{
     ViewBag.Title = "Giris Yap";
     Layout = "~/Areas/Blog/Views/Shared/_Home_Layout.cshtml";
@@ -9,8 +10,8 @@
 
 <div class="col-12 ml-auto main-content">
     <h3>Giris Yapın</h3>
-    @{ 
-        using (Html.BeginForm("GirisYap","Home"))
+    @{
+        using (Html.BeginForm("GirisYap", "Home"))
         {
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -31,10 +32,21 @@
                 <div class="g-recaptcha" data-sitekey="6LcncjwUAAAAAHclYUU7yXyvVaOMZd_FLOCcb0mJ"></div>
                 <input class="btn btn-default" id="LoginButton" style="margin-left:63px" type="submit" value="Giris Yap">
             </div>
-           }
+        }
     }
+    @Html.ActionLink("Sifremi Unuttum","ForgetPassword","Home",new {@class="btn btn-primary"})
 </div>
 
+@section Info
+{
+    <div class="primary-info">
+        <h1>@CacheHelper.GetWebSiteName()</h1>
+        <p>Hos geldiniz</p>
+    </div>
+    <div class="secondary-info">
+
+    </div>
+}
 
 @section Scripts{
     @Scripts.Render("~/script/validate")

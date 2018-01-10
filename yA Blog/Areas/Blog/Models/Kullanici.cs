@@ -32,6 +32,8 @@ namespace yA_Blog.Areas.Blog.Models
 
         public Guid ActivateGuid { get; set; }
 
+        public Guid PasswordReset { get; set; }
+
         public bool IsActive { get; set; }
 
     }

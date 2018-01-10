@@ -8,6 +8,7 @@ using yA_Blog.Areas.Blog.Models.Managers;
 using System.Web.Helpers;
 using yA_Blog.Areas.Blog.Filter;
 using yA_Blog.Areas.Blog.Library;
+using yA_Blog.Areas.Blog.PageModels;
 
 namespace yA_Blog.Areas.Blog.Controllers
 {
@@ -239,6 +240,73 @@ namespace yA_Blog.Areas.Blog.Controllers
             cookie.Expires = DateTime.Now.AddDays(-1);
             HttpContext.Response.Cookies.Add(cookie);
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult ForgetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgetPassword(string KullaniciAdi)
+        {
+            var user = _db.Kullanicilar.FirstOrDefault(x => x.KullaniciAdi == KullaniciAdi);
+            if (user == null)
+            {
+                ModelState.AddModelError("","Boyle bir kullanici bulunadi");
+                
+            }
+            else
+            {
+                ViewBag.Success = "basarili";
+                Portal.KullaniciSifreReset(user);
+
+            }
+            return View();
+        }
+        [HttpGet]
+        public ActionResult PasswordReset(Guid reset)
+        {
+
+            Kullanici active = _db.Kullanicilar.FirstOrDefault(x => x.PasswordReset == reset);
+
+            if (active != null)
+            {
+                Session["reset"] = active;
+                return View(new KullaniciGuncelleme());
+            }
+            return RedirectToAction("Index","Home");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PasswordReset(KullaniciGuncelleme updateInfo)
+        {
+            if (updateInfo.YeniParola.Equals(updateInfo.YeniParolaOnay) && Session["reset"] != null)
+            {
+                var changeUser = Session["reset"] as Kullanici;
+                var updateUser = _db.Kullanicilar.FirstOrDefault(x => x.KullaniciAdi == changeUser.KullaniciAdi);
+                updateUser.Parola = Crypto.HashPassword(updateInfo.YeniParola);
+                updateUser.PasswordReset =  Guid.NewGuid();
+                _db.SaveChanges();
+                Session["reset"] = null;
+                return RedirectToAction("UserPasswordResetSuccess", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError("","Şifreler eşleşmiyor");
+            }
+           
+            return View();
+        }
+
+        public ActionResult UserPasswordResetSuccess()
+        {
+            ViewBag.ResultMessage =
+                "Şifreniz başarıyla değiştirildi.Artık yeni şifrenizle giriş yapabilirsiniz.";
+
+            return View();
         }
     }
 }

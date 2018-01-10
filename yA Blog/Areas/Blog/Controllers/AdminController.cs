@@ -482,6 +482,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
                 model.Parola = Crypto.HashPassword(model.Parola);
                 model.ActivateGuid = Guid.NewGuid();
+                model.PasswordReset = Guid.NewGuid();
                 model.ImgUrl = "";
                 model.Role = role == 1 ? "user" : "admin";
                 model.IsActive = model.Role.Equals("admin");

@@ -40,9 +40,11 @@ namespace yA_Blog.Areas.Blog.Models.Managers
             };
             yeni.Parola = Crypto.HashPassword(yeni.Parola);
             yeni.Eposta = "xcvtaha@hotmail.com";
-            yeni.ActivateGuid = new Guid();
+            yeni.ActivateGuid = Guid.NewGuid();
+            yeni.PasswordReset = Guid.NewGuid();
             yeni.IsActive = true;
             yeni.Role = "user";
+            yeni.ImgUrl = "";
 
             context.Kullanicilar.Add(yeni);
 

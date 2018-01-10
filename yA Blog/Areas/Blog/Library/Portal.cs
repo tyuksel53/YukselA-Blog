@@ -145,5 +145,20 @@ namespace yA_Blog.Areas.Blog.Library
 
             Portal.SendMail(body, model.Eposta, (siteName + " Hesabınızı Aktifleştirme"));
         }
+
+        public static void KullaniciSifreReset(Kullanici model)
+        {
+            string siteURL = Portal.WebConfigGet<string>("SiteRootUri");
+
+            string activateURL = $"{siteURL}/Blog/Home/PasswordReset?reset={model.PasswordReset}";
+
+            string activateLink = $"<a href='{activateURL}' target='_blank' > tıklayınız.</a>.";
+
+            string siteName = CacheHelper.GetWebSiteName();
+
+            string body = $"Merhaba {model.KullaniciAdi},<br/><br/> Şifrenizi resetlemek için {activateLink}";
+
+            Portal.SendMail(body, model.Eposta, (siteName + " Şifrenizi resetleme"));
+        }
     }
 }

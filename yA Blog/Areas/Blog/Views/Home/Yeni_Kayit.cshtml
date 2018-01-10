@@ -1,4 +1,5 @@
-﻿@model yA_Blog.Areas.Blog.Models.Kullanici
+﻿@using yA_Blog.Areas.Blog.Library
+@model yA_Blog.Areas.Blog.Models.Kullanici
 
 @{
     ViewBag.Title = "Yeni_Kayit";
@@ -12,7 +13,7 @@
     <h3>Giris Yapın</h3>
     <strong id="LoadingCreate" class="text-warning" style="display:none;font-size:16px">yükleniyor...</strong>
     @{
-        using (Html.BeginForm("Yeni_Kayit","Home","POST"))
+        using (Html.BeginForm("Yeni_Kayit", "Home", "POST"))
         {
             @Html.AntiForgeryToken()
 
@@ -27,6 +28,19 @@
     }
 
 </div>
+
+@section Info
+{
+    <div class="primary-info">
+        <h1>@CacheHelper.GetWebSiteName()</h1>
+        <p>Kayıt olun ve yeniliklerden geri kalmayın </p>
+    </div>
+    <div class="secondary-info">
+        
+    </div>
+}
+
+
 
 @section Scripts{
     <script src="https://www.google.com/recaptcha/api.js"></script>
