@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using yA_Blog.Areas.Blog.Library
+<!DOCTYPE html>
 <html class="no-js">
 <head>
     <meta charset="utf-8">
@@ -42,7 +43,9 @@
     </style>
 </head>
 <body>
-
+    @{
+        string websiteName = CacheHelper.GetWebSiteName();
+    }
     <noscript>
         <div class="no-js-menu">
             <ul>
@@ -85,8 +88,8 @@
                         if (Session["Kullanici"] != null)
                         {
                             Kullanici logedIn = Session["Kullanici"] as Kullanici;
-                            <li><i class="fa fa-user"></i><a href="author.html">@( logedIn.KullaniciAdi)</a></li>
-                            <li><i class="fa fa-power-off"></i><a href="author.html">Çıkış Yap</a></li>
+                            <li><i class="fa fa-user"></i><a href="/Blog/User/Profil">Merhaba, @( logedIn.KullaniciAdi)</a></li>
+                            <li><i class="fa fa-power-off"></i><a href="/Blog/Home/LogOut">Çıkış Yap</a></li>
 
                         }
                         else
@@ -116,35 +119,8 @@
                     <span class="bar"></span>
                 </span>
                 <div class="site-info">
-                    <div class="primary-info">
-                        <h1>Developer</h1>
-                        <p>yuksel algorithm is coming</p>
-                    </div>
-                    <div class="secondary-info">
-                        <p>
-                            <a class="btn btn-primary" href="#" style="margin-bottom: 15px" onclick="bultenKayit()"><i class="fa fa-user-plus"></i>Bültene Kayıt Olun</a>
-                        </p>
-                    </div>
-                    <strong id="emailResponse" class="text-success" style="display: none;font-size:15px">Takip ettiğiniz için teşekkürler</strong>
-                    <strong id="loadingTakipciEmail" class="text-warning" style="display: none;font-size: 15px">yükleniyor.....</strong>
-
-                    @using (Ajax.BeginForm("TakipciKaydet", "Home", new AjaxOptions()
-                    {
-                        HttpMethod = "POST",
-                        OnFailure = "emailTakip_fail",
-                        OnSuccess = "emailTakip_success",
-                        LoadingElementDuration = 300,
-                        LoadingElementId = "loadingTakipciEmail",
-                    }, new { style = "margin-top:15px;display:none", id = "takipciler" }))
-                    {
-                        <div class="input-group">
-                            <span class="input-group-addon" style="border-color:white"><i class="fa fa-user"></i></span>
-                            <input id="email" style="border-color:white" type="text" class="form-control takipci" name="email" placeholder=" Email Girin">
-                        </div>
-                        <div class="input-group">
-                            <input type="submit" class="btn btn-default" value="Kaydet" href="#" style="float:right" />
-                        </div>
-                    }
+                    @RenderSection("Info",false)
+                    
                 </div>
             </section>
 
@@ -171,9 +147,8 @@
                 </div>
 
                 <footer class="split-footer">
-                    <a href="post.html">About</a>
-                    <i class="link-spacer"></i>
-                    <a href="post.html">developer 2017</a>
+                    
+                    <a href="/Blog/Home/Index">@websiteName <i class="link-spacer"></i> @DateTime.Now.Year</a>
                 </footer>
 
             </section><!-- main content -->

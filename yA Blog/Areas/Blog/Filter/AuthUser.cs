@@ -6,11 +6,11 @@ using System.Web.Mvc;
 
 namespace yA_Blog.Areas.Blog.Filter
 {
-    public class Auth : FilterAttribute, IAuthorizationFilter
+    public class AuthUser:FilterAttribute,IAuthorizationFilter
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
-            if (filterContext.HttpContext.Session["Kullanici"] != null)
+            if (filterContext.HttpContext.Session["Kullanici"] == null)
             {
                 filterContext.Result = new RedirectResult("/Blog/Home/Index");
             }

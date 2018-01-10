@@ -66,7 +66,7 @@ C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\System.Web.Webpages.Deploymen
 C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\System.Web.Webpages.Razor.xml
 C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\System.Web.Helpers.xml
 C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\System.Web.Mvc.xml
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\obj\Debug\yA Blog.csprojResolveAssemblyReference.cache
 C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\obj\Debug\yA Blog.csproj.CoreCompileInputs.cache
 C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\obj\Debug\yA Blog.dll
 C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\obj\Debug\yA Blog.pdb
+C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\obj\Debug\yA Blog.csprojResolveAssemblyReference.cache

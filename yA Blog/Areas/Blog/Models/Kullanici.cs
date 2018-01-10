@@ -16,10 +16,11 @@ namespace yA_Blog.Areas.Blog.Models
         public int ID{ get; set; }
 
         [Required,DisplayName("Kullanici Adi"),MinLength(4,ErrorMessage = "{0}nız minimum {1} karakter olmalıdır"),
-            MaxLength(65,ErrorMessage = "{0}nız {1} karakterden uzun olamaz" )]
+         MaxLength(65,ErrorMessage = "{0}nız {1} karakterden uzun olamaz" )]
         public string KullaniciAdi { get; set; }
 
-        [Required,DisplayName("Şifre"),MinLength(4,ErrorMessage = "{0}nız minimum {1} karakter olmalıdır")]
+        [Required,DisplayName("Şifre"), DataType(DataType.Password),
+         MinLength(4,ErrorMessage = "{0}nız minimum {1} karakter olmalıdır")]
         public string Parola { get; set; }
 
         [DisplayName("Eposta Adresi"),EmailAddress(),Required]

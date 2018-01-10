@@ -170,6 +170,8 @@
     <Content Include="Areas\Blog\Views\Home\UserCreate.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\Kullanicilar.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\KullaniciEkle.cshtml" />
+    <Content Include="Areas\Blog\Views\User\Profil.cshtml" />
+    <Content Include="Areas\Blog\Views\Home\UnSubscribe.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -611,7 +613,9 @@
     <Compile Include="Areas\Blog\BlogAreaRegistration.cs" />
     <Compile Include="Areas\Blog\Controllers\AdminController.cs" />
     <Compile Include="Areas\Blog\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Blog\Filter\Auth.cs" />
+    <Compile Include="Areas\Blog\Controllers\UserController.cs" />
+    <Compile Include="Areas\Blog\Filter\AuthUser.cs" />
+    <Compile Include="Areas\Blog\Filter\NotAccessibleByLoggedInUser.cs" />
     <Compile Include="Areas\Blog\Filter\CookieLogin.cs" />
     <Compile Include="Areas\Blog\Filter\ExcFilter.cs" />
     <Compile Include="Areas\Blog\Library\File.cs" />
@@ -625,6 +629,7 @@
     <Compile Include="Areas\Blog\Models\Kullanici.cs" />
     <Compile Include="Areas\Blog\Models\Managers\DatabaseContext.cs" />
     <Compile Include="Areas\Blog\Models\WebSiteConfig.cs" />
+    <Compile Include="Areas\Blog\PageModels\KullaniciGuncelleme.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

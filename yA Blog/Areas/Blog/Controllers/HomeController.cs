@@ -22,14 +22,14 @@ namespace yA_Blog.Areas.Blog.Controllers
             return View();
         }
 
-        [Auth]
+        [NotAccessibleByLoggedInUser]
         [HttpGet]
         public ActionResult GirisYap()
         {
             return View(new Kullanici());
         }
 
-        [Auth]
+        [NotAccessibleByLoggedInUser]
         [HttpGet]
         public ActionResult Yeni_Kayit()
         {
@@ -37,7 +37,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             return View(new Kullanici());
         }
 
-        [Auth]
+        [NotAccessibleByLoggedInUser]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Yeni_Kayit(Kullanici model)
@@ -84,7 +84,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             }
         }
 
-        [Auth]
+        [NotAccessibleByLoggedInUser]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult GirisYap(string kullaniciAdi, string parola)
@@ -164,6 +164,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                     {
                         Email = Email,
                         KayitTarihi = DateTime.Now.ToString("dd-MM-yyyy"),
+                        isActive = true,
                         DelToken = Guid.NewGuid()
                     };
                     _db.Subscribers.Add(yeniTakipci);
@@ -183,6 +184,29 @@ namespace yA_Blog.Areas.Blog.Controllers
             return View();
         }
 
+        public ActionResult UnSubscribe(Guid activateId)
+        {
+            var takipci = _db.Subscribers.FirstOrDefault(x => x.DelToken == activateId);
+            if (takipci != null)
+            {
+                if (takipci.isActive)
+                {
+                    ViewBag.ResultMessage = "Takipci listemizden zaten çıkarıldınız.";
+                }
+                else
+                {
+                    takipci.isActive = false;
+                    ViewBag.ResultMessage = "Takipci listemizden başarıyla çıkarıldınız.";
+                    _db.SaveChanges();
+                    
+                }
+            }
+            else
+            {
+                ViewBag.ResultMessage = "Takipci listemizde kisi bulunamadı.";
+            }
+            return View();
+        }
         public ActionResult UserActivate(Guid activateId)
         {
 
@@ -199,7 +223,6 @@ namespace yA_Blog.Areas.Blog.Controllers
                     ViewBag.ResultMessage = "Hesabınız aktifleştirildi.";
                     active.IsActive = true;
                     _db.SaveChanges();
-                    //TODO burada login yapacan kullanıcııyı
                 }
             }
             else
@@ -207,6 +230,15 @@ namespace yA_Blog.Areas.Blog.Controllers
                 ViewBag.ResultMessage = "Aktifleştirilecek kullanıcı bulunamadı !";
             }
             return View();
+        }
+
+        public ActionResult LogOut()
+        {
+            Session.Clear();
+            var cookie = HttpContext.Request.Cookies.Get("acct");
+            cookie.Expires = DateTime.Now.AddDays(-1);
+            HttpContext.Response.Cookies.Add(cookie);
+            return RedirectToAction("Index", "Home");
         }
     }
 }
