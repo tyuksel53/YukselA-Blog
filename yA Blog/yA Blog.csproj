@@ -611,6 +611,8 @@
     <Compile Include="Areas\Blog\BlogAreaRegistration.cs" />
     <Compile Include="Areas\Blog\Controllers\AdminController.cs" />
     <Compile Include="Areas\Blog\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Blog\Filter\Auth.cs" />
+    <Compile Include="Areas\Blog\Filter\CookieLogin.cs" />
     <Compile Include="Areas\Blog\Filter\ExcFilter.cs" />
     <Compile Include="Areas\Blog\Library\File.cs" />
     <Compile Include="Areas\Blog\Library\Portal.cs" />

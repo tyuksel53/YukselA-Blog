@@ -6,10 +6,12 @@ using System.Web.Mvc;
 using yA_Blog.Areas.Blog.Models;
 using yA_Blog.Areas.Blog.Models.Managers;
 using System.Web.Helpers;
+using yA_Blog.Areas.Blog.Filter;
 using yA_Blog.Areas.Blog.Library;
 
 namespace yA_Blog.Areas.Blog.Controllers
 {
+    [CookieLogin]
     public class HomeController : Controller
     {
         private DatabaseContext _db = new DatabaseContext();
@@ -20,12 +22,14 @@ namespace yA_Blog.Areas.Blog.Controllers
             return View();
         }
 
+        [Auth]
         [HttpGet]
         public ActionResult GirisYap()
         {
             return View(new Kullanici());
         }
 
+        [Auth]
         [HttpGet]
         public ActionResult Yeni_Kayit()
         {
@@ -33,6 +37,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             return View(new Kullanici());
         }
 
+        [Auth]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Yeni_Kayit(Kullanici model)
@@ -79,6 +84,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             }
         }
 
+        [Auth]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult GirisYap(string kullaniciAdi, string parola)
@@ -108,11 +114,14 @@ namespace yA_Blog.Areas.Blog.Controllers
                     if (check.IsActive)
                     {
                         Session["Kullanici"] = check;
-                        HttpCookie acct = new HttpCookie("acct", check.KullaniciAdi + check.Parola)
+                        
+                        HttpCookie acct = new HttpCookie("acct","Username="+check.KullaniciAdi + "&Password="+check.Parola)
                         {
                             Expires = DateTime.Now.AddMonths(1)
                         };
+
                         HttpContext.Response.Cookies.Add(acct);
+
                         return RedirectToAction("Index", "Home");
                     }
                     else

@@ -82,9 +82,9 @@
                 <ul>
                     <li><i class="fa fa-home"></i><a href="/Blog/Home/Index">Ana Sayfa</a></li>
                     @{
-                        if (Session["User"] != null)
+                        if (Session["Kullanici"] != null)
                         {
-                            Kullanici logedIn = Session["User"] as Kullanici;
+                            Kullanici logedIn = Session["Kullanici"] as Kullanici;
                             <li><i class="fa fa-user"></i><a href="author.html">@( logedIn.KullaniciAdi)</a></li>
                             <li><i class="fa fa-power-off"></i><a href="author.html">Çıkış Yap</a></li>
 
