@@ -55,6 +55,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
                     var cookie = HttpContext.Request.Cookies.Get("acct");
                     cookie.Value = $"Username={updateUser.KullaniciAdi}&Password={updateUser.Parola}";
+                    cookie.Expires = DateTime.Now.AddMonths(1);
                     HttpContext.Response.Cookies.Add(cookie);
 
                     Session["Kullanici"] = updateUser;
@@ -102,10 +103,6 @@ namespace yA_Blog.Areas.Blog.Controllers
 
                     _dB.SaveChanges();
                     Session.Clear();
-
-                    var cookie = HttpContext.Request.Cookies.Get("acct");
-                    cookie.Value = $"Username={updateUser.KullaniciAdi}&Password={updateUser.Parola}";
-                    HttpContext.Response.Cookies.Add(cookie);
 
                     Session["Kullanici"] = updateUser;
 

@@ -3,9 +3,13 @@
 @{
     ViewBag.Title = "Ana Sayfa";
     Layout = "~/Areas/Blog/Views/Shared/_Home_Layout.cshtml";
+
     ViewBag.SectionName1 = "Gönderiler";
     ViewBag.SectionName2 = "Kategoriler";
-    ViewBag.Resim = "../../Areas/Blog/Uploads/matrix.jpg";
+    ViewBag.Section1Url = "#";
+    ViewBag.Section2Url = "#";
+
+    ViewBag.Resim = "../../Areas/Blog/Uploads/img/default-404.jpg";
     string websiteName = CacheHelper.GetWebSiteName();
 }
 <article class="post">
@@ -56,4 +60,14 @@
             <input type="submit" class="btn btn-default" value="Kaydet" href="#" style="float: right"/>
         </div>
     }
+}
+
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+            openSection1();
+        });
+    </script>
 }

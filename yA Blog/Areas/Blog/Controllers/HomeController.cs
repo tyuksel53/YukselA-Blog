@@ -17,6 +17,10 @@ namespace yA_Blog.Areas.Blog.Controllers
     {
         private DatabaseContext _db = new DatabaseContext();
 
+        private static int _loginTryCount = 0;
+        private static int _userCreateTryCount =  0;
+        private static int _forgetPasswordTryCount = 0;
+
         [HttpGet]
         public ActionResult Index()
         {
@@ -27,6 +31,8 @@ namespace yA_Blog.Areas.Blog.Controllers
         [HttpGet]
         public ActionResult GirisYap()
         {
+            ViewBag.LoginTryCount = _loginTryCount;
+            ViewBag.recaptchaKey = Portal.WebConfigGet<string>("recaptcha_sitekey");
             return View(new Kullanici());
         }
 
@@ -34,7 +40,8 @@ namespace yA_Blog.Areas.Blog.Controllers
         [HttpGet]
         public ActionResult Yeni_Kayit()
         {
-            ViewBag.recaptchaKey =  WebConfigurationManager.AppSettings["recaptcha_sitekey"];
+            ViewBag.UserTryCount = _userCreateTryCount;
+            ViewBag.recaptchaKey = Portal.WebConfigGet<string>("recaptcha_sitekey");
             return View(new Kullanici());
         }
 
@@ -43,45 +50,48 @@ namespace yA_Blog.Areas.Blog.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Yeni_Kayit(Kullanici model)
         {
-            ViewBag.recaptchaKey = WebConfigurationManager.AppSettings["recaptcha_sitekey"];
-            var response = Request["g-recaptcha-response"];
-            bool captchaCheck = Portal.CheckCaptcha(response: response);
-
-            if (!captchaCheck)
+            _userCreateTryCount++;
+            ViewBag.UserTryCount = _userCreateTryCount;
+            if (_userCreateTryCount > 5)
             {
-                ViewBag.captcha_error = "Lütfen güvenligi dogrulayınız";
-                return View(model);
+                ViewBag.recaptchaKey = Portal.WebConfigGet<string>("recaptcha_sitekey");
+                var response = Request["g-recaptcha-response"];
+                bool captchaCheck = Portal.CheckCaptcha(response: response);
+
+                if (!captchaCheck)
+                {
+                    ViewBag.captcha_error = "Lütfen güvenligi dogrulayınız";
+                    return View(model);
+                }
+            }
+
+            if (ModelState.IsValid)
+            {
+                Kullanici yeniUser = (from s in _db.Kullanicilar where s.KullaniciAdi == model.KullaniciAdi select s).FirstOrDefault();
+                if (yeniUser != null)
+                {
+                    ModelState.AddModelError("", "Girdiginiz kullanici adi kullanılmaktadır");
+                    return View(model);
+                }
+                else
+                {
+
+                    model.Parola = Crypto.HashPassword(model.Parola);
+                    model.ActivateGuid = Guid.NewGuid();
+                    model.IsActive = false;
+                    model.Role = "user";
+
+                    _db.Kullanicilar.Add(model);
+                    _db.SaveChanges();
+
+                    Portal.AktivasyonMailGonder(model);
+
+                    return RedirectToAction("UserCreate", "Home");
+                }
             }
             else
             {
-                if (ModelState.IsValid)
-                {
-                    Kullanici yeniUser = (from s in _db.Kullanicilar where s.KullaniciAdi == model.KullaniciAdi select s).FirstOrDefault();
-                    if (yeniUser != null)
-                    {
-                        ModelState.AddModelError("", "Girdiginiz kullanici adi kullanılmaktadır");
-                        return View(model);
-                    }
-                    else
-                    {
-
-                        model.Parola = Crypto.HashPassword(model.Parola);
-                        model.ActivateGuid = Guid.NewGuid();
-                        model.IsActive = false;
-                        model.Role = "user";
-
-                        _db.Kullanicilar.Add(model);
-                        _db.SaveChanges();
-
-                        Portal.AktivasyonMailGonder(model);
-
-                        return RedirectToAction("UserCreate","Home");
-                    }
-                }else
-                {
-                    return View(model);
-                }
-
+                return View(model);
             }
         }
 
@@ -90,18 +100,25 @@ namespace yA_Blog.Areas.Blog.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult GirisYap(string kullaniciAdi, string parola)
         {
+            _loginTryCount++;
+            ViewBag.LoginTryCount = _loginTryCount;
+            ViewBag.recaptchaKey = Portal.WebConfigGet<string>("recaptcha_sitekey");
             var kullanici = new Kullanici()
             {
                 KullaniciAdi = kullaniciAdi,
                 Parola = parola
             };
-            var response = Request["g-recaptcha-response"];
-            bool captchaCheck = Portal.CheckCaptcha(response: response);
 
-            if(!captchaCheck)
+            if (_loginTryCount > 5)
             {
-                ModelState.AddModelError("","Lütfen günveligi dogrulayınız");
-                return View(kullanici);
+                var response = Request["g-recaptcha-response"];
+                bool captchaCheck = Portal.CheckCaptcha(response: response);
+
+                if (!captchaCheck)
+                {
+                    ModelState.AddModelError("", "Lütfen günveligi dogrulayınız");
+                    return View(kullanici);
+                }
             }
 
             Kullanici check = _db.Kullanicilar.FirstOrDefault(x => x.KullaniciAdi == kullaniciAdi);
@@ -122,6 +139,8 @@ namespace yA_Blog.Areas.Blog.Controllers
                         };
 
                         HttpContext.Response.Cookies.Add(acct);
+
+                        _loginTryCount = 0;
 
                         return RedirectToAction("Index", "Home");
                     }
@@ -261,6 +280,13 @@ namespace yA_Blog.Areas.Blog.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ForgetPassword(string KullaniciAdi)
         {
+            _forgetPasswordTryCount++;
+            ViewBag.UserTryCount = _forgetPasswordTryCount;
+            if (_forgetPasswordTryCount > 5)
+            {
+                ModelState.AddModelError("", "Cok fazla deneme yaptin biraz dinlen");
+                return View();
+            }
             var user = _db.Kullanicilar.FirstOrDefault(x => x.KullaniciAdi == KullaniciAdi);
             if (user == null)
             {

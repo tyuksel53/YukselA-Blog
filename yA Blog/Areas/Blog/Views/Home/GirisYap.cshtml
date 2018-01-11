@@ -3,8 +3,14 @@
 @{
     ViewBag.Title = "Giris Yap";
     Layout = "~/Areas/Blog/Views/Shared/_Home_Layout.cshtml";
+
     ViewBag.SectionName1 = "Giris Yap";
-    ViewBag.Resim = "../../Areas/Blog/Uploads/matrix.jpg";
+
+    ViewBag.Section1Url = "#";
+
+    ViewBag.Resim = "../../Areas/Blog/Uploads/img/default-favorites-sidebar.jpg";
+
+
 }
 
 
@@ -28,13 +34,18 @@
                 @Html.ValidationMessageFor(x => x.Parola, "", new { @class = "text-danger", style = "font-size:14px" })
             </div>
 
-            <div class="form-group form-inline">
-                <div class="g-recaptcha" data-sitekey="6LcncjwUAAAAAHclYUU7yXyvVaOMZd_FLOCcb0mJ"></div>
-                <input class="btn btn-default" id="LoginButton" style="margin-left:63px" type="submit" value="Giris Yap">
+            <div class="form-group">
+                @if (ViewBag.LoginTryCount > 5)
+                {
+                    <div class="g-recaptcha" data-sitekey="@ViewBag.recaptchaKey"></div>
+                }
+                <input class="btn btn-default" id="LoginButton" style="float: left;margin-top:9px" type="submit" value="Giris Yap">
             </div>
         }
     }
-    @Html.ActionLink("Sifremi Unuttum","ForgetPassword","Home",new {@class="btn btn-primary"})
+    <div class="col-md-12" style="padding: 0">
+        @Html.ActionLink("Sifremi Unuttum","ForgetPassword","Home",new {@class="btn btn-primary"})
+    </div>
 </div>
 
 @section Info
@@ -49,6 +60,10 @@
 }
 
 @section Scripts{
-    @Scripts.Render("~/script/validate")
     <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+        $(document).ready(function() {
+            openSection1();
+        });
+    </script>
 }

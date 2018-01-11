@@ -4,8 +4,12 @@
 @{
     ViewBag.Title = "Yeni_Kayit";
     Layout = "~/Areas/Blog/Views/Shared/_Home_Layout.cshtml";
+
     ViewBag.SectionName1 = "Kayıt Ol";
-    ViewBag.Resim = "../../Areas/Blog/Uploads/matrix.jpg";
+
+    ViewBag.Section1Url = "#";
+
+    ViewBag.Resim = "../../Areas/Blog/Uploads/img/default-category-sidebar.jpg";
 }
 
 
@@ -19,9 +23,14 @@
 
             @Html.Partial("_UserCreatePartial", Model);
 
-            <div class="form-group form-inline">
-                <div class="g-recaptcha" data-sitekey="@ViewBag.recaptchaKey"></div>
-                <input class="btn btn-default" id="CreateUser" style="margin-left:63px" type="submit" value="Kayıt Ol">
+            <div class="form-group">
+                @{
+                    if (ViewBag.UserTryCount > 5)
+                    {
+                        <div class="g-recaptcha" data-sitekey="@ViewBag.recaptchaKey"></div>
+                    }
+                }
+                <input class="btn btn-default" id="CreateUser" style="margin-left: 63px" type="submit" value="Kayıt Ol">
             </div>
             <strong id="captchaError" class="text-danger" style="font-size:16px">@ViewBag.captcha_error</strong>
         }
@@ -44,5 +53,9 @@
 
 @section Scripts{
     <script src="https://www.google.com/recaptcha/api.js"></script>
-
+    <script>
+        $(document).ready(function() {
+            openSection1();
+        });
+    </script>
 }
