@@ -48,7 +48,7 @@ namespace yA_Blog.App_Start
                 ));
 
 
-            BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = false;
         }
     }
 }

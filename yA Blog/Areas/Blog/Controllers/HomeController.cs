@@ -185,9 +185,15 @@ namespace yA_Blog.Areas.Blog.Controllers
             return View();
         }
 
-        public ActionResult UnSubscribe(Guid activateId)
+        public ActionResult UnSubscribe(Guid? activateId) //TODO burayı test et
         {
+            if (activateId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var takipci = _db.Subscribers.FirstOrDefault(x => x.DelToken == activateId);
+
             if (takipci != null)
             {
                 if (takipci.isActive)
@@ -208,8 +214,12 @@ namespace yA_Blog.Areas.Blog.Controllers
             }
             return View();
         }
-        public ActionResult UserActivate(Guid activateId)
+        public ActionResult UserActivate(Guid? activateId)
         {
+            if (activateId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             Kullanici active = _db.Kullanicilar.FirstOrDefault(x => x.ActivateGuid == activateId);
 
@@ -266,8 +276,12 @@ namespace yA_Blog.Areas.Blog.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult PasswordReset(Guid reset)
+        public ActionResult PasswordReset(Guid? reset)
         {
+            if (reset == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             Kullanici active = _db.Kullanicilar.FirstOrDefault(x => x.PasswordReset == reset);
 

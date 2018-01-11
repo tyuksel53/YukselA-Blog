@@ -128,22 +128,24 @@
 
             <section class="col-lg-7 col-12 ml-auto main-content">
                 <div class="sub-nav">
-                    <a href="#" class="select-posts active">@ViewBag.SectionName1</a>
-                    <a href="#" class="select-categories">@ViewBag.SectionName2</a>
+                    <a href="@ViewBag.Section1Url" class="select-posts">@ViewBag.SectionName1</a>
+                    <a href="@ViewBag.Section2Url" class="select-categories">@ViewBag.SectionName2</a>
+                    <a href="@ViewBag.Section3Url" class="select-update">@ViewBag.SectionName3</a>
                 </div>
 
-                <div class="home-page-posts animated fadeIn ">
-                    @RenderBody()
+                <div class="home-page-posts hide animated fadeIn ">
+                     @RenderBody()
                 </div>
 
                 <!-- Home page posts -->
 
                 <div class="home-page-categories hide animated fadeIn ">
-                    <div class="category row">
+                     @RenderSection("Bolum2", false)
+                </div>
+                
+                <div class="home-page-update hide animated fadeIn">
+                     @RenderSection("Bolum3", false)
 
-                        @RenderSection("Bolum2", false)
-
-                    </div>
                 </div>
 
                 <footer class="split-footer">
@@ -155,11 +157,9 @@
         </div> <!--/row -->
     </main> <!-- /container -->
     @Scripts.Render("~/script/all")
-
-    @RenderSection("Scripts", false)
     @Scripts.Render("~/script/validate")
     @Scripts.Render("~/script/ajax")
     <script src="~/Scripts/blogJs/common.js"></script>
-
+    @RenderSection("Scripts", false)
 </body>
 </html>

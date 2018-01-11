@@ -1,0 +1,88 @@
+﻿@model yA_Blog.Areas.Blog.PageModels.KullaniciGuncelleme
+
+@{
+    ViewBag.Title = "Profil - Eposta Degiştirme";
+    Layout = "~/Areas/Blog/Views/Shared/_Home_Layout.cshtml";
+
+    ViewBag.SectionName1 = "Son Aktivitelerin";
+    ViewBag.SectionName2 = "Sifre Degistirme";
+    ViewBag.SectionName3 = "Eposta Degistirme";
+
+    ViewBag.Section1Url = "/Blog/User/Profil";
+    ViewBag.Section2Url = "/Blog/User/SifreDegis";
+    ViewBag.Section3Url = "/Blog/User/EpostaDegis";
+
+    ViewBag.Resim = "../../Areas/Blog/Uploads/img/cover-3.jpg";
+
+    var user = Session["Kullanici"] as Kullanici;
+}
+
+@section Bolum3
+{
+    <div style="margin-top: 15px">
+        @if (ViewBag.Success != null)
+        {
+            <div class="alert alert-success" style="margin-top: 15px;font-size: 15px">
+                <strong>Eposta Adresiniz Güncellendi <i class="fa fa-smile-o" aria-hidden="true" style="font-size:25px"></i></strong>
+            </div>
+        }
+
+        @using (Html.BeginForm("EpostaDegis", "User"))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <strong>@Html.LabelFor(model => model.EskiParola, htmlAttributes: new { @class = "" })</strong>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.EskiParola, new { htmlAttributes = new { @class = "form-control", placeHolder = "Suanki Sifreinizi Girin" } })
+                        @Html.ValidationMessageFor(model => model.EskiParola, "", new { @class = "text-danger", style = "font-size:15px" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <strong>@Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "" })</strong>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeHolder = "Yeni Email Girin" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger", style = "font-size:15px" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <strong>@Html.LabelFor(model => model.EmailOnay, htmlAttributes: new { @class = "" })</strong>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.EmailOnay, new { htmlAttributes = new { @class = "form-control", placeHolder = "Yeni Email Tekrar" } })
+                        @Html.ValidationMessageFor(model => model.EmailOnay, "", new { @class = "text-danger", style = "font-size:15px" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Kaydet" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@section Info
+{
+    <div class="primary-info">
+        <h1>@(user.KullaniciAdi)</h1>
+        <p>Bu kısımda bilgilerinizi güncelleyebilir, geçmis aktivelerinizi inceleyebilirsiniz.</p>
+    </div>
+    <div class="secondary-info">
+
+    </div>
+}
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            openSection3();
+            sectionSwitch = false;
+        });
+    </script>
+}
