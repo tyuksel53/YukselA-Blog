@@ -617,6 +617,7 @@
     <Compile Include="Areas\Blog\BlogAreaRegistration.cs" />
     <Compile Include="Areas\Blog\Controllers\AdminController.cs" />
     <Compile Include="Areas\Blog\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Blog\Controllers\PostController.cs" />
     <Compile Include="Areas\Blog\Controllers\UserController.cs" />
     <Compile Include="Areas\Blog\Filter\AuthUser.cs" />
     <Compile Include="Areas\Blog\Filter\NotAccessibleByLoggedInUser.cs" />
@@ -626,6 +627,7 @@
     <Compile Include="Areas\Blog\Library\Portal.cs" />
     <Compile Include="Areas\Blog\Library\CacheHelper.cs" />
     <Compile Include="Areas\Blog\Library\Repository.cs" />
+    <Compile Include="Areas\Blog\Models\Yorum.cs" />
     <Compile Include="Areas\Blog\Models\Takipciler.cs" />
     <Compile Include="Areas\Blog\Models\Uploads.cs" />
     <Compile Include="Areas\Blog\Models\Haber.cs" />
@@ -669,6 +671,7 @@
   <ItemGroup>
     <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Blog\Views\Post\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

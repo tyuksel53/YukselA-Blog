@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Helpers;
@@ -16,6 +18,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
         public DbSet<Uploads> Uploads { get; set; }
         public DbSet<Takipciler> Subscribers { get; set; }
         public DbSet<WebSiteConfig> Ayarlar { get; set; }
+        public DbSet<Yorum> Yorumlar { get; set; }
 
         public DatabaseContext()
         {
@@ -33,20 +36,33 @@ namespace yA_Blog.Areas.Blog.Models.Managers
 
             context.Ayarlar.Add(config);
 
-            Kullanici yeni = new Kullanici
+            Kullanici user = new Kullanici
             {
-                KullaniciAdi = "reistaha",
-                Parola = "123123"
+                KullaniciAdi = "Taha",
+                Parola = Crypto.HashPassword("1234"),
+                Eposta = "xcvtaha@hotmail.com",
+                ActivateGuid = Guid.NewGuid(),
+                PasswordReset = Guid.NewGuid(),
+                IsActive = true,
+                Role = "user",
+                ImgUrl = ""
             };
-            yeni.Parola = Crypto.HashPassword(yeni.Parola);
-            yeni.Eposta = "xcvtaha@hotmail.com";
-            yeni.ActivateGuid = Guid.NewGuid();
-            yeni.PasswordReset = Guid.NewGuid();
-            yeni.IsActive = true;
-            yeni.Role = "user";
-            yeni.ImgUrl = "";
 
-            context.Kullanicilar.Add(yeni);
+            context.Kullanicilar.Add(user);
+
+            Kullanici admin = new Kullanici
+            {
+                KullaniciAdi = "admin",
+                Parola = Crypto.HashPassword("1234"),
+                Eposta = "xcvtaha@hotmail.com",
+                ActivateGuid = Guid.NewGuid(),
+                PasswordReset = Guid.NewGuid(),
+                IsActive = true,
+                Role = "admin",
+                ImgUrl = "../../Areas/Blog/Uploads/img/default-single-hero-with-sidebar.jpg"
+            };
+
+            context.Kullanicilar.Add(admin);
 
             for(int i=0;i<5;i++)
             {
@@ -59,6 +75,50 @@ namespace yA_Blog.Areas.Blog.Models.Managers
             }
 
             context.SaveChanges();
+
+            Haber post = new Haber()
+            {
+                HaberBaslik = FakeData.TextData.GetSentence(),
+                HaberIcerik = FakeData.TextData.GetSentences(10),
+                HaberOzet = FakeData.TextData.GetSentence(),
+                HaberResimUrl = "../../Areas/Blog/Uploads/img/default-single-hero-with-sidebar.jpg",
+                Kategorisi = context.Kategoriler.FirstOrDefault(),
+                HaberYayinlamaTarih = DateTime.Now.AddDays(-1).ToString("dd-MM-yyyy"),
+                Tags = "C#,MVC,MUNDI,KUNDI",
+                Yazar = context.Kullanicilar.FirstOrDefault(x=>x.ID == 2)
+            };
+
+            context.Haberler.Add(post);
+
+            context.SaveChanges();
+
+            for (int i = 0; i < 10; i++)
+            {
+                Yorum yeniYorum = new Yorum();
+                yeniYorum.PostId = context.Haberler.FirstOrDefault().ID;
+                yeniYorum.CommentTime = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
+                yeniYorum.Description = FakeData.TextData.GetSentences(2);
+                yeniYorum.UserName = context.Kullanicilar.FirstOrDefault().KullaniciAdi;
+                context.Yorumlar.Add(yeniYorum);
+            }
+            string[] uploaddedFiles = Directory.GetFiles(HttpContext.Current.Server.MapPath("~/Areas/Blog/Uploads/img"))
+            .Select(Path.GetFileName)
+            .ToArray();
+
+            foreach (var item in uploaddedFiles)
+            {
+                Uploads upload = new Uploads
+                {
+                    DosyaAdı = Path.GetFileName(item),
+                    DosyaUzantisi = Path.GetExtension(item),
+                    YuklenmeTarihi = DateTime.Now.ToString("dd-MM-yyyy"),
+                    DosyaYolu = item
+                };
+                context.Uploads.Add(upload);
+            }
+
+            context.SaveChanges();
+
         }
     }
 }

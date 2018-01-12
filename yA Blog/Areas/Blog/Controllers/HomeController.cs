@@ -19,7 +19,8 @@ namespace yA_Blog.Areas.Blog.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+
+            return View(_db.Haberler.ToList());
         }
 
         [NotAccessibleByLoggedInUser]

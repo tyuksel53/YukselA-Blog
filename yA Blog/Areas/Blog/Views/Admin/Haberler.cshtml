@@ -38,11 +38,10 @@
             @{
                 foreach (var item in Model)
                 {
-                    DateTime tarih = DateTime.Parse(item.HaberYayinlamaTarih);
                     <tr id="kolon_@item.ID">
                         <th scope="row">@item.ID</th>
                         <td>@item.HaberBaslik</td>
-                        <td>@tarih.ToString("dd-MM-yyyy")</td>
+                        <td>@item.HaberYayinlamaTarih</td>
                         <td>@item.Kategorisi.KategoriIsım</td>
                         <td><a href="/Blog/Admin/HaberGuncelle/@item.ID" class="btn btn-primary" role="button">Düzenle</a></td>
                         <td><a href="#" class="btn btn-danger" onclick="haberSil_baslat(@item.ID)" role="button">Sil</a></td>
