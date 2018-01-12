@@ -63,42 +63,50 @@ namespace yA_Blog.Areas.Blog.Models.Managers
             };
 
             context.Kullanicilar.Add(admin);
-
-            for(int i=0;i<5;i++)
+            Random random = new Random();
+            for (int i=0;i<10;i++)
             {
+                string path = "../../Areas/Blog/Uploads/img/";
                 Kategori yeniKategori = new Kategori
                 {
                     KategoriIsım = FakeData.NameData.GetCompanyName(),
-                    KategoriResim = FakeData.NetworkData.GetDomain()
+                    KategoriResim =  $"{path}cover-{i+1}.jpg"
                 };
                 context.Kategoriler.Add(yeniKategori);
             }
 
             context.SaveChanges();
-
-            Haber post = new Haber()
+            
+            for (int i = 0; i < 6; i++)
             {
-                HaberBaslik = FakeData.TextData.GetSentence(),
-                HaberIcerik = FakeData.TextData.GetSentences(10),
-                HaberOzet = FakeData.TextData.GetSentence(),
-                HaberResimUrl = "../../Areas/Blog/Uploads/img/default-single-hero-with-sidebar.jpg",
-                Kategorisi = context.Kategoriler.FirstOrDefault(),
-                HaberYayinlamaTarih = DateTime.Now.AddDays(-1).ToString("dd-MM-yyyy"),
-                Tags = "C#,MVC,MUNDI,KUNDI",
-                Yazar = context.Kullanicilar.FirstOrDefault(x=>x.ID == 2)
-            };
+                int randomInt = random.Next(1, 5);
+                Haber post = new Haber()
+                {
+                    HaberBaslik = FakeData.TextData.GetSentence(),
+                    HaberIcerik = FakeData.TextData.GetSentences(20),
+                    HaberOzet = FakeData.TextData.GetSentence(),
+                    HaberResimUrl = "../../Areas/Blog/Uploads/img/default-single-hero-with-sidebar.jpg",
+                    Kategorisi = context.Kategoriler.FirstOrDefault(x=> x.ID == randomInt ),
+                    HaberYayinlamaTarih = DateTime.Now.AddDays(-1).ToString("dd-MM-yyyy"),
+                    Tags = "C#,Mvc,EntityFramework,Linq",
+                    Yazar = context.Kullanicilar.FirstOrDefault(x => x.ID == 2)
+                };
 
-            context.Haberler.Add(post);
+                context.Haberler.Add(post);
+            }
 
             context.SaveChanges();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 20; i++)
             {
-                Yorum yeniYorum = new Yorum();
-                yeniYorum.PostId = context.Haberler.FirstOrDefault().ID;
-                yeniYorum.CommentTime = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
-                yeniYorum.Description = FakeData.TextData.GetSentences(2);
-                yeniYorum.UserName = context.Kullanicilar.FirstOrDefault().KullaniciAdi;
+                int randomInt = random.Next(1, 6);
+                Yorum yeniYorum = new Yorum
+                {
+                    PostId = context.Haberler.FirstOrDefault(x => x.ID == randomInt).ID,
+                    CommentTime = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss"),
+                    Description = FakeData.TextData.GetSentences(2),
+                    UserName = context.Kullanicilar.FirstOrDefault().KullaniciAdi
+                };
                 context.Yorumlar.Add(yeniYorum);
             }
             string[] uploaddedFiles = Directory.GetFiles(HttpContext.Current.Server.MapPath("~/Areas/Blog/Uploads/img"))
@@ -112,7 +120,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
                     DosyaAdı = Path.GetFileName(item),
                     DosyaUzantisi = Path.GetExtension(item),
                     YuklenmeTarihi = DateTime.Now.ToString("dd-MM-yyyy"),
-                    DosyaYolu = item
+                    DosyaYolu = HttpContext.Current.Server.MapPath("~/Areas/Blog/Uploads/img/") + item
                 };
                 context.Uploads.Add(upload);
             }

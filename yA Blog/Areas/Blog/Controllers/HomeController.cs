@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -19,8 +20,27 @@ namespace yA_Blog.Areas.Blog.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            HomeIndex homePage = new HomeIndex();
+            homePage.Haberler = _db.Haberler.ToList();
+            homePage.Kategoriler = _db.Kategoriler.ToList();
 
-            return View(_db.Haberler.ToList());
+            var query = (from item in _db.Yorumlar
+                group item by item.PostId
+                into g
+                select new {Item = g.Key, Count = g.Count()}).ToList();
+
+            if (query.Count > 0)
+            {
+                List<Tuple<int, int>> yorumGrup = new List<Tuple<int, int>>();
+                foreach (var item in query)
+                {
+                    yorumGrup.Add(new Tuple<int, int>(item.Item, item.Count));
+                }
+                homePage.YorumCount = yorumGrup;
+            }
+            
+
+            return View(homePage);
         }
 
         [NotAccessibleByLoggedInUser]

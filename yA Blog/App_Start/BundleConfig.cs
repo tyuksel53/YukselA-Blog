@@ -17,8 +17,8 @@ namespace yA_Blog.App_Start
 
 
             bundles.Add(new StyleBundle("~/css/admin").Include(
-                "~/Content/bootstrap.min.css",
-                "~/Content/adminCss.css"
+                "~/Content/css/bootstrap.min.css",
+                "~/Content/css/adminCss.css"
                 ));
 
             bundles.Add(new ScriptBundle("~/script/all").Include(
@@ -47,7 +47,7 @@ namespace yA_Blog.App_Start
                 ));
 
 
-            BundleTable.EnableOptimizations = false;
+            BundleTable.EnableOptimizations = true;
         }
     }
 }

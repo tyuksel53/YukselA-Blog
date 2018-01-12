@@ -1,6 +1,7 @@
-﻿@using yA_Blog.Areas.Blog.Library
+﻿@using Microsoft.Ajax.Utilities
+@using yA_Blog.Areas.Blog.Library
 @using yA_Blog.Areas.Blog.PageModels
-@model List<Haber>
+@model  HomeIndex
 
 @{
     ViewBag.Title = "Ana Sayfa";
@@ -15,41 +16,71 @@
     string websiteName = CacheHelper.GetWebSiteName();
 }
 @{
-    foreach (var item in Model)
+    if (Model.Haberler != null)
     {
-        <article class="post">
-            <div class="post-preview col-10  no-gutter">
-                <h2><a href="/Post/Haber/@item.ID">@item.HaberBaslik</a></h2>
-                <p>@item.HaberOzet</p>
-                <p class="meta">
-                    <a href="#">@item.Kategorisi.KategoriIsım</a>
-                    <i class="link-spacer"></i>
-                    @{
-                        if (!String.IsNullOrWhiteSpace(item.Tags))
-                        {
-                            @Html.Raw("Tagler")
-                            <i class="link-spacer"></i>
-                            foreach (var tag in item.Tags.Split(','))
+        foreach (var item in Model.Haberler)
+        {
+            <article class="post">
+                <div class="post-preview col-10  no-gutter">
+                    <h2><a href="/Post/Haber/@item.ID">@item.HaberBaslik</a></h2>
+                    <p>@item.HaberOzet</p>
+                    <p class="meta">
+                        <i class="fa fa-th-list"></i>
+                        <a href="#">@item.Kategorisi.KategoriIsım</a>
+                        @{
+                            if (!String.IsNullOrWhiteSpace(item.Tags))
                             {
-                                <a href="#">@tag</a>
-                            }
-                            <i class="link-spacer"></i>
-                        }
+                                <i class="fa fa-tags"></i>
+                                foreach (var tag in item.Tags.Split(','))
+                                {
+                                    <a href="#">@tag</a>
+                                    <i class="link-spacer"></i>
+                                }
 
-                    }
-                    <i class="fa fa-comment"></i> 15
-                </p>
-            </div>
-            <div class=" col-2  no-gutter">
-                <img src="@item.Yazar.ImgUrl" class="user-icon" alt="user-image">
-            </div>
-        </article>
+                            }
+
+                        }
+                        <i class="fa fa-comment"></i> 
+                        @{
+                            string yorumSayisi = Model.YorumCount.FirstOrDefault(x => x.Item1 == item.ID)?.Item2.ToString();
+                            if (yorumSayisi != null)
+                            {
+                                @Html.Raw(yorumSayisi)
+                            }
+                            else
+                            {
+                                @Html.Raw(0)
+                            }
+
+                        }
+                    </p>
+                </div>
+                <div class=" col-2  no-gutter">
+                    <img src="@item.Yazar.ImgUrl" class="user-icon" alt="user-image">
+                </div>
+            </article>
+        }
     }
+    
 }
 
 
 @section bolum2{
-    
+    <div class="category row">
+        @{
+            if (Model.Kategoriler != null)
+            {
+                foreach (var kategori in Model.Kategoriler)
+                {
+                    <div class="category-preview col-6 col-sm-4  ">
+                        <h2>@kategori.KategoriIsım</h2>
+                        <a href="category.html"><img src="@kategori.KategoriResim" alt="category-image"></a>
+                    </div>
+                }
+            }
+        }
+        
+    </div>
 }
 
 @section Info
@@ -60,7 +91,7 @@
     </div>
     <div class="secondary-info">
         <p>
-            <a class="btn btn-primary" href="#" style="margin-bottom: 15px" onclick="bultenKayit()"><i class="fa fa-user-plus"></i>Bültene Kayıt Olun</a>
+            <a class="btn btn-primary" href="#" style="" onclick="bultenKayit()"><i class="fa fa-user-plus"></i>Bültene Kayıt Olun</a>
         </p>
     </div>
     @Html.Partial("_TakipciKaydetPartialView",new KullaniciGuncelleme())

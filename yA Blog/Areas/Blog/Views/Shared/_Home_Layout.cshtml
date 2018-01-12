@@ -8,7 +8,8 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
-    @Styles.Render("~/css/all")
+    <link rel="stylesheet" href="~/Content/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/Content/css/main.css"/>
     <link rel="stylesheet" href="~/Content/css/font-awesome.min.css">
 
 </head>
@@ -49,7 +50,7 @@
         </div>
     </noscript>
     <!-- end no script -->
-    <main class="container left-container">
+    <main class="container">
         <div class="row">
             <div id="menu-target">
                 <ul>
@@ -96,7 +97,7 @@
 
             <!-- end sidebar -->
 
-            <section class="col-lg-7 col-12 ml-auto main-content">
+            <section class="col-lg-8 col-12 ml-auto main-content">
                 <div class="sub-nav">
                     <a href="@ViewBag.Section1Url" class="select-posts">@ViewBag.SectionName1</a>
                     <a href="@ViewBag.Section2Url" class="select-categories">@ViewBag.SectionName2</a>

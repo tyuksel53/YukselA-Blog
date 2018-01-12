@@ -329,7 +329,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                             var check = _dB.Uploads.FirstOrDefault(x => x.DosyaAdı == upload.DosyaAdı);
                             if (check == null)
                             {
-                                upload.DosyaUzantisi = file.ContentType;
+                                upload.DosyaUzantisi = Path.GetExtension(file.FileName);
                                 upload.YuklenmeTarihi = DateTime.Now.ToString("dd-MM-yyyy");
 
                                 upload.DosyaYolu = Path.Combine(Server.MapPath("~/Areas/Blog/Uploads"),upload.DosyaAdı);

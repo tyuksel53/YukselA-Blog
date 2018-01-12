@@ -117,13 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Blog\Uploads\matrix.jpg" />
-    <Content Include="Content\adminCss.css" />
-    <Content Include="Content\bootstrap-grid.css" />
-    <Content Include="Content\bootstrap-grid.min.css" />
-    <Content Include="Content\bootstrap-reboot.css" />
-    <Content Include="Content\bootstrap-reboot.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\adminCss.css" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\font-awesome.min.css" />
@@ -150,12 +144,6 @@
     <Content Include="Areas\Blog\Views\Home\Yeni_Kayit.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\Index.cshtml" />
     <Content Include="Areas\Blog\Views\Shared\_Admin_Layout.cshtml" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-reboot.min.css.map" />
-    <Content Include="Content\bootstrap-reboot.css.map" />
-    <Content Include="Content\bootstrap-grid.min.css.map" />
-    <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Areas\Blog\Views\Admin\HaberEkle.cshtml" />
     <Content Include="Areas\Blog\Views\Shared\_HaberPartialView.cshtml" />
     <Content Include="Areas\Blog\Views\Admin\Haberler.cshtml" />
@@ -635,6 +623,7 @@
     <Compile Include="Areas\Blog\Models\Kullanici.cs" />
     <Compile Include="Areas\Blog\Models\Managers\DatabaseContext.cs" />
     <Compile Include="Areas\Blog\Models\WebSiteConfig.cs" />
+    <Compile Include="Areas\Blog\PageModels\HomeIndex.cs" />
     <Compile Include="Areas\Blog\PageModels\KullaniciGuncelleme.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
