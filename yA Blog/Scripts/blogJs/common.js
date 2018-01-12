@@ -53,19 +53,22 @@ function emailTakip_success(response) {
         $("#emailResponse").show(300);
         setTimeout(function() {
                 $("#loadingTakipciEmail").hide();
-                $("#email").val("");
-                $("#emailResponse").hide(0);
+                $("#emailResponse").hide();
                 bultenKayit();
             },
             3000);
     } else if (response === 'zaten var') {
 
         $("#loadingTakipciEmail").hide();
-        $("#email").val("");
         $("#emailResponse").hide();
         alert('Bu mail adresi zaten kayitli');
 
-    } else {
+    } else if (response === 'Cok fazla deneme yaptınız biraz dinlenin') {
+        $("#loadingTakipciEmail").hide();
+        $("#emailResponse").hide();
+        alert("Cok fazla deneme yaptınız biraz dinlenin");
+    }
+    else {
         $("#loadingTakipciEmail").hide();
         alert("Lütfen Düzgün formatta mail adersi girin");
     }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Web;
-using System.Web.Configuration;
 using System.Web.Mvc;
 using yA_Blog.Areas.Blog.Models;
 using yA_Blog.Areas.Blog.Models.Managers;
@@ -15,11 +14,7 @@ namespace yA_Blog.Areas.Blog.Controllers
     [CookieLogin]
     public class HomeController : Controller
     {
-        private DatabaseContext _db = new DatabaseContext();
-
-        private static int _loginTryCount = 0;
-        private static int _userCreateTryCount =  0;
-        private static int _forgetPasswordTryCount = 0;
+        private readonly DatabaseContext _db = new DatabaseContext();
 
         [HttpGet]
         public ActionResult Index()
@@ -31,7 +26,7 @@ namespace yA_Blog.Areas.Blog.Controllers
         [HttpGet]
         public ActionResult GirisYap()
         {
-            ViewBag.LoginTryCount = _loginTryCount;
+            ViewBag.LoginTryCount = Session["_loginTryCount"];
             ViewBag.recaptchaKey = Portal.WebConfigGet<string>("recaptcha_sitekey");
             return View(new Kullanici());
         }
@@ -40,7 +35,7 @@ namespace yA_Blog.Areas.Blog.Controllers
         [HttpGet]
         public ActionResult Yeni_Kayit()
         {
-            ViewBag.UserTryCount = _userCreateTryCount;
+            ViewBag.UserTryCount = Session["_userCreateTryCount"];
             ViewBag.recaptchaKey = Portal.WebConfigGet<string>("recaptcha_sitekey");
             return View(new Kullanici());
         }
@@ -50,9 +45,10 @@ namespace yA_Blog.Areas.Blog.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Yeni_Kayit(Kullanici model)
         {
-            _userCreateTryCount++;
-            ViewBag.UserTryCount = _userCreateTryCount;
-            if (_userCreateTryCount > 5)
+            Session["_userCreateTryCount"] = Convert.ToInt32(Session["_userCreateTryCount"]) + 1;
+            ViewBag.UserTryCount = Session["_userCreateTryCount"];
+
+            if (Convert.ToInt32(Session["_userCreateTryCount"]) > 5)
             {
                 ViewBag.recaptchaKey = Portal.WebConfigGet<string>("recaptcha_sitekey");
                 var response = Request["g-recaptcha-response"];
@@ -86,6 +82,8 @@ namespace yA_Blog.Areas.Blog.Controllers
 
                     Portal.AktivasyonMailGonder(model);
 
+                    Session["_userCreateTryCount"] = 0;
+
                     return RedirectToAction("UserCreate", "Home");
                 }
             }
@@ -100,8 +98,8 @@ namespace yA_Blog.Areas.Blog.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult GirisYap(string kullaniciAdi, string parola)
         {
-            _loginTryCount++;
-            ViewBag.LoginTryCount = _loginTryCount;
+            Session["_loginTryCount"] = Convert.ToInt32(Session["_loginTryCount"]) + 1;
+            ViewBag.LoginTryCount = Session["_loginTryCount"];
             ViewBag.recaptchaKey = Portal.WebConfigGet<string>("recaptcha_sitekey");
             var kullanici = new Kullanici()
             {
@@ -109,7 +107,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                 Parola = parola
             };
 
-            if (_loginTryCount > 5)
+            if (Convert.ToInt32(Session["_loginTryCount"]) > 5)
             {
                 var response = Request["g-recaptcha-response"];
                 bool captchaCheck = Portal.CheckCaptcha(response: response);
@@ -140,7 +138,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
                         HttpContext.Response.Cookies.Add(acct);
 
-                        _loginTryCount = 0;
+                        Session["_loginTryCount"] = 0;
 
                         return RedirectToAction("Index", "Home");
                     }
@@ -166,14 +164,22 @@ namespace yA_Blog.Areas.Blog.Controllers
         }
 
         [HttpPost]
-        public JsonResult TakipciKaydet(string Email)
+        public JsonResult TakipciKaydet(string email)
         {
-            bool check = Portal.IsValidMail(Email);
             string message = "Lütfen düzgün bir mail adresi girin";
+
+            Session["_takipciDeneme"] = Convert.ToInt32(Session["_takipciDeneme"]) + 1;
+
+            if (Convert.ToInt32(Session["_takipciDeneme"]) > 5)
+            {
+                message = "Cok fazla deneme yaptınız biraz dinlenin";
+                return Json(message);
+            }
+            bool check = Portal.IsValidMail(email);
 
             if (check)
             {
-                Takipciler isMailExists = _db.Subscribers.FirstOrDefault(x => x.Email == Email);
+                Takipciler isMailExists = _db.Subscribers.FirstOrDefault(x => x.Email == email);
                 if (isMailExists != null)
                 {
                     message = "zaten var";
@@ -182,7 +188,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                 {
                     Takipciler yeniTakipci = new Takipciler()
                     {
-                        Email = Email,
+                        Email = email,
                         KayitTarihi = DateTime.Now.ToString("dd-MM-yyyy"),
                         isActive = true,
                         DelToken = Guid.NewGuid()
@@ -262,6 +268,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             return View();
         }
 
+        [AuthUser]
         public ActionResult LogOut()
         {
             Session.Clear();
@@ -271,23 +278,26 @@ namespace yA_Blog.Areas.Blog.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [NotAccessibleByLoggedInUser]
         public ActionResult ForgetPassword()
         {
             return View();
         }
 
         [HttpPost]
+        [NotAccessibleByLoggedInUser]
         [ValidateAntiForgeryToken]
-        public ActionResult ForgetPassword(string KullaniciAdi)
+        public ActionResult ForgetPassword(string kullaniciAdi)
         {
-            _forgetPasswordTryCount++;
-            ViewBag.UserTryCount = _forgetPasswordTryCount;
-            if (_forgetPasswordTryCount > 5)
+            Session["_forgetPasswordTryCount"] = Convert.ToInt32(Session["_forgetPasswordTryCount"])+1;
+            ViewBag.UserTryCount = Session["_forgetPasswordTryCount"];
+
+            if (Convert.ToInt32(Session["_forgetPasswordTryCount"]) > 5)
             {
                 ModelState.AddModelError("", "Cok fazla deneme yaptin biraz dinlen");
                 return View();
             }
-            var user = _db.Kullanicilar.FirstOrDefault(x => x.KullaniciAdi == KullaniciAdi);
+            var user = _db.Kullanicilar.FirstOrDefault(x => x.KullaniciAdi == kullaniciAdi);
             if (user == null)
             {
                 ModelState.AddModelError("","Boyle bir kullanici bulunadi");
@@ -296,6 +306,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             else
             {
                 ViewBag.Success = "basarili";
+                Session["_forgetPasswordTryCount"] = 0;
                 Portal.KullaniciSifreReset(user);
 
             }

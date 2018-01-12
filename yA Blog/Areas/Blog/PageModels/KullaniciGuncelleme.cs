@@ -22,11 +22,11 @@ namespace yA_Blog.Areas.Blog.PageModels
         [Compare(nameof(YeniParola), ErrorMessage = "Şifreler eslesmiyor")]
         public string YeniParolaOnay { get; set; }
 
-        [DisplayName("Yeni Eposta Adresiniz"),Required]
+        [DisplayName("Yeni Eposta Adresiniz"),Required(ErrorMessage = "Bu alan gereklidir")]
         [EmailAddress(ErrorMessage = "Lutfen duzgun formatta mail adresi girin.")]
         public string Email { get; set; }
 
-        [DisplayName("Yeni Eposta Adresi Tekrar"),Required]
+        [DisplayName("Yeni Eposta Adresi Tekrar"),Required(ErrorMessage = "Bu alan gereklidir")]
         [EmailAddress(ErrorMessage = "Lutfen duzgun formatta mail adresi girin.")]
         [Compare(nameof(Email), ErrorMessage = "Girdiginiz eposta adresleri eslesmiyor")]
         public string EmailOnay { get; set; }

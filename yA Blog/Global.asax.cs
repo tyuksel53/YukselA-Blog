@@ -19,5 +19,13 @@ namespace yA_Blog
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        protected void Session_Start()
+        {
+            Session["_loginTryCount"] = 0;
+            Session["_userCreateTryCount"] = 0;
+            Session["_forgetPasswordTryCount"] = 0;
+            Session["_takipciDeneme"] = 0;
+        }
     }
 }

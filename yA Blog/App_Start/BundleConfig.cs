@@ -12,8 +12,7 @@ namespace yA_Blog.App_Start
 
             bundles.Add(new StyleBundle("~/css/all").Include(
                 "~/Content/css/bootstrap.min.css",
-                "~/Content/css/font-awesome.min.css",
-                "~/Content/css/main.min.css"
+                "~/Content/css/main.css"
                 ));
 
 

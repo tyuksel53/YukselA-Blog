@@ -2016,3 +2016,31 @@ a:hover, a:active, a:focus {
   color: #333;
   border-bottom: solid 1px #999;
 }
+
+.stylish-input-group .input-group-addon{
+    background: white !important; 
+}
+.stylish-input-group .form-control{
+    border-right:0; 
+    box-shadow:0 0 0; 
+    border-color:#ccc;
+}
+.stylish-input-group button{
+    border:0;
+    background:transparent;
+}
+#query {
+    border-color: #495057;
+    /* color: #DADADA; */
+    font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    border-bottom: 0 transparent;
+    /* font-size: 12px; */
+    font-size: 1.6rem !important;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+.takipci {
+    border-top-right-radius: 3px !important;
+    border-bottom-right-radius: 3px !important;
+}

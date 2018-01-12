@@ -1,0 +1,25 @@
+﻿@model yA_Blog.Areas.Blog.PageModels.KullaniciGuncelleme
+
+<strong id="emailResponse" class="text-success alert-success" style="display: none; font-size: 15px">Takip ettiğiniz için teşekkürler</strong>
+<strong id="loadingTakipciEmail" class="text-warning alert-warning" style="display: none; font-size: 15px">yükleniyor.....</strong>
+
+@using (Ajax.BeginForm("TakipciKaydet", "Home", new AjaxOptions()
+{
+    HttpMethod = "POST",
+    OnFailure = "emailTakip_fail",
+    OnSuccess = "emailTakip_success",
+    LoadingElementDuration = 300,
+    LoadingElementId = "loadingTakipciEmail",
+}, new {style = "margin-top:15px;display:none", id = "takipciler"}))
+{
+    <div class="input-group">
+        <span class="input-group-addon" style="border-color: white"><i class="fa fa-user"></i></span>
+        @Html.TextBoxFor(x=> x.Email,new {@class="form-control takipci",placeholder="Email Girin",style="border-color: white"})
+    </div>
+    <div class="form-group alert-danger" style="background-color: #f8d7da;margin-top: 3px">
+        @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger", style = "font-size:14px" })
+    </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-default" value="Kaydet" href="#" style="float: left"/>
+    </div>
+}

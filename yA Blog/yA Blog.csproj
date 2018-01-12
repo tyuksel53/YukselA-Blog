@@ -177,6 +177,7 @@
     <Content Include="Areas\Blog\Views\Home\UserPasswordResetSuccess.cshtml" />
     <Content Include="Areas\Blog\Views\User\SifreDegis.cshtml" />
     <Content Include="Areas\Blog\Views\User\EpostaDegis.cshtml" />
+    <Content Include="Areas\Blog\Views\Shared\_TakipciKaydetPartialView.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
