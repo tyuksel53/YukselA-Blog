@@ -48,7 +48,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
                 model.HaberYayinlamaTarih = DateTime.Now.ToString("dd-MM-yyyy");
 
-                model.Yazar = (from s in _dB.Kullanicilar select s).FirstOrDefault();
+                model.Yazar = (from s in _dB.Kullanicilar select s).FirstOrDefault(); //todo burada sessiondan al
 
                 ViewBag.SuccessAdd = true;
 

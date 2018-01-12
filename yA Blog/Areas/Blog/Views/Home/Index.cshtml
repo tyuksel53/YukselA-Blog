@@ -42,15 +42,23 @@
                         }
                         <i class="fa fa-comment"></i> 
                         @{
-                            string yorumSayisi = Model.YorumCount.FirstOrDefault(x => x.Item1 == item.ID)?.Item2.ToString();
-                            if (yorumSayisi != null)
+                            if (Model.YorumCount != null)
                             {
-                                @Html.Raw(yorumSayisi)
+                                string yorumSayisi = Model.YorumCount.FirstOrDefault(x => x.Item1 == item.ID)?.Item2.ToString();
+                                if (yorumSayisi != null)
+                                {
+                                    @Html.Raw(yorumSayisi)
+                                }
+                                else
+                                {
+                                    @Html.Raw(0)
+                                }
                             }
                             else
                             {
                                 @Html.Raw(0)
                             }
+                           
 
                         }
                     </p>

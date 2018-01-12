@@ -22,7 +22,7 @@ namespace yA_Blog.Areas.Blog.Controllers
         {
             HomeIndex homePage = new HomeIndex();
             homePage.Haberler = _db.Haberler.ToList();
-            homePage.Kategoriler = _db.Kategoriler.ToList();
+            homePage.Kategoriler = CacheHelper.KategoriGet();
 
             var query = (from item in _db.Yorumlar
                 group item by item.PostId
