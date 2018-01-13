@@ -9,7 +9,45 @@
 
 <p class="meta">Yayınlanma Tarihi<i class="link-spacer"></i>@Model.Post.HaberYayinlamaTarih</p>
 
-<p>@Model.Post.HaberIcerik</p>
+@Html.Raw(@Model.Post.HaberIcerik)
+
+<h2 style="margin-bottom: 15px">Yorumlar</h2>
+<strong id="yorumYukleniyor" style="display: none;font-size: 16px" class="text-warning">Yukleniyor...</strong>
+<strong id="successCommentAdd" style="display: none;font-size: 16px" class="text-success">Yorumunuz eklendi</strong>
+@{
+    if (Session["Kullanici"] != null)
+    {
+        @Html.Partial("_Yorum_PartialView", new Yorum())
+    }
+    else
+    {
+        <strong style="font-size: 16px; margin-top: 15px" class="text-danger">Yorum yapabilmek için giris yapmalısınız</strong>
+    }
+}
+<div id="yorumlarSection" style="margin-top: 15px">
+    @{
+        if (Model.Yorumlar.Count > 0)
+        {
+            foreach (var yorum in Model.Yorumlar)
+            {
+                <div class="media mb-4">
+                    <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                    <div class="media-body">
+                        <h5 class="mt-0" style="font-size: 21px">@yorum.UserName</h5>
+                        <p class="meta"><i class="link-spacer"></i>@yorum.CommentTime<i class="link-spacer"></i> Tarihinde yazdı.</p>
+                        <p style="font-size:18px">@yorum.Description</p>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p>Herhangi bir yorum yapılmamıştır</p>
+        }
+    }
+</div>
+
+
 
 @section HaberInfo
 {
@@ -32,14 +70,14 @@
                 }
 
             }
-        </div>  
+        </div>
 
         <div class="sidebar-readtime">
-            <i class="fa fa-comment"></i> 
+            <i class="fa fa-comment"></i>
             @{
                 if (Model.Yorumlar != null)
                 {
-                     @Html.Raw(Model.Yorumlar.Count())
+                    @Html.Raw(Model.Yorumlar.Count())
                 }
                 else
                 {

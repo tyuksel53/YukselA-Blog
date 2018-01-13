@@ -169,6 +169,7 @@
     <Content Include="Areas\Blog\Views\Shared\_TakipciKaydetPartialView.cshtml" />
     <Content Include="Areas\Blog\Views\Post\Haber.cshtml" />
     <Content Include="Areas\Blog\Views\Shared\_Post_Layout.cshtml" />
+    <Content Include="Areas\Blog\Views\Shared\_Yorum_PartialView.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

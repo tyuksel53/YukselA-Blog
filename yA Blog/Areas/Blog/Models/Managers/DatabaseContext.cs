@@ -83,7 +83,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
                 Haber post = new Haber()
                 {
                     HaberBaslik = FakeData.TextData.GetSentence(),
-                    HaberIcerik = FakeData.TextData.GetSentences(20),
+                    HaberIcerik = "<p>"+FakeData.TextData.GetSentences(20)+"</p>",
                     HaberOzet = FakeData.TextData.GetSentence(),
                     HaberResimUrl = "../../Areas/Blog/Uploads/img/default-single-hero-with-sidebar.jpg",
                     Kategorisi = context.Kategoriler.FirstOrDefault(x=> x.ID == randomInt ),
@@ -97,7 +97,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
 
             context.SaveChanges();
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 20; i++)
             {
                 int randomInt = random.Next(1, 6);
                 Yorum yeniYorum = new Yorum

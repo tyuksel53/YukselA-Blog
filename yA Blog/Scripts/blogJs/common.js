@@ -1,5 +1,21 @@
 ﻿var sectionSwitch = true;
 
+function newComment(response) {
+    if (response === 'yorum uygun formatta degil') {
+        alert("yorum uygun formatta degil");
+    } else {
+        $("#Description").val("");
+        $("#successCommentAdd").show(300);
+    }
+    
+}
+function newCommentBegin() {
+    $("#successCommentAdd").hide();
+}
+function newCommentFail() {
+    alert("Bir seyler ters gitti");
+}
+
 function bultenKayit() {
     if ($('#takipciler').is(':visible')) {
         $("#takipciler").hide(300);
