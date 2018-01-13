@@ -46,7 +46,7 @@ namespace yA_Blog.Areas.Blog.Library
                 message.IsBodyHtml = isHtml;
 
                 using (var smtp = new SmtpClient(WebConfigGet<string>("mailHost"),
-                    Portal.WebConfigGet<int>("mailPort")))
+                    WebConfigGet<int>("mailPort")))
                 {
                     smtp.EnableSsl = true;
                     smtp.Credentials = new NetworkCredential(WebConfigGet<string>("mailUser"),
@@ -57,7 +57,7 @@ namespace yA_Blog.Areas.Blog.Library
             }
             catch (Exception ex)
             {
-
+                // ignored
             }
 
             return result;
@@ -112,53 +112,86 @@ namespace yA_Blog.Areas.Blog.Library
 
         public static List<SelectListItem> Roller()
         {
-            List<SelectListItem> roller = new List<SelectListItem>();
-
-            roller.Add(new SelectListItem()
+            List<SelectListItem> roller = new List<SelectListItem>
             {
-                Text = "user",
-                Value = 1.ToString(),
-                Selected = true
+                new SelectListItem()
+                {
+                    Text = "user",
+                    Value = 1.ToString(),
+                    Selected = true
+                },
+                new SelectListItem()
+                {
+                    Text = "admin",
+                    Value = 2.ToString()
+                }
+            };
 
-            });
 
-            roller.Add(new SelectListItem()
-            {
-                Text = "admin",
-                Value = 2.ToString()
-            });
 
             return roller;
         }
 
         public static void AktivasyonMailGonder(Kullanici model)
         {
-            string siteURL = Portal.WebConfigGet<string>("SiteRootUri");
+            string siteUrl = WebConfigGet<string>("SiteRootUri");
 
-            string activateURL = $"{siteURL}/Blog/Home/UserActivate?activateId={model.ActivateGuid}";
+            string activateUrl = $"{siteUrl}/Blog/Home/UserActivate?activateId={model.ActivateGuid}";
 
-            string activateLink = $"<a href='{activateURL}' target='_blank' > tıklayınız.</a>.";
+            string activateLink = $"<a href='{activateUrl}' target='_blank' > tıklayınız.</a>.";
 
             string siteName = CacheHelper.GetWebSiteName();
 
             string body = $"Merhaba {model.KullaniciAdi},<br/><br/> Hesabınızı Aktifleştirmek için {activateLink}";
 
-            Portal.SendMail(body, model.Eposta, (siteName + " Hesabınızı Aktifleştirme"));
+            SendMail(body, model.Eposta, (siteName + " Hesabınızı Aktifleştirme"));
         }
 
         public static void KullaniciSifreReset(Kullanici model)
         {
-            string siteURL = Portal.WebConfigGet<string>("SiteRootUri");
+            string siteUrl = WebConfigGet<string>("SiteRootUri");
 
-            string activateURL = $"{siteURL}/Blog/Home/PasswordReset?reset={model.PasswordReset}";
+            string activateUrl = $"{siteUrl}/Blog/Home/PasswordReset?reset={model.PasswordReset}";
 
-            string activateLink = $"<a href='{activateURL}' target='_blank' > tıklayınız.</a>.";
+            string activateLink = $"<a href='{activateUrl}' target='_blank' > tıklayınız.</a>.";
 
             string siteName = CacheHelper.GetWebSiteName();
 
             string body = $"Merhaba {model.KullaniciAdi},<br/><br/> Şifrenizi resetlemek için {activateLink}";
 
-            Portal.SendMail(body, model.Eposta, (siteName + " Şifrenizi resetleme"));
+            SendMail(body, model.Eposta, (siteName + " Şifrenizi resetleme"));
+        }
+
+        public static string SeoUrl(string text)
+        {
+            try
+            {
+                string strReturn = text.Trim();
+                strReturn = strReturn.Replace("ğ", "g");
+                strReturn = strReturn.Replace("Ğ", "G");
+                strReturn = strReturn.Replace("ü", "u");
+                strReturn = strReturn.Replace("Ü", "U");
+                strReturn = strReturn.Replace("ş", "s");
+                strReturn = strReturn.Replace("Ş", "S");
+                strReturn = strReturn.Replace("ı", "i");
+                strReturn = strReturn.Replace("İ", "I");
+                strReturn = strReturn.Replace("ö", "o");
+                strReturn = strReturn.Replace("Ö", "O");
+                strReturn = strReturn.Replace("ç", "c");
+                strReturn = strReturn.Replace("Ç", "C");
+                strReturn = strReturn.Replace("-", "+");
+                strReturn = strReturn.Replace(" ", "+");
+                strReturn = strReturn.Trim();
+                strReturn = new System.Text.RegularExpressions.Regex("[^a-zA-Z0-9+]").Replace(strReturn, "");
+                strReturn = strReturn.Trim();
+                strReturn = strReturn.Replace("+", "-");
+                return strReturn;
+            }
+            catch (Exception ex)
+            {
+                return "olmadi";
+            }
+
         }
     }
 }

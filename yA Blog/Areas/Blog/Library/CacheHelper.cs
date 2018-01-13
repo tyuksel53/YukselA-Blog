@@ -22,6 +22,19 @@ namespace yA_Blog.Areas.Blog.Library
             return result;
         }
 
+        public static List<Haber> SonHaberler()
+        {
+            var result = WebCache.Get("SonHaberler-cache");
+            if (result == null)
+            {
+                DatabaseContext db = new DatabaseContext();
+                result = db.Haberler.OrderByDescending(x => x.ID).Take(4).ToList();
+                WebCache.Set("SonHaberler-cache",result,20,true);
+            }
+
+            return result;
+        }
+
         public static void Remove(string key)
         {
             WebCache.Remove(key:key);

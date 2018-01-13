@@ -1,5 +1,4 @@
-﻿@using Microsoft.Ajax.Utilities
-@using yA_Blog.Areas.Blog.Library
+﻿@using yA_Blog.Areas.Blog.Library
 @using yA_Blog.Areas.Blog.PageModels
 @model  HomeIndex
 
@@ -22,7 +21,7 @@
         {
             <article class="post">
                 <div class="post-preview col-10  no-gutter">
-                    <h2><a href="/Post/Haber/@item.ID">@item.HaberBaslik</a></h2>
+                    <h2><a href="/Blog/Post/Haber/@(Portal.SeoUrl(@item.HaberBaslik))-@item.ID">@item.HaberBaslik</a></h2>
                     <p>@item.HaberOzet</p>
                     <p class="meta">
                         <i class="fa fa-th-list"></i>

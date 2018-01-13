@@ -1,0 +1,163 @@
+﻿@using yA_Blog.Areas.Blog.Library
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet" href="~/Content/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/css/main.css" />
+    <link rel="stylesheet" href="~/Content/css/font-awesome.min.css">
+
+</head>
+<body>
+    @{
+        string websiteName = CacheHelper.GetWebSiteName();
+    }
+    <noscript>
+        <div class="no-js-menu">
+            <ul>
+                <li><i class="fa fa-home"></i><a href="/Blog/Home/Index">Ana Sayfa</a></li>
+                @{
+                    if (Session["User"] != null)
+                    {
+                        Kullanici logedIn = Session["User"] as Kullanici;
+                        <li><i class="fa fa-user"></i><a href="author.html">@( logedIn.KullaniciAdi)</a></li>
+                        <li><i class="fa fa-power-off"></i><a href="author.html">Çıkış Yap</a></li>
+
+                    }
+                    else
+                    {
+                        <li><i class="fa fa-code"></i><a href="/Blog/Home/Girisyap">Giriş Yap</a></li>
+                        <li><i class="fa fa-sign-in"></i><a href="/Blog/Home/Yeni_Kayıt">Kayıt Ol</a></li>
+                    }
+                    <form class="form-inline" style="margin-left: 7px;">
+                        <div class="input-group stylish-input-group">
+                            <input type="text" class="form-control" id="query" name="query" placeholder="Ne aramak istiyorsun">
+                            <span class="input-group-addon">
+                                <button type="submit">
+                                    <span class="fa fa-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                }
+
+            </ul>
+        </div>
+    </noscript>
+    <!-- end no script -->
+    <header class="hero-image" role="banner" style="background-image: url(@ViewBag.HeaderUrl);">
+
+        <span class="menu-trigger animated fadeInDown">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </span>
+
+        <div id="menu-target">
+            <ul>
+                <li><i class="fa fa-home"></i><a href="/Blog/Home/Index">Ana Sayfa</a></li>
+                @{
+                    if (Session["Kullanici"] != null)
+                    {
+                        Kullanici logedIn = Session["Kullanici"] as Kullanici;
+                        <li><i class="fa fa-user"></i><a href="/Blog/User/Profil">Merhaba, @( logedIn.KullaniciAdi)</a></li>
+                        <li><i class="fa fa-power-off"></i><a href="/Blog/Home/LogOut">Çıkış Yap</a></li>
+
+                    }
+                    else
+                    {
+                        <li><i class="fa fa-code"></i><a href="/Blog/Home/Girisyap">Giriş Yap</a></li>
+                        <li><i class="fa fa-sign-in"></i><a href="/Blog/Home/Yeni_Kayit">Kayıt Ol</a></li>
+                    }
+                    <form class="form-inline" style="margin-left: 7px;">
+                        <div class="input-group stylish-input-group">
+                            <input type="text" class="form-control" id="query" name="query" placeholder="Ne aramak istiyorsun?">
+                            <span class="input-group-addon">
+                                <button type="submit">
+                                    <span class="fa fa-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+
+                }
+            </ul>
+            <hr>
+        </div>
+    </header>
+    <main class="container">
+        <div class="row">
+            <div class="col-12 col-lg-8 single-content-sidebar">
+                @RenderBody()
+            </div><!-- main-content/col -->
+            <div class="col-12 col-lg-3 ml-auto single-content-sidebar-area">
+                @RenderSection("HaberInfo", true)
+
+
+                <h2 class="favorites">Benzer Kategoriler</h2>
+
+                @{
+                    var Kategoriler = CacheHelper.KategoriGet();
+                    var total = Kategoriler.Count();
+                    Random rnd = new Random();
+                    if (total > 0)
+                    {
+                        for (int i = 0; i < total; i++)
+                        {
+                            int rndInt = rnd.Next(0, total - 1);
+                            <a href="/Blog/Home/Kategori/@Kategoriler.ElementAt(rndInt)">
+                                <div class="similar-cat">
+                                    <img src="../@Kategoriler.ElementAt(rndInt).KategoriResim">
+                                    <h3>@Kategoriler.ElementAt(rndInt).KategoriIsım</h3>
+                                </div>
+                            </a>
+                            if (i == 1)
+                            {
+                                break;
+                            }
+                        }
+                    }
+
+                }
+
+                <h2 class="favorites">Güncel Haberler</h2>
+
+                @{
+                    var ensonhaber = CacheHelper.SonHaberler();
+                    foreach (var haber in ensonhaber)
+                    {
+                        <div class="similar-post">
+                            <a href="/Blog/Post/Haber/@(Portal.SeoUrl(haber.HaberBaslik))-@haber.ID"><h3>@haber.HaberBaslik</h3></a>
+                        </div>
+                    }
+                }
+            </div>
+        </div> <!--/row -->
+
+    </main> <!-- /container -->
+
+    <footer class="single without-readmore">
+        <div class="container">
+            <div class="row">
+                @RenderSection("footerInfo", false)
+            </div><!-- end row -->
+        </div>
+
+    </footer>
+
+
+    @Scripts.Render("~/script/all")
+    @Scripts.Render("~/script/validate")
+    @Scripts.Render("~/script/ajax")
+    <script src="~/Scripts/blogJs/common.js"></script>
+    @RenderSection("Scripts", false)
+</body>
+</html>

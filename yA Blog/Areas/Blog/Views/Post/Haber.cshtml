@@ -1,0 +1,69 @@
+﻿@model yA_Blog.Areas.Blog.PageModels.PostPage
+@{
+    ViewBag.Title = @Model.Post.HaberBaslik;
+    Layout = "~/Areas/Blog/Views/Shared/_Post_Layout.cshtml";
+    ViewBag.HeaderUrl = "../" + Model.Post.HaberResimUrl;
+}
+
+<h1>@Model.Post.HaberBaslik</h1>
+
+<p class="meta">Yayınlanma Tarihi<i class="link-spacer"></i>@Model.Post.HaberYayinlamaTarih</p>
+
+<p>@Model.Post.HaberIcerik</p>
+
+@section HaberInfo
+{
+    <img src="../@Model.Post.Yazar.ImgUrl" class="user-icon " alt="user-image">
+    <div class="meta">
+
+        <div class="sidebar-info">
+            <i class="fa fa-th-list"></i>
+            <a href="#">@Model.Post.Kategorisi.KategoriIsım</a>
+            @{
+                if (!String.IsNullOrWhiteSpace(Model.Post.Tags))
+                {
+                    <i class="fa fa-tags"></i>
+                    foreach (var tag in Model.Post.Tags.Split(','))
+                    {
+                        <a href="#">@tag</a>
+                        <i class="link-spacer"></i>
+                    }
+
+                }
+
+            }
+        </div>  
+
+        <div class="sidebar-readtime">
+            <i class="fa fa-comment"></i> 
+            @{
+                if (Model.Yorumlar != null)
+                {
+                     @Html.Raw(Model.Yorumlar.Count())
+                }
+                else
+                {
+                    @Html.Raw(0)
+                }
+            }
+        </div>
+
+    </div>
+}
+
+@section footerInfo
+{
+    <div class="col-xs-12 col-md-2">
+        <img src="../@Model.Post.Yazar.ImgUrl" class="user-icon " alt="user-image">
+    </div>
+    <div class="col-xs-12 col-md-6">
+        <div class="category-list">
+            <p>Yayınlanma Tarihi <span>@Model.Post.HaberYayinlamaTarih</span></p>
+            <p><a href="#">@Model.Post.Yazar.KullaniciAdi</a> , <a href="#">@Model.Post.Kategorisi.KategoriIsım</a></p>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-4">
+
+    </div>
+
+}
