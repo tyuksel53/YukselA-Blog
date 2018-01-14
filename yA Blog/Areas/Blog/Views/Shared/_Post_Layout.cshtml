@@ -19,17 +19,26 @@
 <body id="main">
     @{
         string websiteName = CacheHelper.GetWebSiteName();
+        Kullanici logedIn = null;
+        if (Session["Kullanici"] != null)
+        {
+            logedIn = Session["Kullanici"] as Kullanici;
+        }
     }
     <noscript>
         <div class="no-js-menu">
             <ul>
                 <li><i class="fa fa-home"></i><a href="/Blog/Home/Index">Ana Sayfa</a></li>
                 @{
-                    if (Session["User"] != null)
+                    if (Session["Kullanici"] != null)
                     {
-                        Kullanici logedIn = Session["User"] as Kullanici;
-                        <li><i class="fa fa-user"></i><a href="author.html">@( logedIn.KullaniciAdi)</a></li>
-                        <li><i class="fa fa-power-off"></i><a href="author.html">Çıkış Yap</a></li>
+
+                        <li><i class="fa fa-user"></i><a href="/Blog/User/Profil">@( logedIn.KullaniciAdi)</a></li>
+                        if (logedIn.Role.Equals("admin"))
+                        {
+                            <li><i class="fa fa-power-off"></i><a href="/Blog/Admin/Index">Çıkış Yap</a></li>
+                        }
+                        <li><i class="fa fa-power-off"></i><a href="/Blog/Home/LogOut">Çıkış Yap</a></li>
 
                     }
                     else
@@ -67,8 +76,11 @@
                 @{
                     if (Session["Kullanici"] != null)
                     {
-                        Kullanici logedIn = Session["Kullanici"] as Kullanici;
                         <li><i class="fa fa-user"></i><a href="/Blog/User/Profil">Merhaba, @( logedIn.KullaniciAdi)</a></li>
+                        if (logedIn.Role.Equals("admin"))
+                        {
+                            <li><i class="fa fa-dashboard"></i><a href="/Blog/Admin/Index">Yönetim Paneli</a></li>
+                        }
                         <li><i class="fa fa-power-off"></i><a href="/Blog/Home/LogOut">Çıkış Yap</a></li>
 
                     }

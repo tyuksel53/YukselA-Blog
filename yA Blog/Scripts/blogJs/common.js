@@ -1,43 +1,88 @@
 ﻿var sectionSwitch = true;
+var currentSubCommnetForm = "#formCevap_0";
+
+$(document).on('focusout',
+    '#SubComment',
+    function() {
+        validateSubCommnet();
+    });
+
+$(document).on('click',
+    '#btnSubComment',
+    function() {
+        $(currentSubCommnetForm).ajaxForm({
+            beforeSend: function(xhr) {
+                var checkCorrrect = validateSubCommnet();
+                if (!checkCorrrect) {
+                    xhr.abort();
+                }
+            },
+            complete: function (xhr) {
+                console.log(xhr.responseText);
+                var insertSection = currentSubCommnetForm.split('_');
+                console.log("#subCommentMenu_" + insertSection[1]);
+                $(".subCommentMenu_" + insertSection[1]).append(xhr.responseText);
+            },
+            error: function() {
+                alert("bir seyler ters gitti");
+            }
+        });
+    }
+    );
+
+
+function validateSubCommnet() {
+    var subComment = $("#SubComment").val();
+    if (!subComment) {
+        $("#SubCommentError").text("");
+        $("#SubCommentError").text("Bu alan gereklidir");
+        return false;
+    }
+    else if (subComment.length <= 10) {
+        $("#SubCommentError").text("");
+        $("#SubCommentError").text("Mesajınızın uzunlugu minimum 10 karakter olmalıdır.");
+        return false;
+    } else if (subComment.length > 280) {
+        $("#SubCommentError").text("");
+        $("#SubCommentError").text("Mesajınızın uzunlugu 280 karakteri geçmemelidir.");
+        return false;
+    }
+    $("#SubCommentError").text("");
+    return true;
+}
 
 function yanitla(parent, replyTo) {
-    console.log(parent, replyTo);
-    if ($("#formCevap_" + parent).length) {
-        $("#formCevap_" + parent).remove();
-        return;
-    }
+    $(currentSubCommnetForm).remove();
     var form = "<form method='post' action='/Blog/Post/YorumCevap/' id='formCevap_" +
-        parent +
+        parent+
         "'" +
         "style='margin-top:15px'>" +
         "<h4><b>Cevap Yazın</b></h4>" +
         "<div class='form-horizontal'>" +
             "<div class='form-group'>" +
-                "<textarea class='form-control text-box multi-line' data-val='true'" +
-                "data-val-maxlength='Yorumuzniz maximum 280 karakteri geçmemelidir' data-val-maxlength-max='280'" +
-                "data-val-minlength='Yorumuz minimum 10 karakter olmalıdır' data-val-minlength-min='10'" +
-                "data-val-required='Bu alan gereklidir' id='SubDescription"+parent+"' name='SubDescription"+parent+"' placeholder= 'Yanıtınız' ></textarea>" +
-                "<span class='field-validation-valid text-danger' data-valmsg-for='Description' data-valmsg-replace='true' " +
+                "<textarea class='form-control text-box multi-line'" +
+                "id='SubComment' name='SubComment' placeholder= 'Yanıtınız' ></textarea>" +
+                "<span class='text-danger' id='SubCommentError'" +
                 "style='font-size:14px'></span>" +
+                "<input type='hidden' value='"+parent+"' id='parentContainer' name='parentContainer' />"+
+                "<input type='hidden' value='"+replyTo+"' id='relpyContainer' name='replyContainer'/>"+
             "</div>" +
             "<div class='form-group'>" +
-                "<input type='submit' value='Gonder' class='btn btn-primary'>" +
+                "<input type='submit' id='btnSubComment' value='Gonder' class='btn btn-primary'>" +
             "</div>" +
         "</div>" +
         "</form>";
     $(form).insertAfter("#yorum_" + parent);
+    currentSubCommnetForm = "#formCevap_" + parent;
     scrollTo("#formCevap_" + parent);
 }
-$(document).on('submit','form',function (evt) {
-   
-});
 
 function scrollTo(selector) {
     var offset = $(selector).offset();
     var $main = $('#main');
     $main.animate({
         scrollTop: offset.top - ($main.offset().top - $main.scrollTop()) - 200
-    }, 2000);
+    }, 1500);
 }
 
 function yorumSilBaslat(Id) {
@@ -59,6 +104,8 @@ function yorumSilBaslat(Id) {
         if (response === "basarisiz") {
             alert("bir seyler ters gitti");
         } else {
+            var tmp = response.split('_');
+            $("#formCevap_" + tmp[1]).fadeOut(300).remove();
             $("#" + response).fadeOut(300,
                 function() {
                     $("#" + response).remove();
@@ -75,6 +122,7 @@ function newCommentSuccess(response) {
     if (response === '') {
         alert("yorum uygun formatta degil");
     } else {
+        $("#noComment").remove();
         $("#Description").val("");
         $("#successCommentAdd").show(1000,
             function() {

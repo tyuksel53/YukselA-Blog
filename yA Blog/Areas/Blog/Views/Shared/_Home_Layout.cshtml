@@ -17,23 +17,31 @@
 <body>
     @{
         string websiteName = CacheHelper.GetWebSiteName();
+        Kullanici logedIn = null;
+        if (Session["Kullanici"] != null)
+        {
+            logedIn = Session["Kullanici"] as Kullanici;
+        }
     }
     <noscript>
         <div class="no-js-menu">
             <ul>
                 <li><i class="fa fa-home"></i><a href="/Blog/Home/Index">Ana Sayfa</a></li>
                 @{
-                    if (Session["User"] != null)
+                    if (Session["Kullanici"] != null)
                     {
-                        Kullanici logedIn = Session["User"] as Kullanici;
-                        <li><i class="fa fa-user"></i><a href="author.html">@( logedIn.KullaniciAdi)</a></li>
-                        <li><i class="fa fa-power-off"></i><a href="author.html">Çıkış Yap</a></li>
+                        <li><i class="fa fa-user"></i><a href="/Blog/User/Profil">Merhaba, @( logedIn.KullaniciAdi)</a></li>
+                        if (logedIn.Role.Equals("admin"))
+                        {
+                            <li><i class="fa fa-dashboard"></i><a href="/Blog/Admin/Index">Yönetim Paneli</a></li>
+                        }
+                        <li><i class="fa fa-power-off"></i><a href="/Blog/Home/LogOut">Çıkış Yap</a></li>
 
                     }
                     else
                     {
                         <li><i class="fa fa-code"></i><a href="/Blog/Home/Girisyap">Giriş Yap</a></li>
-                        <li><i class="fa fa-sign-in"></i><a href="/Blog/Home/Yeni_Kayıt">Kayıt Ol</a></li>
+                        <li><i class="fa fa-sign-in"></i><a href="/Blog/Home/Yeni_Kayit">Kayıt Ol</a></li>
                     }
                     <form class="form-inline" style="margin-left: 7px;">
                         <div class="input-group stylish-input-group">
@@ -57,10 +65,13 @@
                 <ul>
                     <li><i class="fa fa-home"></i><a href="/Blog/Home/Index">Ana Sayfa</a></li>
                     @{
-                        if (Session["Kullanici"] != null)
+                        if (logedIn != null)
                         {
-                            Kullanici logedIn = Session["Kullanici"] as Kullanici;
                             <li><i class="fa fa-user"></i><a href="/Blog/User/Profil">Merhaba, @( logedIn.KullaniciAdi)</a></li>
+                            if (logedIn.Role.Equals("admin"))
+                            {
+                                <li><i class="fa fa-dashboard"></i><a href="/Blog/Admin/Index">Yönetim Paneli</a></li>
+                            }
                             <li><i class="fa fa-power-off"></i><a href="/Blog/Home/LogOut">Çıkış Yap</a></li>
 
                         }

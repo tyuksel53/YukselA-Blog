@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -37,7 +36,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                 TempData["currentPostId"] = postId;
                 return View(requestedPage);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return HttpNotFound();
             }
@@ -67,6 +66,53 @@ namespace yA_Blog.Areas.Blog.Controllers
 
         [AuthUser]
         [HttpPost]
+        [ValidateInput(false)]
+        public MvcHtmlString YorumCevap(string SubComment,int parentContainer,int replyContainer)
+        {                                      
+            /* TODO: Bildirim
+             * replyContainer kullanılarak kullanıcılara bildirim gösterilecek.
+             * sonraki versiyonlarda
+             */
+
+            string html = "";
+            SubComment = HttpUtility.HtmlEncode(SubComment);
+            Kullanici commnetOwner = Session["Kullanici"] as Kullanici;
+            if (!String.IsNullOrWhiteSpace(SubComment) && SubComment.Length <= 280 && SubComment.Length >= 10 &&
+                TempData["currentPostId"] != null)
+            {
+                AltYorum yeniAltYorum = new AltYorum
+                {
+                    PostId = Convert.ToInt32(TempData["currentPostId"]),
+                    CommentTime = DateTime.Now.ToString("dd-MM-yyyy HH:mm:sss"),
+                    RootCommentId = parentContainer,
+                    UserName = commnetOwner.KullaniciAdi,
+                    SubDescription = SubComment,
+                };
+                _dB.AltYorumlar.Add(yeniAltYorum);
+                _dB.SaveChanges();
+                var adminDeleteSubComment = commnetOwner.Role.Equals("admin")
+                    ? $"<a href='#' style='font-size: 14px;margin-top: 45px' class='btn btn-danger' " +
+                      $"onclick='altYorumSilBaslat({yeniAltYorum.ID})'>Sil</a>"
+                    : "";
+
+                html = $"<div id='altYorum_ {yeniAltYorum.ID}' class='media mt-4'>"+
+                            "<i class='fa fa-mail-reply fa-5x' style='margin-right: 26px;'></i>"+
+                            "<div class='media-body'>"+
+                                $"<h5 class='mt-0' style='font-size:17px'>{yeniAltYorum.UserName}</h5>"+
+                                $"<p class='meta'><i class='link-spacer'></i>{yeniAltYorum.CommentTime}<i class='link-spacer'></i> Tarihinde yazdı.</p>"+
+                                $"<p style = 'font-size: 18px;margin-bottom: 10px' >{yeniAltYorum.SubDescription}</p>"+
+                                $"<p class='meta text-danger'><a href = '#' onclick='yanitla({yeniAltYorum.RootCommentId},{yeniAltYorum.ID})' class='text-danger'>" +
+                                $"<i class='fa fa-paper-plane-o'></i> Yanıtla</a></p>"+
+                            "</div>"+ 
+                             adminDeleteSubComment+
+                        "</div>";
+            }
+            TempData["currentPostId"] = Convert.ToInt32(TempData["currentPostId"]);
+            html = html.Replace('\'', '"');
+            return MvcHtmlString.Create(html);
+        }
+        [AuthUser]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
         public MvcHtmlString Yorum(string Description)
@@ -74,7 +120,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             Description = HttpUtility.HtmlEncode(Description);
             string html = "";
             Kullanici commentOwner = Session["Kullanici"] as Kullanici;
-            if (Description != null && Description.Length <= 280 && Description.Length >= 10 && TempData["currentPostId"] != null)
+            if (!String.IsNullOrWhiteSpace(Description) && Description.Length <= 280 && Description.Length >= 10 && TempData["currentPostId"] != null)
             {
                 var yorum = new Yorum
                 {
@@ -101,9 +147,10 @@ namespace yA_Blog.Areas.Blog.Controllers
                        "</div>" +
                        "</div>";
 
-                TempData["currentPostId"] = yorum.PostId;
+                
             }
-            
+            TempData["currentPostId"] = Convert.ToInt32(TempData["currentPostId"]);
+
             return MvcHtmlString.Create(html);
         }
     }

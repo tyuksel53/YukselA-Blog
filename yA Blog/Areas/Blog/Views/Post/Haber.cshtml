@@ -10,7 +10,7 @@
     if (Session["Kullanici"] != null)
     {
         logedInUser = Session["Kullanici"] as Kullanici;
-        
+
     }
 }
 
@@ -18,7 +18,7 @@
 
 <p class="meta">Yayınlanma Tarihi<i class="link-spacer"></i>@Model.Post.HaberYayinlamaTarih</p>
 
-@Html.Raw(Model.Post.HaberIcerik)
+@Html.Raw(HttpUtility.HtmlDecode(Model.Post.HaberIcerik))
 
 <h2 id="yorumHeader" class="zundi" style="margin-bottom: 15px">Yorumlar</h2>
 <strong id="yorumYukleniyor" style="display: none;font-size: 16px" class="text-warning">Yukleniyor...</strong>
@@ -57,7 +57,7 @@
                                 <div class="subCommentMenu_@yorum.ID">
                                     @foreach (var altYorum in altYorumlar)
                                     {
-                                   
+
                                         <div id="altYorum_@altYorum.ID" class="media mt-4">
                                             <i class="fa fa-mail-reply fa-5x" style="margin-right: 26px;"></i>
                                             <div class="media-body">
@@ -68,12 +68,12 @@
                                             </div>
                                             @if (logedInUser != null && logedInUser.Role.Equals("admin"))
                                             {
-                                                <a href="#" id="altYorumSilBtn" style="font-size: 14px;margin-top: 45px" class="btn btn-danger" onclick="altYorumSilBaslat(@altYorum.ID)">Sil</a>
+                                                <a href="#"  style="font-size: 14px;margin-top: 45px" class="btn btn-danger" onclick="altYorumSilBaslat(@altYorum.ID)">Sil</a>
                                             }
                                         </div>
                                     }
                                 </div>
-                               
+
                             }
                         }
                     </div>
@@ -82,17 +82,17 @@
         }
         else
         {
-            <p>Herhangi bir yorum yapılmamıştır</p>
+            <p id="noComment">Herhangi bir yorum yapılmamıştır</p>
         }
     }
 </div>
 <div id="endOfComments"></div>
 @if (logedInUser != null && logedInUser.Role.Equals("admin"))
 {
-     using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
-     {
-         @Html.AntiForgeryToken()
-     }
+    using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
+    {
+        @Html.AntiForgeryToken()
+    }
 }
 @section HaberInfo
 {
@@ -149,4 +149,8 @@
 
     </div>
 
+}
+@section Scripts
+{
+    <script src="~/Scripts/jquery.form.min.js"></script>
 }

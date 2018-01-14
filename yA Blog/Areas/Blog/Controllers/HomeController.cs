@@ -20,7 +20,7 @@ namespace yA_Blog.Areas.Blog.Controllers
         public ActionResult Index()
         {
             HomeIndex homePage = new HomeIndex();
-            homePage.Haberler = _db.Haberler.ToList();
+            homePage.Haberler = _db.Haberler.OrderByDescending(x=> x.ID).ToList();
             homePage.Kategoriler = CacheHelper.KategoriGet();
 
             var query = (from item in _db.Yorumlar
