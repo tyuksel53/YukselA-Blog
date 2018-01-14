@@ -86,13 +86,18 @@ namespace yA_Blog.Areas.Blog.Controllers
                 
                 _dB.Yorumlar.Add(yorum);
                 _dB.SaveChanges();
-
-                html = "<div class='media mb-4'>" +
+                string yorumSilButtonAdd = commentOwner.Role.Equals("admin")
+                    ? "<a href = '#' style = 'font-size: 14px; margin-bottom: 10px;margin-top: 10px' class='btn btn-danger' onclick='yorumSilBaslat(" +
+                      yorum.ID + ")'>Sil</a>"
+                    : "";
+                       html = $"<div id='yorum_{yorum.ID}' class='media mb-4'>" +
                        "<i class='fa fa-user fa-5x' style='margin-right:26px; '></i>" +
                        "<div class='media-body'>" +
                        $"<h5 class='mt-0' style='font-size: 21px'>{yorum.UserName}</h5>" +
                        $"<p class='meta'><i class='link-spacer'></i>{yorum.CommentTime}<i class='link-spacer'></i> Tarihinde yazdı.</p>" +
-                       $"<p style = 'font-size:18px'>{yorum.Description}</p>" +
+                       $"<p style = 'font-size:18px;margin-bottom:10px'>{yorum.Description}</p>" +
+                       $"<p class='meta text-danger'><a href='#' onclick='yanitla({yorum.ID},{yorum.ID})' class='text-danger'><i class='fa fa-paper-plane-o'></i> Yanıtla</a></p>"+
+                       yorumSilButtonAdd+
                        "</div>" +
                        "</div>";
 

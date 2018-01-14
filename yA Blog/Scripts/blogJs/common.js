@@ -1,8 +1,46 @@
 ﻿var sectionSwitch = true;
 
-function yorumSilBaslat(Id) {
+function yanitla(parent, replyTo) {
+    console.log(parent, replyTo);
+    if ($("#formCevap_" + parent).length) {
+        $("#formCevap_" + parent).remove();
+        return;
+    }
+    var form = "<form method='post' action='/Blog/Post/YorumCevap/' id='formCevap_" +
+        parent +
+        "'" +
+        "style='margin-top:15px'>" +
+        "<h4><b>Cevap Yazın</b></h4>" +
+        "<div class='form-horizontal'>" +
+            "<div class='form-group'>" +
+                "<textarea class='form-control text-box multi-line' data-val='true'" +
+                "data-val-maxlength='Yorumuzniz maximum 280 karakteri geçmemelidir' data-val-maxlength-max='280'" +
+                "data-val-minlength='Yorumuz minimum 10 karakter olmalıdır' data-val-minlength-min='10'" +
+                "data-val-required='Bu alan gereklidir' id='SubDescription"+parent+"' name='SubDescription"+parent+"' placeholder= 'Yanıtınız' ></textarea>" +
+                "<span class='field-validation-valid text-danger' data-valmsg-for='Description' data-valmsg-replace='true' " +
+                "style='font-size:14px'></span>" +
+            "</div>" +
+            "<div class='form-group'>" +
+                "<input type='submit' value='Gonder' class='btn btn-primary'>" +
+            "</div>" +
+        "</div>" +
+        "</form>";
+    $(form).insertAfter("#yorum_" + parent);
+    scrollTo("#formCevap_" + parent);
+}
+$(document).on('submit','form',function (evt) {
+   
+});
 
-    $("html, body").animate({ scrollTop: $('#yorumHeader').offset().position }, 2000);
+function scrollTo(selector) {
+    var offset = $(selector).offset();
+    var $main = $('#main');
+    $main.animate({
+        scrollTop: offset.top - ($main.offset().top - $main.scrollTop()) - 200
+    }, 2000);
+}
+
+function yorumSilBaslat(Id) {
 
     var form = $('#__AjaxAntiForgeryForm');
     var token = $('input[name="__RequestVerificationToken"]', form).val();
@@ -14,20 +52,22 @@ function yorumSilBaslat(Id) {
             __RequestVerificationToken: token
         },
         method: "POST",
-        onBegin: function() {
-            $("#yorumYukleniyor").show(300);
+        beforeSend: function() {
+            $("#successCommentAdd").hide();
         }
     }).done(function(response) {
         if (response === "basarisiz") {
             alert("bir seyler ters gitti");
         } else {
-            $("#" + response).remove();
-            alert("Yorum Silindi");
+            $("#" + response).fadeOut(300,
+                function() {
+                    $("#" + response).remove();
+                    alert("Yorum silindi");
+                });
         }
     }).fail(function() {
         alert("bir seyler ters gitti");
     }).always(function() {
-        $("#yorumYukleniyor").hide();
     });
 }
 
@@ -36,13 +76,15 @@ function newCommentSuccess(response) {
         alert("yorum uygun formatta degil");
     } else {
         $("#Description").val("");
-        $("#successCommentAdd").show(300);
+        $("#successCommentAdd").show(1000,
+            function() {
+                scrollTo("#endOfComments");
+            });
+
     }
     
 }
-
-function newCommnetComplete() {
-
+function newCommentComplete() {
 }
 
 function newCommentBegin() {

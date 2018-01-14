@@ -158,7 +158,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
 
             for (int i = 0; i < 40; i++)
             {
-                int kullaniciId = random.Next(1, 7);
+                int kullaniciId = random.Next(1, 6);
                 AltYorum subComment = new AltYorum();
                 subComment.RootCommentId = random.Next(1, 20);
                 subComment.CommentTime = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
