@@ -11,7 +11,6 @@ using yA_Blog.Areas.Blog.PageModels;
 
 namespace yA_Blog.Areas.Blog.Controllers
 {
-    [CookieLogin]
     [AuthUser]
     public class UserController : Controller
     {

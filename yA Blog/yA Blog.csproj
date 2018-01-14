@@ -613,7 +613,6 @@
     <Compile Include="Areas\Blog\Controllers\UserController.cs" />
     <Compile Include="Areas\Blog\Filter\AuthUser.cs" />
     <Compile Include="Areas\Blog\Filter\NotAccessibleByLoggedInUser.cs" />
-    <Compile Include="Areas\Blog\Filter\CookieLogin.cs" />
     <Compile Include="Areas\Blog\Filter\ExcFilter.cs" />
     <Compile Include="Areas\Blog\Library\File.cs" />
     <Compile Include="Areas\Blog\Library\Portal.cs" />

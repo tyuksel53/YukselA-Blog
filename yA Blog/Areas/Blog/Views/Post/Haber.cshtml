@@ -9,7 +9,7 @@
 
 <p class="meta">Yayınlanma Tarihi<i class="link-spacer"></i>@Model.Post.HaberYayinlamaTarih</p>
 
-@Html.Raw(@Model.Post.HaberIcerik)
+@Html.Raw(Model.Post.HaberIcerik)
 
 <h2 style="margin-bottom: 15px">Yorumlar</h2>
 <strong id="yorumYukleniyor" style="display: none;font-size: 16px" class="text-warning">Yukleniyor...</strong>
@@ -35,7 +35,7 @@
                     <div class="media-body">
                         <h5 class="mt-0" style="font-size: 21px">@yorum.UserName</h5>
                         <p class="meta"><i class="link-spacer"></i>@yorum.CommentTime<i class="link-spacer"></i> Tarihinde yazdı.</p>
-                        <p style="font-size:18px">@yorum.Description</p>
+                        <p style="font-size:18px">@Html.Raw(yorum.Description)</p>
                     </div>
                 </div>
             }

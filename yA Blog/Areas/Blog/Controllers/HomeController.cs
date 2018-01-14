@@ -12,7 +12,6 @@ using yA_Blog.Areas.Blog.PageModels;
 
 namespace yA_Blog.Areas.Blog.Controllers
 {
-    [CookieLogin]
     public class HomeController : Controller
     {
         private readonly DatabaseContext _db = new DatabaseContext();

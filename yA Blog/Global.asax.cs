@@ -26,6 +26,44 @@ namespace yA_Blog
             Session["_userCreateTryCount"] = 0;
             Session["_forgetPasswordTryCount"] = 0;
             Session["_takipciDeneme"] = 0;
+
+            if (HttpContext.Current.Session["Kullanici"] == null && HttpContext.Current.Request.Cookies.Get("acct") != null)
+            {
+                var cookie = HttpContext.Current.Request.Cookies.Get("acct");
+                if (cookie.Value.Contains("Username=") && cookie.Value.Contains("&Password="))
+                {
+                    int usernameStart = "Username=".Length;
+                    int usernameEnd = cookie.Value.IndexOf("&Password=", StringComparison.Ordinal);
+                    string username = cookie.Value.Substring(usernameStart, (usernameEnd - usernameStart));
+
+                    int passStart = usernameEnd + "Password=".Length + 1;
+                    string passsword = cookie.Value.Substring(passStart);
+
+                    DatabaseContext db = new DatabaseContext();
+                    Kullanici check = db.Kullanicilar.FirstOrDefault(x => x.KullaniciAdi == username);
+
+                    if (check != null)
+                    {
+
+                        if (check.Parola.Equals(passsword))
+                        {
+                            HttpContext.Current.Session["Kullanici"] = check;
+                        }
+                        else
+                        {
+                            cookie.Expires = DateTime.Now.AddDays(-1);
+                            HttpContext.Current.Response.Cookies.Add(cookie);
+                        }
+
+                    }
+                    else
+                    {
+                        cookie.Expires = DateTime.Now.AddDays(-1);
+                        HttpContext.Current.Request.Cookies.Add(cookie);
+                    }
+                }
+            }
+
         }
     }
 }
