@@ -19,6 +19,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
         public DbSet<Takipciler> Subscribers { get; set; }
         public DbSet<WebSiteConfig> Ayarlar { get; set; }
         public DbSet<Yorum> Yorumlar { get; set; }
+        public DbSet<AltYorum> AltYorumlar { get; set; }
 
         public DatabaseContext()
         {
@@ -36,7 +37,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
 
             context.Ayarlar.Add(config);
 
-            Kullanici user = new Kullanici
+            Kullanici admin = new Kullanici
             {
                 KullaniciAdi = "admin",
                 Parola = Crypto.HashPassword("1234"),
@@ -48,21 +49,64 @@ namespace yA_Blog.Areas.Blog.Models.Managers
                 ImgUrl = "../../Areas/Blog/Uploads/admin.svg"
             };
 
-            context.Kullanicilar.Add(user);
+            context.Kullanicilar.Add(admin);
 
-            Kullanici admin = new Kullanici
+            Kullanici user = new Kullanici
             {
-                KullaniciAdi = "user",
+                KullaniciAdi = "Taha",
                 Parola = Crypto.HashPassword("1234"),
                 Eposta = "xcvtaha@hotmail.com",
                 ActivateGuid = Guid.NewGuid(),
                 PasswordReset = Guid.NewGuid(),
                 IsActive = true,
-                Role = "admin",
+                Role = "user",
                 ImgUrl = ""
             };
 
-            context.Kullanicilar.Add(admin);
+            context.Kullanicilar.Add(user);
+
+            Kullanici user1 = new Kullanici
+            {
+                KullaniciAdi = "Taha Yuksel",
+                Parola = Crypto.HashPassword("1234"),
+                Eposta = "xcvtaha@hotmail.com",
+                ActivateGuid = Guid.NewGuid(),
+                PasswordReset = Guid.NewGuid(),
+                IsActive = true,
+                Role = "user",
+                ImgUrl = ""
+            };
+
+            context.Kullanicilar.Add(user1);
+
+            Kullanici user2 = new Kullanici
+            {
+                KullaniciAdi = "devfelaketi",
+                Parola = Crypto.HashPassword("1234"),
+                Eposta = "xcvtaha@hotmail.com",
+                ActivateGuid = Guid.NewGuid(),
+                PasswordReset = Guid.NewGuid(),
+                IsActive = true,
+                Role = "user",
+                ImgUrl = ""
+            };
+
+            context.Kullanicilar.Add(user2);
+
+            Kullanici user3 = new Kullanici
+            {
+                KullaniciAdi = "Robin",
+                Parola = Crypto.HashPassword("1234"),
+                Eposta = "xcvtaha@hotmail.com",
+                ActivateGuid = Guid.NewGuid(),
+                PasswordReset = Guid.NewGuid(),
+                IsActive = true,
+                Role = "user",
+                ImgUrl = ""
+            };
+
+            context.Kullanicilar.Add(user3);
+
             Random random = new Random();
             for (int i=0;i<10;i++)
             {
@@ -109,6 +153,21 @@ namespace yA_Blog.Areas.Blog.Models.Managers
                 };
                 context.Yorumlar.Add(yeniYorum);
             }
+
+            context.SaveChanges();
+
+            for (int i = 0; i < 40; i++)
+            {
+                int kullaniciId = random.Next(1, 7);
+                AltYorum subComment = new AltYorum();
+                subComment.RootCommentId = random.Next(1, 20);
+                subComment.CommentTime = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
+                subComment.PostId = context.Yorumlar.FirstOrDefault(x => x.ID == subComment.RootCommentId).PostId;
+                subComment.SubDescription = FakeData.TextData.GetSentence();
+                subComment.UserName = context.Kullanicilar.FirstOrDefault(x => x.ID == kullaniciId).KullaniciAdi;
+                context.AltYorumlar.Add(subComment);
+            }
+
             string[] uploaddedFiles = Directory.GetFiles(HttpContext.Current.Server.MapPath("~/Areas/Blog/Uploads/img"))
             .Select(Path.GetFileName)
             .ToArray();

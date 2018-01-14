@@ -48,6 +48,28 @@
                         {
                             <a href="#" id="yorumSilBtn" style="font-size: 14px;margin-bottom: 10px" class="btn btn-danger" onclick="yorumSilBaslat(@yorum.ID)">Sil</a>
                         }
+                        @{
+                            var altYorumlar = Model.AltYorumlar.Where(x => x.RootCommentId == yorum.ID).ToList();
+                            if (altYorumlar.Count > 0)
+                            {
+                                foreach (var altYorum in altYorumlar)
+                                {
+                                    <div id="altYorum_@altYorum.ID" class="media mt-4">
+                                        <i class="fa fa-user fa-5x" style="margin-right: 26px;"></i>
+                                        <div class="media-body">
+                                            <h5 class="mt-0">@altYorum.UserName</h5>
+                                            <p class="meta"><i class="link-spacer"></i>@altYorum.CommentTime<i class="link-spacer"></i> Tarihinde yazdı.</p>
+                                            <p style="font-size: 18px;margin-bottom: 10px">@Html.Raw(altYorum.SubDescription)</p>
+                                        </div>
+                                        @if (logedInUser != null && logedInUser.Role.Equals("admin"))
+                                        {
+                                            <a href="#" id="altYorumSilBtn" style="font-size: 14px;margin-bottom: 10px" class="btn btn-danger" onclick="altYorumSilBaslat(@altYorum.ID)">Sil</a>
+                                        }
+                                    </div>
+                                }
+                               
+                            }
+                        }
                     </div>
                 </div>
             }

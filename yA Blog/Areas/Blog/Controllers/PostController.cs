@@ -31,7 +31,8 @@ namespace yA_Blog.Areas.Blog.Controllers
                 PostPage requestedPage = new PostPage
                 {
                     Post = post,
-                    Yorumlar = _dB.Yorumlar.Where(x => x.PostId == postId).ToList()
+                    Yorumlar = _dB.Yorumlar.Where(x => x.PostId == postId).ToList(),
+                    AltYorumlar = _dB.AltYorumlar.Where(x=> x.PostId == postId).ToList()
                 };
                 TempData["currentPostId"] = postId;
                 return View(requestedPage);

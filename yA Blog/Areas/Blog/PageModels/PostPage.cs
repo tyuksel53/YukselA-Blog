@@ -10,5 +10,6 @@ namespace yA_Blog.Areas.Blog.PageModels
     {
         public Haber Post;
         public List<Yorum> Yorumlar;
+        public List<AltYorum> AltYorumlar;
     }
 }

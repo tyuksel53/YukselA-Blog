@@ -627,6 +627,7 @@
     <Compile Include="Areas\Blog\Models\Kullanici.cs" />
     <Compile Include="Areas\Blog\Models\Managers\DatabaseContext.cs" />
     <Compile Include="Areas\Blog\Models\WebSiteConfig.cs" />
+    <Compile Include="Areas\Blog\Models\AltYorum.cs" />
     <Compile Include="Areas\Blog\PageModels\HomeIndex.cs" />
     <Compile Include="Areas\Blog\PageModels\KullaniciGuncelleme.cs" />
     <Compile Include="Areas\Blog\PageModels\PostPage.cs" />
