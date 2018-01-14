@@ -44,7 +44,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
                 ActivateGuid = Guid.NewGuid(),
                 PasswordReset = Guid.NewGuid(),
                 IsActive = true,
-                Role = "user",
+                Role = "admin",
                 ImgUrl = "../../Areas/Blog/Uploads/admin.svg"
             };
 

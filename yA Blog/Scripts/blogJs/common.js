@@ -1,7 +1,38 @@
 ﻿var sectionSwitch = true;
 
-function newComment(response) {
-    if (response === 'yorum uygun formatta degil') {
+function yorumSilBaslat(Id) {
+
+    $("html, body").animate({ scrollTop: $('#yorumHeader').offset().position }, 2000);
+
+    var form = $('#__AjaxAntiForgeryForm');
+    var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+    $.ajax({
+        url: "/Blog/Post/YorumSil",
+        data: {
+            silinecekId: Id,
+            __RequestVerificationToken: token
+        },
+        method: "POST",
+        onBegin: function() {
+            $("#yorumYukleniyor").show(300);
+        }
+    }).done(function(response) {
+        if (response === "basarisiz") {
+            alert("bir seyler ters gitti");
+        } else {
+            $("#" + response).remove();
+            alert("Yorum Silindi");
+        }
+    }).fail(function() {
+        alert("bir seyler ters gitti");
+    }).always(function() {
+        $("#yorumYukleniyor").hide();
+    });
+}
+
+function newCommentSuccess(response) {
+    if (response === '') {
         alert("yorum uygun formatta degil");
     } else {
         $("#Description").val("");
@@ -9,6 +40,11 @@ function newComment(response) {
     }
     
 }
+
+function newCommnetComplete() {
+
+}
+
 function newCommentBegin() {
     $("#successCommentAdd").hide();
 }

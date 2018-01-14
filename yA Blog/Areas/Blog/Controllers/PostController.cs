@@ -41,6 +41,28 @@ namespace yA_Blog.Areas.Blog.Controllers
                 return HttpNotFound();
             }
         }
+        [AuthUser]
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult YorumSil(int? silinecekId)
+        {
+            string result = "basarisiz";
+            if (silinecekId == null)
+            {
+                return Json(result);
+            }
+
+            var silinecekYorum = _dB.Yorumlar.FirstOrDefault(x => x.ID == silinecekId);
+            if (silinecekYorum == null)
+            {
+                return Json(result);
+            }
+
+            _dB.Yorumlar.Remove(silinecekYorum);
+            _dB.SaveChanges();
+            result = $"yorum_{silinecekId}";
+            return Json(result);
+        }
 
         [AuthUser]
         [HttpPost]
@@ -51,7 +73,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             Description = HttpUtility.HtmlEncode(Description);
             string html = "";
             Kullanici commentOwner = Session["Kullanici"] as Kullanici;
-            if (Description != null && Description.Length < 280 && Description.Length > 10 && TempData["currentPostId"] != null)
+            if (Description != null && Description.Length <= 280 && Description.Length >= 10 && TempData["currentPostId"] != null)
             {
                 var yorum = new Yorum
                 {
@@ -65,7 +87,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                 _dB.SaveChanges();
 
                 html = "<div class='media mb-4'>" +
-                       "<img class='d-flex mr-3 rounded-circle' src='http://placehold.it/50x50' alt=''>" +
+                       "<i class='fa fa-user fa-5x' style='margin-right:26px; '></i>" +
                        "<div class='media-body'>" +
                        $"<h5 class='mt-0' style='font-size: 21px'>{yorum.UserName}</h5>" +
                        $"<p class='meta'><i class='link-spacer'></i>{yorum.CommentTime}<i class='link-spacer'></i> Tarihinde yazdı.</p>" +
@@ -74,10 +96,6 @@ namespace yA_Blog.Areas.Blog.Controllers
                        "</div>";
 
                 TempData["currentPostId"] = yorum.PostId;
-            }
-            else
-            {
-                html = "yorum uygun formatta degil";
             }
             
             return MvcHtmlString.Create(html);

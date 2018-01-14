@@ -3,6 +3,14 @@
     ViewBag.Title = @Model.Post.HaberBaslik;
     Layout = "~/Areas/Blog/Views/Shared/_Post_Layout.cshtml";
     ViewBag.HeaderUrl = "../" + Model.Post.HaberResimUrl;
+    Kullanici logedInUser = null;
+}
+
+@{
+    if (Session["Kullanici"] != null)
+    {
+        logedInUser = Session["Kullanici"] as Kullanici;
+    }
 }
 
 <h1>@Model.Post.HaberBaslik</h1>
@@ -11,11 +19,11 @@
 
 @Html.Raw(Model.Post.HaberIcerik)
 
-<h2 style="margin-bottom: 15px">Yorumlar</h2>
+<h2 id="yorumHeader" style="margin-bottom: 15px">Yorumlar</h2>
 <strong id="yorumYukleniyor" style="display: none;font-size: 16px" class="text-warning">Yukleniyor...</strong>
 <strong id="successCommentAdd" style="display: none;font-size: 16px" class="text-success">Yorumunuz eklendi</strong>
 @{
-    if (Session["Kullanici"] != null)
+    if (logedInUser != null)
     {
         @Html.Partial("_Yorum_PartialView", new Yorum())
     }
@@ -30,12 +38,16 @@
         {
             foreach (var yorum in Model.Yorumlar)
             {
-                <div class="media mb-4">
-                    <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                <div id="yorum_@yorum.ID" class="media mb-4">
+                    <i class="fa fa-user fa-5x" style="margin-right: 26px;"></i>
                     <div class="media-body">
                         <h5 class="mt-0" style="font-size: 21px">@yorum.UserName</h5>
                         <p class="meta"><i class="link-spacer"></i>@yorum.CommentTime<i class="link-spacer"></i> Tarihinde yazdı.</p>
-                        <p style="font-size:18px">@Html.Raw(yorum.Description)</p>
+                        <p style="font-size: 18px;margin-bottom: 10px">@Html.Raw(yorum.Description)</p>
+                        @if (logedInUser != null && logedInUser.Role.Equals("admin"))
+                        {
+                            <a href="#" id="yorumSilBtn" style="font-size: 14px;margin-bottom: 10px" class="btn btn-danger" onclick="yorumSilBaslat(@yorum.ID)">Sil</a>
+                        }
                     </div>
                 </div>
             }
@@ -46,8 +58,13 @@
         }
     }
 </div>
-
-
+@if (logedInUser != null && logedInUser.Role.Equals("admin"))
+{
+     using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
+     {
+         @Html.AntiForgeryToken()
+     }
+}
 
 @section HaberInfo
 {

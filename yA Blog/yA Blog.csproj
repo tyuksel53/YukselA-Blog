@@ -611,6 +611,7 @@
     <Compile Include="Areas\Blog\Controllers\HomeController.cs" />
     <Compile Include="Areas\Blog\Controllers\PostController.cs" />
     <Compile Include="Areas\Blog\Controllers\UserController.cs" />
+    <Compile Include="Areas\Blog\Filter\AuthAdmin.cs" />
     <Compile Include="Areas\Blog\Filter\AuthUser.cs" />
     <Compile Include="Areas\Blog\Filter\NotAccessibleByLoggedInUser.cs" />
     <Compile Include="Areas\Blog\Filter\ExcFilter.cs" />
