@@ -31,6 +31,8 @@
     else
     {
         <strong style="font-size: 16px; margin-top: 15px" class="text-danger">Yorum yapabilmek için giris yapmalısınız</strong>
+        <br/>
+        <i>@Html.ActionLink("Giris Yapın","GirisYap", "Home",null, new { @class = "text-success", style = "font-size:19px;margin-top:15px" })</i>
     }
 }
 <div id="yorumlarSection" style="margin-top: 15px">
@@ -45,17 +47,21 @@
                         <h5 class="mt-0" style="font-size: 21px">@yorum.UserName</h5>
                         <p class="meta"><i class="link-spacer"></i>@yorum.CommentTime<i class="link-spacer"></i> Tarihinde yazdı.</p>
                         <p style="font-size: 18px;margin-bottom: 10px;">@Html.Raw(yorum.Description)</p>
-                        <p class="meta text-danger"><a href="#" onclick="yanitla(@yorum.ID,@yorum.ID)" class="text-danger"><i class="fa fa-paper-plane-o"></i> Yanıtla</a></p>
+                        @if (logedInUser != null)
+                        {
+                            <p class="meta text-danger"><a href="#" onclick="yanitla(@yorum.ID,@yorum.ID)" class="text-danger"><i class="fa fa-paper-plane-o"></i> Yanıtla</a></p>
+                        }
                         @if (logedInUser != null && logedInUser.Role.Equals("admin"))
                         {
                             <a href="#" id="yorumSilBtn" style="font-size: 14px; margin-bottom: 10px;margin-top: 10px" class="btn btn-danger" onclick="yorumSilBaslat(@yorum.ID)">Sil</a>
                         }
                         @{
                             var altYorumlar = Model.AltYorumlar.Where(x => x.RootCommentId == yorum.ID).ToList();
-                            if (altYorumlar.Count > 0)
+                            <div class="subCommentMenu_@yorum.ID">
+                            @if (altYorumlar.Count > 0)
                             {
-                                <div class="subCommentMenu_@yorum.ID">
-                                    @foreach (var altYorum in altYorumlar)
+                                
+                                    foreach (var altYorum in altYorumlar)
                                     {
 
                                         <div id="altYorum_@altYorum.ID" class="media mt-4">
@@ -64,7 +70,10 @@
                                                 <h5 class="mt-0" style="font-size:17px">@altYorum.UserName</h5>
                                                 <p class="meta"><i class="link-spacer"></i>@altYorum.CommentTime<i class="link-spacer"></i> Tarihinde yazdı.</p>
                                                 <p style="font-size: 18px;margin-bottom: 10px">@Html.Raw(altYorum.SubDescription)</p>
-                                                <p class="meta text-danger"><a href="#" onclick="yanitla(@yorum.ID,@altYorum.ID)" class="text-danger"><i class="fa fa-paper-plane-o"></i> Yanıtla</a></p>
+                                                @if (logedInUser != null)
+                                                {
+                                                    <p class="meta text-danger"><a href="#" onclick="yanitla(@yorum.ID,@altYorum.ID)" class="text-danger"><i class="fa fa-paper-plane-o"></i> Yanıtla</a></p>
+                                                }
                                             </div>
                                             @if (logedInUser != null && logedInUser.Role.Equals("admin"))
                                             {
@@ -72,9 +81,8 @@
                                             }
                                         </div>
                                     }
-                                </div>
-
-                            }
+                                }
+                            </div>
                         }
                     </div>
                 </div>

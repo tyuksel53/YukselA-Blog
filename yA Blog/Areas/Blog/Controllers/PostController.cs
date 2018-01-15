@@ -41,6 +41,29 @@ namespace yA_Blog.Areas.Blog.Controllers
                 return HttpNotFound();
             }
         }
+
+        [AuthUser]
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult AltYorumSil(int? silinecekId)
+        {
+            string result = "basarisiz";
+            if (silinecekId == null)
+            {
+                return Json(result);
+            }
+
+            var silinecekAltYorum = _dB.AltYorumlar.FirstOrDefault(x => x.ID == silinecekId);
+            if (silinecekAltYorum == null)
+            {
+                return Json(result);
+            }
+            _dB.AltYorumlar.Remove(silinecekAltYorum);
+            _dB.SaveChanges();
+            result = "altYorum_" + silinecekId;
+            return Json(result);
+        }
+
         [AuthUser]
         [ValidateAntiForgeryToken]
         [HttpPost]
@@ -58,6 +81,16 @@ namespace yA_Blog.Areas.Blog.Controllers
                 return Json(result);
             }
 
+            var altYorumlar = _dB.AltYorumlar.Where(x => x.RootCommentId == silinecekYorum.ID).ToList();
+
+            if (altYorumlar.Count > 0)
+            {
+                foreach (var altYorum in altYorumlar)
+                {
+                    _dB.AltYorumlar.Remove(altYorum);
+                }
+            }
+
             _dB.Yorumlar.Remove(silinecekYorum);
             _dB.SaveChanges();
             result = $"yorum_{silinecekId}";
@@ -73,16 +106,23 @@ namespace yA_Blog.Areas.Blog.Controllers
              * replyContainer kullanılarak kullanıcılara bildirim gösterilecek.
              * sonraki versiyonlarda
              */
-
+            System.Threading.Thread.Sleep(2000);
             string html = "";
             SubComment = HttpUtility.HtmlEncode(SubComment);
             Kullanici commnetOwner = Session["Kullanici"] as Kullanici;
             if (!String.IsNullOrWhiteSpace(SubComment) && SubComment.Length <= 280 && SubComment.Length >= 10 &&
                 TempData["currentPostId"] != null)
             {
+                int postId = Convert.ToInt32(TempData["currentPostId"]);
+                var yorumCheck = _dB.Yorumlar.FirstOrDefault(x =>
+                    x.ID == parentContainer && x.PostId == postId);
+                if (yorumCheck == null)
+                {
+                    return MvcHtmlString.Empty;
+                }
                 AltYorum yeniAltYorum = new AltYorum
                 {
-                    PostId = Convert.ToInt32(TempData["currentPostId"]),
+                    PostId = postId,
                     CommentTime = DateTime.Now.ToString("dd-MM-yyyy HH:mm:sss"),
                     RootCommentId = parentContainer,
                     UserName = commnetOwner.KullaniciAdi,
@@ -95,7 +135,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                       $"onclick='altYorumSilBaslat({yeniAltYorum.ID})'>Sil</a>"
                     : "";
 
-                html = $"<div id='altYorum_ {yeniAltYorum.ID}' class='media mt-4'>"+
+                html = $"<div id='altYorum_{yeniAltYorum.ID}' style='display:none' class='media mt-4'>"+
                             "<i class='fa fa-mail-reply fa-5x' style='margin-right: 26px;'></i>"+
                             "<div class='media-body'>"+
                                 $"<h5 class='mt-0' style='font-size:17px'>{yeniAltYorum.UserName}</h5>"+
@@ -117,6 +157,7 @@ namespace yA_Blog.Areas.Blog.Controllers
         [ValidateInput(false)]
         public MvcHtmlString Yorum(string Description)
         {
+            System.Threading.Thread.Sleep(2000);
             Description = HttpUtility.HtmlEncode(Description);
             string html = "";
             Kullanici commentOwner = Session["Kullanici"] as Kullanici;
@@ -144,6 +185,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                        $"<p style = 'font-size:18px;margin-bottom:10px'>{yorum.Description}</p>" +
                        $"<p class='meta text-danger'><a href='#' onclick='yanitla({yorum.ID},{yorum.ID})' class='text-danger'><i class='fa fa-paper-plane-o'></i> Yanıtla</a></p>"+
                        yorumSilButtonAdd+
+                       $"<div class='subCommentMenu_{yorum.ID}'></div>"+
                        "</div>" +
                        "</div>";
 
@@ -153,5 +195,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
             return MvcHtmlString.Create(html);
         }
+
+
     }
 }

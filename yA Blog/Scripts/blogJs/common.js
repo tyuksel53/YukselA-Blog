@@ -15,16 +15,32 @@ $(document).on('click',
                 var checkCorrrect = validateSubCommnet();
                 if (!checkCorrrect) {
                     xhr.abort();
+                } else {
+                    $("#subCommentLoading").show(300);
+                    $("#btnSubComment").attr('disabled', true);
                 }
+                
             },
             complete: function (xhr) {
-                console.log(xhr.responseText);
-                var insertSection = currentSubCommnetForm.split('_');
-                console.log("#subCommentMenu_" + insertSection[1]);
-                $(".subCommentMenu_" + insertSection[1]).append(xhr.responseText);
+                if (xhr.responseText.length > 0) {
+                    var insertSection = currentSubCommnetForm.split('_');
+                    var subCommentId = $(xhr.responseText).attr('id');
+                    console.log(subCommentId);
+                    $(".subCommentMenu_" + insertSection[1]).append(xhr.responseText);
+                    $("#" + subCommentId).fadeIn(1000);
+                    $("#subCommentLoading").hide();
+                    $("#btnSubComment").attr('disabled', false);
+                    $("#SubComment").val("");
+                } else {
+                    alert("bir seyler ters gitti");
+                    $("#subCommentLoading").hide();
+                    $("#btnSubComment").attr('disabled', false);
+                }
+
             },
             error: function() {
                 alert("bir seyler ters gitti");
+                $("#subCommentLoading").hide();
             }
         });
     }
@@ -57,6 +73,7 @@ function yanitla(parent, replyTo) {
         parent+
         "'" +
         "style='margin-top:15px'>" +
+        "<strong id='subCommentLoading' class='text-warning' style='font-size:15px;display:none'>Yukleniyor...</strong>"+
         "<h4><b>Cevap Yazın</b></h4>" +
         "<div class='form-horizontal'>" +
             "<div class='form-group'>" +
@@ -85,6 +102,39 @@ function scrollTo(selector) {
     }, 1500);
 }
 
+function altYorumSilBaslat(response) {
+    var form = $('#__AjaxAntiForgeryForm');
+    var token = $('input[name="__RequestVerificationToken"]', form).val();
+    $.ajax({
+        url: '/Blog/Post/AltYorumSil',
+        data: {
+            silinecekId: response,
+            __RequestVerificationToken: token
+        },
+        method: "POST",
+        beforeSend: function() {
+
+        }
+    }).done(function(response) {
+        if (response === 'basarisiz') {
+            alert("bir seyler ters gitti");
+        } else {
+            $(currentSubCommnetForm).remove();
+            $("#" + response).fadeOut(300,function() {
+                $("#" + response).remove();
+                alert("Yorum silindi");
+            });
+
+
+        }
+    }).fail(function() {
+        alert("bir seyler ters gitti");
+    }).always(function() {
+
+    });
+}
+
+
 function yorumSilBaslat(Id) {
 
     var form = $('#__AjaxAntiForgeryForm');
@@ -104,12 +154,11 @@ function yorumSilBaslat(Id) {
         if (response === "basarisiz") {
             alert("bir seyler ters gitti");
         } else {
-            var tmp = response.split('_');
-            $("#formCevap_" + tmp[1]).fadeOut(300).remove();
+            $(currentSubCommnetForm).remove();
             $("#" + response).fadeOut(300,
                 function() {
                     $("#" + response).remove();
-                    alert("Yorum silindi");
+                    alert("Yorum(lar) silindi");
                 });
         }
     }).fail(function() {
@@ -133,10 +182,12 @@ function newCommentSuccess(response) {
     
 }
 function newCommentComplete() {
+    $("#yorumEkleBtn").attr('disabled', false);
 }
 
 function newCommentBegin() {
     $("#successCommentAdd").hide();
+    $("#yorumEkleBtn").attr('disabled', true);
 }
 function newCommentFail() {
     alert("Bir seyler ters gitti");
