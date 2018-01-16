@@ -23,21 +23,30 @@ namespace yA_Blog.Areas.Blog.Controllers
             homePage.Haberler = _db.Haberler.OrderByDescending(x=> x.ID).ToList();
             homePage.Kategoriler = CacheHelper.KategoriGet();
 
-            var query = (from item in _db.Yorumlar
+            var yorumCount = (from item in _db.Yorumlar
                 group item by item.PostId
                 into g
                 select new {Item = g.Key, Count = g.Count()}).ToList();
 
-            if (query.Count > 0)
+            var altYorumCount = (from item in _db.AltYorumlar
+                group item by item.PostId
+                into g
+                select new { Item = g.Key, Count = g.Count() }).ToList();
+
+            if (yorumCount.Count > 0)
             {
                 List<Tuple<int, int>> yorumGrup = new List<Tuple<int, int>>();
-                foreach (var item in query)
+                for (int i = 0; i < yorumCount.Count; i++)
                 {
-                    yorumGrup.Add(new Tuple<int, int>(item.Item, item.Count));
+                    
+                    var count = altYorumCount.FirstOrDefault(x => x.Item == yorumCount.ElementAt(i).Item);
+                    yorumGrup.Add(count != null
+                        ? new Tuple<int, int>(yorumCount.ElementAt(i).Item, yorumCount.ElementAt(i).Count + count.Count)
+                        : new Tuple<int, int>(yorumCount.ElementAt(i).Item, yorumCount.ElementAt(i).Count));
                 }
+
                 homePage.YorumCount = yorumGrup;
             }
-            
 
             return View(homePage);
         }

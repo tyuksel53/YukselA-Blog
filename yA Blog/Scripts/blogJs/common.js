@@ -1,5 +1,33 @@
 ﻿var sectionSwitch = true;
 var currentSubCommnetForm = "#formCevap_0";
+var trackCommnet = 0;
+var trackSubComment = 0;
+$("#moreComments").click(function () {
+    if (trackCommnet % 2 === 0) {
+        $(".no-display-comment").show(1000);
+        $("#moreComments").text("Daha az goster");
+        trackCommnet++;
+    } else {
+        $(".no-display-comment").hide(1000);
+        $("#moreComments").text("Daha fazla goster");
+        trackCommnet++;
+    }
+    
+});
+
+
+$("#moreSubComments").click(function() {
+    if (trackSubComment % 2 === 0) {
+        $(".no-display-subcomment").show(1000);
+        $("#moreSubComments").text("Daha az goster");
+        trackSubComment++;
+    } else {
+        $(".no-display-subcomment").hide(1000);
+        $("#moreSubComments").text("Daha fazla goster");
+        trackSubComment++;
+    }
+});
+
 
 $(document).on('focusout',
     '#SubComment',

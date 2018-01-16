@@ -631,6 +631,8 @@
     <Compile Include="Areas\Blog\PageModels\HomeIndex.cs" />
     <Compile Include="Areas\Blog\PageModels\KullaniciGuncelleme.cs" />
     <Compile Include="Areas\Blog\PageModels\PostPage.cs" />
+    <Compile Include="Areas\Blog\PageModels\ProfilAktivite.cs" />
+    <Compile Include="Areas\Blog\PageModels\YorumJoin.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -666,6 +668,7 @@
   <ItemGroup>
     <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
+    <Folder Include="System\Linq\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

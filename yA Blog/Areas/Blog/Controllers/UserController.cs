@@ -20,8 +20,38 @@ namespace yA_Blog.Areas.Blog.Controllers
         [HttpGet]
         public ActionResult Profil()
         {
-            
-            return View();
+            Kullanici logedInUser = Session["Kullanici"] as Kullanici;
+            var kullaniciYorumlari = _dB.Yorumlar.Where(x => x.UserName == logedInUser.KullaniciAdi)
+                .Join(_dB.Haberler, yorum => yorum.PostId, haber => haber.ID,
+                    (yorum, haber) => new YorumJoin()
+                    {
+                        Id = haber.ID,
+                        HaberBaslik = haber.HaberBaslik,
+                        Yazar = haber.Yazar.KullaniciAdi,
+                        HaberKategori = haber.Kategorisi.KategoriIsım,
+                        YorumZamani = yorum.CommentTime,
+                        Yorum = yorum.Description
+                    }).OrderByDescending(x => x.YorumZamani).ToList();
+
+            var kullaniciAltYorumlari = _dB.AltYorumlar.Where(x => x.UserName == logedInUser.KullaniciAdi)
+                .Join(_dB.Haberler, yorum => yorum.PostId, haber => haber.ID,
+                    (yorum, haber) => new YorumJoin()
+                    {
+                        Id = haber.ID,
+                        HaberBaslik = haber.HaberBaslik,
+                        Yazar = haber.Yazar.KullaniciAdi,
+                        HaberKategori = haber.Kategorisi.KategoriIsım,
+                        YorumZamani = yorum.CommentTime,
+                        Yorum = yorum.SubDescription
+                    }).OrderByDescending(x => x.YorumZamani).ToList();
+
+            ProfilAktivite profilAktive = new ProfilAktivite
+            {
+                Yorumlar = kullaniciYorumlari,
+                Cevaplar = kullaniciAltYorumlari
+            };
+
+            return View(profilAktive);
         }
 
         [HttpGet]

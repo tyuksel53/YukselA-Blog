@@ -1,4 +1,7 @@
-﻿@{
+﻿@using System.Globalization
+@using yA_Blog.Areas.Blog.Library
+@model yA_Blog.Areas.Blog.PageModels.ProfilAktivite
+@{
     ViewBag.Title = "Profil";
     Layout = "~/Areas/Blog/Views/Shared/_Home_Layout.cshtml";
 
@@ -11,35 +14,123 @@
     ViewBag.Section3Url = "/Blog/User/EpostaDegis";
 
     ViewBag.Resim = "../../Areas/Blog/Uploads/img/cover-3.jpg";
+    CultureInfo tr = new CultureInfo("tr-TR");
     var user = Session["Kullanici"] as Kullanici;
+    int yorumSayisi = 0;
+    int cevapSayisi = 0;
+}
+<style>
+    .no-display-comment {
+        display: none
+    }
+    .no-display-subcomment {
+        display: none
+    }
+</style>
+<h2 class="text-md-center" style="margin-top: 15px">Yorumlarınız</h2>
+<hr style="margin: 20px auto 20px auto;">
+@if (Model.Yorumlar.Count > 0)
+{
+
+    foreach (var item in Model.Yorumlar)
+    {
+        if (yorumSayisi > 4)
+        {
+            <article class="post author-page no-display-comment">
+                <div class="post-preview col-12 no-gutter">
+                    <h2 style="font-size: 25px"><a href="/Blog/Post/Haber/@Portal.SeoUrl(item.HaberBaslik)-@item.Id">@item.HaberBaslik</a></h2>
+                    <p class="meta">Tarih <i class="link-spacer"></i> @DateTime.Parse(item.YorumZamani.ToString())</p>
+                    <p style="font-size: 17px">Bu habere su yorumu yaptın... <b style="font-size:15px"><i>@Html.Raw(item.Yorum)</i></b></p>
+
+                </div>
+            </article>
+        }
+        else
+        {
+            <article class="post author-page">
+                <div class="post-preview col-12 no-gutter">
+                    <h2 style="font-size: 25px"><a href="/Blog/Post/Haber/@Portal.SeoUrl(item.HaberBaslik)-@item.Id">@item.HaberBaslik</a></h2>
+                    <p class="meta">Tarih <i class="link-spacer"></i> @item.YorumZamani</p>
+                    <p style="font-size: 17px">Bu habere su yorumu yaptın... <b style="font-size: 15px"><i>@Html.Raw(item.Yorum)</i></b></p>
+
+                </div>
+            </article>
+        }
+
+        yorumSayisi++;
+    }
+    if (Model.Yorumlar.Count > 4)
+    {
+        <div id="moreCommentsDiv" class="">
+            <a href="#sadasdsdsd" id="moreComments" class="text-primary" style="margin-top: 15px;font-size: 20px">Daha fazla goster</a>
+        </div>
+    }
+
+}
+else
+{
+    <p>Herhangi bir yorum yapmadınız</p>
 }
 
-    <article class="post author-page">
-        <div class="post-preview col-10 col-sm-9  no-gutter">
-            <h2><a href="post.html">8 Reasons to quit your day job</a></h2>
 
-            <p>Bu habere su yorumu yazdın.... Güzel Haberaa sdasdasdasd asd asd asdas dasdasdsa dasd a sdasdasd as das das.....</p>
 
+<h2 class="text-md-center" style="margin-top: 15px">Cevaplarınız</h2>
+<hr style="margin: 20px auto 20px auto;">
+@if (Model.Cevaplar.Count > 0)
+{
+
+    foreach (var item in Model.Cevaplar)
+    {
+        if (cevapSayisi > 4)
+        {
+            <article class="post author-page no-display-subcomment">
+                <div class="post-preview col-12 no-gutter">
+                    <h2 style="font-size: 25px"><a href="/Blog/Post/Haber/@Portal.SeoUrl(item.HaberBaslik)-@item.Id">@item.HaberBaslik</a></h2>
+                    <p class="meta">Tarih <i class="link-spacer"></i> @DateTime.Parse(item.YorumZamani.ToString())</p>
+                    <p style="font-size: 17px">Bu haberde su yorumu yaptın... <b style="font-size:15px"><i>@Html.Raw(item.Yorum)</i></b></p>
+
+                </div>
+            </article>
+        }
+        else
+        {
+            <article class="post author-page">
+                <div class="post-preview col-12 no-gutter">
+                    <h2 style="font-size: 25px"><a href="/Blog/Post/Haber/@Portal.SeoUrl(item.HaberBaslik)-@item.Id">@item.HaberBaslik</a></h2>
+                    <p class="meta">Tarih <i class="link-spacer"></i> @item.YorumZamani</p>
+                    <p style="font-size: 17px">Bu haberde su cevabı verdin... <b style="font-size: 15px"><i>@Html.Raw(item.Yorum)</i></b></p>
+
+                </div>
+            </article>
+        }
+
+        cevapSayisi++;
+    }
+
+    if (Model.Cevaplar.Count > 4)
+    {
+        <div id="moreSubCommentsDiv" class="">
+            <a href="#asdasdasasd" id="moreSubComments" class="text-primary" style="margin-top: 15px;font-size: 20px">Daha fazla goster</a>
         </div>
+    }
 
-        <div class="col-sm-3 col-md-2 ml-auto hidden-sm hidden-xs no-gutter">
-            <p class="meta author-page">
-                <span class="time"><i class="fa fa-comment"></i> 12</span>
-                <span class="min">yorum</span>
-            </p>
-        </div>
-    </article>
-    
+}
+else
+{
+    <p>Herhangi bir cevap yazmadınız</p>
+}
+
+
 
 @section Info
 {
-        <div class="primary-info">
-            <h1>@(user.KullaniciAdi)</h1>
-            <p>Bu kısımda bilgilerinizi güncelleyebilir, geçmis aktivelerinizi inceleyebilirsiniz.</p>
-        </div>
-        <div class="secondary-info">
+    <div class="primary-info">
+        <h1>@(user.KullaniciAdi)</h1>
+        <p>Bu kısımda bilgilerinizi güncelleyebilir, geçmis aktivelerinizi inceleyebilirsiniz.</p>
+    </div>
+    <div class="secondary-info">
 
-        </div>
+    </div>
 }
 
 @section Scripts

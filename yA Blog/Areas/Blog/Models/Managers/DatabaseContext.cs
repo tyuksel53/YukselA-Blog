@@ -147,7 +147,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
                 Yorum yeniYorum = new Yorum
                 {
                     PostId = context.Haberler.FirstOrDefault(x => x.ID == randomInt).ID,
-                    CommentTime = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss"),
+                    CommentTime = DateTime.Now,
                     Description = FakeData.TextData.GetSentences(2),
                     UserName = context.Kullanicilar.FirstOrDefault().KullaniciAdi
                 };
@@ -161,7 +161,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
                 int kullaniciId = random.Next(1, 6);
                 AltYorum subComment = new AltYorum();
                 subComment.RootCommentId = random.Next(1, 20);
-                subComment.CommentTime = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
+                subComment.CommentTime = DateTime.Now;
                 subComment.PostId = context.Yorumlar.FirstOrDefault(x => x.ID == subComment.RootCommentId).PostId;
                 subComment.SubDescription = FakeData.TextData.GetSentence();
                 subComment.UserName = context.Kullanicilar.FirstOrDefault(x => x.ID == kullaniciId).KullaniciAdi;

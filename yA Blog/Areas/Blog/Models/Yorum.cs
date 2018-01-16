@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.DynamicData;
@@ -19,7 +20,7 @@ namespace yA_Blog.Areas.Blog.Models
         DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
-        public string CommentTime { get; set; }
+        public DateTime CommentTime { get; set; }
 
         public int PostId { get; set; }
 

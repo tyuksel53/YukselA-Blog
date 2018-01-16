@@ -130,7 +130,7 @@
             @{
                 if (Model.Yorumlar != null)
                 {
-                    @Html.Raw(Model.Yorumlar.Count())
+                    @Html.Raw( Model.Yorumlar.Count() + Model.AltYorumlar.Count() )
                 }
                 else
                 {

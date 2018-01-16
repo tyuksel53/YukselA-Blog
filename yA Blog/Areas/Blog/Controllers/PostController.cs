@@ -123,7 +123,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                 AltYorum yeniAltYorum = new AltYorum
                 {
                     PostId = postId,
-                    CommentTime = DateTime.Now.ToString("dd-MM-yyyy HH:mm:sss"),
+                    CommentTime = DateTime.Now,
                     RootCommentId = parentContainer,
                     UserName = commnetOwner.KullaniciAdi,
                     SubDescription = SubComment,
@@ -165,7 +165,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             {
                 var yorum = new Yorum
                 {
-                    CommentTime = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss"),
+                    CommentTime = DateTime.Now,
                     PostId = Convert.ToInt32(TempData["currentPostId"]),
                     UserName = commentOwner.KullaniciAdi,
                     Description = Description
