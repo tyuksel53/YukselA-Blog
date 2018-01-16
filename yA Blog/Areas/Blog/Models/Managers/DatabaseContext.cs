@@ -113,7 +113,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
                 string path = "../../Areas/Blog/Uploads/img/";
                 Kategori yeniKategori = new Kategori
                 {
-                    KategoriIsım = FakeData.NameData.GetCompanyName(),
+                    KategoriIsim = FakeData.NameData.GetCompanyName(),
                     KategoriResim =  $"{path}cover-{i+1}.jpg"
                 };
                 context.Kategoriler.Add(yeniKategori);
@@ -121,7 +121,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
 
             context.SaveChanges();
             
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 6; i++) // Haber ekleme
             {
                 int randomInt = random.Next(1, 5);
                 Haber post = new Haber()
@@ -132,7 +132,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
                     HaberResimUrl = "../../Areas/Blog/Uploads/img/default-single-hero-with-sidebar.jpg",
                     Kategorisi = context.Kategoriler.FirstOrDefault(x=> x.ID == randomInt ),
                     HaberYayinlamaTarih = DateTime.Now.AddDays(-1).ToString("dd-MM-yyyy"),
-                    Tags = "C#,Mvc,EntityFramework,Linq",
+                    Tags = "CSharp,Mvc,EntityFramework,Linq",
                     Yazar = context.Kullanicilar.FirstOrDefault(x => x.ID == 1)
                 };
 

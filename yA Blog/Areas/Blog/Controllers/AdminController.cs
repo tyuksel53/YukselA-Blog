@@ -173,7 +173,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             if(ModelState.IsValid)
             {
 
-                Kategori yeniKategori = _dB.Kategoriler.FirstOrDefault(x => x.KategoriIsım == model.KategoriIsım);
+                Kategori yeniKategori = _dB.Kategoriler.FirstOrDefault(x => x.KategoriIsim == model.KategoriIsim);
 
                 if (yeniKategori != null)
                 {
@@ -254,11 +254,11 @@ namespace yA_Blog.Areas.Blog.Controllers
                     return View(model);
                 }
 
-                Kategori check = _dB.Kategoriler.FirstOrDefault(x => x.KategoriIsım == model.KategoriIsım);
+                Kategori check = _dB.Kategoriler.FirstOrDefault(x => x.KategoriIsim == model.KategoriIsim);
 
                 if(check == null)
                 {
-                    guncelle.KategoriIsım = model.KategoriIsım;
+                    guncelle.KategoriIsim = model.KategoriIsim;
                     guncelle.KategoriResim = model.KategoriResim;
                     _dB.SaveChanges();
                     ViewBag.Success = true;
@@ -269,7 +269,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                 {
                     if(check.ID == guncelle.ID)
                     {
-                        guncelle.KategoriIsım = model.KategoriIsım;
+                        guncelle.KategoriIsim = model.KategoriIsim;
                         guncelle.KategoriResim = model.KategoriResim;
                         _dB.SaveChanges();
                         ViewBag.Success = true;

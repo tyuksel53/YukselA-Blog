@@ -28,7 +28,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                         Id = haber.ID,
                         HaberBaslik = haber.HaberBaslik,
                         Yazar = haber.Yazar.KullaniciAdi,
-                        HaberKategori = haber.Kategorisi.KategoriIsım,
+                        HaberKategori = haber.Kategorisi.KategoriIsim,
                         YorumZamani = yorum.CommentTime,
                         Yorum = yorum.Description
                     }).OrderByDescending(x => x.YorumZamani).ToList();
@@ -40,7 +40,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                         Id = haber.ID,
                         HaberBaslik = haber.HaberBaslik,
                         Yazar = haber.Yazar.KullaniciAdi,
-                        HaberKategori = haber.Kategorisi.KategoriIsım,
+                        HaberKategori = haber.Kategorisi.KategoriIsim,
                         YorumZamani = yorum.CommentTime,
                         Yorum = yorum.SubDescription
                     }).OrderByDescending(x => x.YorumZamani).ToList();

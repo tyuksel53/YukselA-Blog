@@ -390,11 +390,12 @@ namespace yA_Blog.Areas.Blog.Controllers
         }
 
         [ValidateInput(false)]
+        [HttpGet]
         public ActionResult Arama(string query)
         {
             query = HttpUtility.HtmlEncode(query);
             ViewBag.AramaString = query;
-            if (!String.IsNullOrWhiteSpace(query) && query.Length > 3)
+            if (!String.IsNullOrWhiteSpace(query) && query.Length >= 3)
             {
                 var aramaSonuclari = _db.Haberler.Where(x => x.Tags.ToLower().Contains(query)).ToList();
                 if (aramaSonuclari.Count == 0)
@@ -403,9 +404,31 @@ namespace yA_Blog.Areas.Blog.Controllers
                     return View(aramaSonuclari);
 
                 }
+
+                return View(aramaSonuclari);
             }
 
             return RedirectToAction("Index","Home");
+        }
+
+        [ValidateInput(false)]
+        [HttpGet]
+        public ActionResult Kategori(string id) // id -> kategori ismi
+        {
+            id = HttpUtility.HtmlEncode(id);
+            if (!String.IsNullOrWhiteSpace(id))
+            {
+                var checkIfExists = _db.Kategoriler.FirstOrDefault(x => x.KategoriIsim == id);
+                if (checkIfExists != null)
+                {
+                    var sonuclar = _db.Haberler.Where(x => x.Kategorisi.KategoriIsim == id).ToList();
+                    ViewBag.Kategori = checkIfExists;
+                    return View(sonuclar);
+                }
+                
+            }
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

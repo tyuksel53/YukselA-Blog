@@ -25,14 +25,14 @@
                     <p>@item.HaberOzet</p>
                     <p class="meta">
                         <i class="fa fa-th-list"></i>
-                        <a href="#">@item.Kategorisi.KategoriIsım</a>
+                        <a href="/Blog/Home/Kategori/@item.Kategorisi.KategoriIsim">@item.Kategorisi.KategoriIsim</a>
                         @{
                             if (!String.IsNullOrWhiteSpace(item.Tags))
                             {
                                 <i class="fa fa-tags"></i>
                                 foreach (var tag in item.Tags.Split(','))
                                 {
-                                    <a href="#">@tag</a>
+                                    <a href="/Blog/Home/Arama?query=@tag">@tag</a>
                                     <i class="link-spacer"></i>
                                 }
 
@@ -80,8 +80,8 @@
                 foreach (var kategori in Model.Kategoriler)
                 {
                     <div class="category-preview col-6 col-sm-4  ">
-                        <h2>@kategori.KategoriIsım</h2>
-                        <a href="category.html"><img src="@kategori.KategoriResim" alt="category-image"></a>
+                        <h2>@kategori.KategoriIsim</h2>
+                        <a href="/Blog/Home/Kategori/@kategori.KategoriIsim"><img src="@kategori.KategoriResim" alt="category-image"></a>
                     </div>
                 }
             }

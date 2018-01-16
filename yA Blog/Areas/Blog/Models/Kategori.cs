@@ -14,7 +14,7 @@ namespace yA_Blog.Areas.Blog.Models
         public int ID { get; set; }
 
         [DisplayName("Kategori İsmi"),Required]
-        public string KategoriIsım { get; set; }
+        public string KategoriIsim { get; set; }
 
         [DisplayName("Kategori Resmi"),Required]
         public string KategoriResim { get; set; }

@@ -1,0 +1,49 @@
+﻿@using yA_Blog.Areas.Blog.Library
+@model IEnumerable<Haber>
+@{
+    ViewBag.Title = ViewBag.Kategori.KategoriIsim;
+    Layout = "~/Areas/Blog/Views/Shared/_Home_Layout.cshtml";
+    ViewBag.SectionName1 = "Kategori: " + ViewBag.Kategori.KategoriIsim;
+    ViewBag.Section1Url = "#";
+
+    ViewBag.Resim = "../" +ViewBag.Kategori.KategoriResim;
+    string websiteName = CacheHelper.GetWebSiteName();
+}
+
+
+@if (Model.Count() > 0)
+{
+    <p style="margin-top: 15px"><b><i>@ViewBag.Kategori.KategoriIsim</i></b> ile ilgili toplam @Model.Count() içerik var.</p>
+    foreach (var haber in Model)
+    {
+        <article class="post author-page no-display-comment">
+            <div class="post-preview col-12 no-gutter">
+                <h2 style="font-size: 25px"><a href="/Blog/Post/Haber/@Portal.SeoUrl(haber.HaberBaslik)-@haber.ID">@haber.HaberBaslik</a></h2>
+                <p class="meta">Tarih <i class="link-spacer"></i> @haber.HaberYayinlamaTarih</p>
+                <p>@haber.HaberOzet</p>
+            </div>
+        </article>
+    }
+}
+else
+{
+        <p style="margin-top: 15px"><b><i>@ViewBag.Kategori.KategoriIsim</i></b> ile ilgili henüz içerik girilmemiştir</p>
+}
+
+@section Info
+{
+    <div class="primary-info">
+        <h1>@websiteName</h1>
+        <p> <b>@ViewBag.Kategori.KategoriIsim</b> ile ilgili içerikler</p>
+    </div>
+}
+
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            openSection1();
+        })
+    </script>
+}

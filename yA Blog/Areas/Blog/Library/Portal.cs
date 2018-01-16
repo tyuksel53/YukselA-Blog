@@ -101,7 +101,7 @@ namespace yA_Blog.Areas.Blog.Library
             (from s in CacheHelper.KategoriGet()
                 select new SelectListItem()
                 {
-                    Text = s.KategoriIsım,
+                    Text = s.KategoriIsim,
                     Value = s.ID.ToString(),
                     Selected = s.ID == id ? true : false
                 }

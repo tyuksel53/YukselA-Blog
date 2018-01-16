@@ -171,6 +171,7 @@
     <Content Include="Areas\Blog\Views\Shared\_Post_Layout.cshtml" />
     <Content Include="Areas\Blog\Views\Shared\_Yorum_PartialView.cshtml" />
     <Content Include="Areas\Blog\Views\Home\Arama.cshtml" />
+    <Content Include="Areas\Blog\Views\Home\Kategori.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
