@@ -388,5 +388,24 @@ namespace yA_Blog.Areas.Blog.Controllers
 
             return View();
         }
+
+        [ValidateInput(false)]
+        public ActionResult Arama(string query)
+        {
+            query = HttpUtility.HtmlEncode(query);
+            ViewBag.AramaString = query;
+            if (!String.IsNullOrWhiteSpace(query) && query.Length > 3)
+            {
+                var aramaSonuclari = _db.Haberler.Where(x => x.Tags.ToLower().Contains(query)).ToList();
+                if (aramaSonuclari.Count == 0)
+                {
+                    aramaSonuclari = _db.Haberler.Where(x => x.HaberIcerik.ToLower().Contains(query) ||  x.HaberBaslik.ToLower().Contains(query) ).ToList();
+                    return View(aramaSonuclari);
+
+                }
+            }
+
+            return RedirectToAction("Index","Home");
+        }
     }
 }

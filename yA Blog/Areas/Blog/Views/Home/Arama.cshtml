@@ -1,0 +1,49 @@
+﻿@using yA_Blog.Areas.Blog.Library
+@model IEnumerable<Haber>
+@{
+    ViewBag.Title = "Arama";
+    Layout = "~/Areas/Blog/Views/Shared/_Home_Layout.cshtml";
+    ViewBag.SectionName1 = "Arama Sonuçları";
+    ViewBag.Section1Url = "#";
+
+    ViewBag.Resim = "../../Areas/Blog/Uploads/img/square-woods.jpg";
+    string websiteName = CacheHelper.GetWebSiteName();
+}
+
+
+@if (Model.Count() > 0)
+{
+    <p style="margin-top: 15px"><b><i>@Html.Raw(ViewBag.AramaString)</i></b> ile ilgili toplam @Model.Count() sonuç bulundu.</p>
+    foreach (var haber in Model)
+    {
+        <article class="post author-page no-display-comment">
+            <div class="post-preview col-12 no-gutter">
+                <h2 style="font-size: 25px"><a href="/Blog/Post/Haber/@Portal.SeoUrl(haber.HaberBaslik)-@haber.ID">@haber.HaberBaslik</a></h2>
+                <p class="meta">Tarih <i class="link-spacer"></i> @haber.HaberYayinlamaTarih</p>
+                <p>@haber.HaberOzet</p>
+            </div>
+        </article>
+    }
+}
+else
+{
+    <p style="margin-top: 15px"><b><i>@Html.Raw(ViewBag.AramaString)</i></b> ile ilgili herhangi bir sonuç bulunamadı.</p>
+}
+
+@section Info
+{
+    <div class="primary-info">
+        <h1>@websiteName</h1>
+        <p> <b>@Html.Raw(ViewBag.AramaString)</b> ile ilgili sonuclar</p>
+    </div>
+}
+
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            openSection1();
+        })
+    </script>
+}

@@ -2,6 +2,9 @@
 var currentSubCommnetForm = "#formCevap_0";
 var trackCommnet = 0;
 var trackSubComment = 0;
+
+$("#arama-form").validate();
+
 $("#moreComments").click(function () {
     if (trackCommnet % 2 === 0) {
         $(".no-display-comment").show(1000);
