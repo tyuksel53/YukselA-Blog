@@ -39,7 +39,11 @@
             CKEDITOR.replace('HaberIcerik');
         </script>
     </div>
-
+    <div class="form-check">
+        <label class="form-check-label">
+            <input class="form-check-input" id="resimUpload" type="checkbox"> Resim upload mı ?
+        </label>
+    </div>
     <div class="form-group">
         <strong>@Html.LabelFor(x => x.HaberResimUrl, new { @class = "text-primary " })</strong>
         @Html.TextBoxFor(x => x.HaberResimUrl, new { @class = "form-control", placeholder = "örnek -> http://google.com/mundi.jpg" })
@@ -59,3 +63,19 @@
         @Html.DropDownList("KategoriID", (List<SelectListItem>)ViewBag.Kategoriler, new { @class = "form-control" })
     </div>
 
+    <div class="form-group">
+        <strong>@Html.LabelFor(x => x.Taslak, new { @class = "text-primary " })</strong>
+        @Html.EditorFor(x => x.Taslak, new { @class = "form-control", rows = 3, colm = 80, placeholder = "Haberin Özeti" })
+        @Html.ValidationMessageFor(x => x.Tags, "", new { @class = "text-danger" })
+    </div>
+
+<script>
+    $("#resimUpload").change(function() {
+        if ($("#resimUpload").prop('checked') === true) {
+            $("#HaberResimUrl").val("../../Areas/Blog/Uploads/resimIsmi.uzantisi");
+        }
+        if ($("#resimUpload").prop('checked') === false) {
+            $("#HaberResimUrl").val("");
+        }
+    });
+</script>

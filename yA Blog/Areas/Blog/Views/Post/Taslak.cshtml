@@ -1,0 +1,65 @@
+﻿@model Haber
+@{
+    ViewBag.Title = "Taslak";
+    Layout = "~/Areas/Blog/Views/Shared/_Post_Layout.cshtml";
+    ViewBag.HeaderUrl = "../" + Model.HaberResimUrl;
+    Kullanici logedInUser = null;
+}
+
+
+<h1>@Model.HaberBaslik   ----- TASLAK</h1>
+
+<p class="meta">Yayınlanma Tarihi<i class="link-spacer"></i>@Model.HaberYayinlamaTarih</p>
+
+@Html.Raw(HttpUtility.HtmlDecode(Model.HaberIcerik))
+
+@section HaberInfo
+{
+    <img src="../@Model.Yazar.ImgUrl" class="user-icon " alt="user-image">
+    <div class="meta">
+
+        <div class="sidebar-info">
+            <i class="fa fa-th-list"></i>
+            <a href="/Blog/Home/Kategori/@Model.Kategorisi.KategoriIsim">@Model.Kategorisi.KategoriIsim</a>
+            @{
+                if (!String.IsNullOrWhiteSpace(Model.Tags))
+                {
+                    <i class="fa fa-tags"></i>
+                    foreach (var tag in Model.Tags.Split(','))
+                    {
+                        <a href="/Blog/Home/Arama?query=@tag">@tag</a>
+                        <i class="link-spacer"></i>
+                    }
+
+                }
+
+            }
+        </div>
+
+        <div class="sidebar-readtime">
+            <i class="fa fa-comment"></i>
+        </div>
+
+    </div>
+}
+
+@section footerInfo
+{
+    <div class="col-xs-12 col-md-2">
+        <img src="../@Model.Yazar.ImgUrl" class="user-icon " alt="user-image">
+    </div>
+    <div class="col-xs-12 col-md-6">
+        <div class="category-list">
+            <p>Yayınlanma Tarihi <span>@Model.HaberYayinlamaTarih</span></p>
+            <p><a href="#">@Model.Yazar.KullaniciAdi</a> , <a href="/Blog/Home/Kategori/@Model.Kategorisi.KategoriIsim">@Model.Kategorisi.KategoriIsim</a></p>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-4">
+
+    </div>
+
+}
+@section Scripts
+{
+    <script src="~/Scripts/jquery.form.min.js"></script>
+}

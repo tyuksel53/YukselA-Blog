@@ -7,7 +7,7 @@
 @section css{
 <style>
     #sidebar .list-group {
-        min-height: 180vh;
+        min-height: 220vh;
     }
 </style>
 }
@@ -101,6 +101,10 @@
         {
             $("#LoadingHaber").hide(300);
             TagleriEkle();
+            window.setTimeout(function() {
+                location.reload();
+                },
+                1500);
         }
 
         function TagleriEkle()

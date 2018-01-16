@@ -35,7 +35,11 @@
                     @Html.ValidationMessageFor(model => model.KategoriIsim, "", new { @class = "text-danger" })
                 </div>
             </div>
-
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" id="resimUpload" type="checkbox"> Resim upload mı ?
+                </label>
+            </div>
             <div class="form-group">
               <strong>@Html.LabelFor(model => model.KategoriResim, htmlAttributes: new { @class = "control-label col-md-2 text-primary" })</strong>
                 <div class="col-md-10">
@@ -60,6 +64,15 @@
         $("#KategoriEkle_Button").click(function () {
             $("#KategoriEkle_Success").hide();
         });
+        $("#resimUpload").change(function() {
+            if ($("#resimUpload").prop('checked') === true) {
+                $("#KategoriResim").val("../../Areas/Blog/Uploads/resimIsmi.uzantisi");
+            }
+            if ($("#resimUpload").prop('checked') === false) {
+                $("#KategoriResim").val("");
+            }
+        });
     </script>
+
     }
 

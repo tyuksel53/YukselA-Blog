@@ -1,6 +1,6 @@
 ﻿@model yA_Blog.Areas.Blog.PageModels.PostPage
 @{
-    ViewBag.Title = @Model.Post.HaberBaslik;
+    ViewBag.Title = Model.Post.HaberBaslik;
     Layout = "~/Areas/Blog/Views/Shared/_Post_Layout.cshtml";
     ViewBag.HeaderUrl = "../" + Model.Post.HaberResimUrl;
     Kullanici logedInUser = null;

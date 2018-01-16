@@ -30,6 +30,7 @@
                 <th>Haber Başlığı</th>
                 <th>Yayınlanma Tarihi</th>
                 <th>Katagorisi</th>
+                <th>Durum</th>
                 <th>Düzenle</th>
                 <th>Sil</th>
             </tr>
@@ -43,6 +44,16 @@
                         <td>@item.HaberBaslik</td>
                         <td>@item.HaberYayinlamaTarih</td>
                         <td>@item.Kategorisi.KategoriIsim</td>
+                        <td>@{
+                                if (item.Taslak)
+                                {
+                                    <a href="/Blog/Post/Taslak/@item.ID" target="_blank" class="btn btn-warning" role="button">Taslak</a>
+                                }
+                                else
+                                {
+                                    <a href="#asd" class="btn btn-success" role="button">Aktif</a>
+                                }
+                            }</td>
                         <td><a href="/Blog/Admin/HaberGuncelle/@item.ID" class="btn btn-primary" role="button">Düzenle</a></td>
                         <td><a href="#" class="btn btn-danger" onclick="haberSil_baslat(@item.ID)" role="button">Sil</a></td>
                     </tr>

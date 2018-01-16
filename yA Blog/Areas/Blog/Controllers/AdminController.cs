@@ -12,6 +12,7 @@ using yA_Blog.Areas.Blog.Models.Managers;
 
 namespace yA_Blog.Areas.Blog.Controllers
 {
+    [AuthAdmin]
     public class AdminController : Controller
     {
         readonly DatabaseContext _dB = new DatabaseContext();
@@ -48,7 +49,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
                 model.HaberYayinlamaTarih = DateTime.Now.ToString("dd-MM-yyyy");
 
-                model.Yazar = (from s in _dB.Kullanicilar select s).FirstOrDefault(); //todo burada sessiondan al
+                model.Yazar = Session["Kullanici"] as Kullanici;;
 
                 ViewBag.SuccessAdd = true;
 
@@ -101,7 +102,7 @@ namespace yA_Blog.Areas.Blog.Controllers
         {
             if(id == null)
             {
-                id = 1;
+                return RedirectToAction("Haberler","Admin");
             }
             Haber haberGuncelle = _dB.Haberler.FirstOrDefault(x => x.ID == id);
             if(haberGuncelle == null)
@@ -117,6 +118,7 @@ namespace yA_Blog.Areas.Blog.Controllers
             }
             
         }
+
         [HttpPost]
         public ActionResult HaberGuncelle(Haber model, int kategoriId)
         {
@@ -148,6 +150,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                 update.HaberResimUrl = model.HaberResimUrl;
                 update.Tags = model.Tags;
                 update.Kategorisi = updateKategori;
+                update.Taslak = model.Taslak;
 
                 ViewBag.SuccessUpdate = true;
 

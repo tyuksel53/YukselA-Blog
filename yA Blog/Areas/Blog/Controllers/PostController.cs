@@ -13,6 +13,24 @@ namespace yA_Blog.Areas.Blog.Controllers
     {
         private readonly DatabaseContext _dB = new DatabaseContext();
 
+        [AuthAdmin]
+        [HttpGet]
+        public ActionResult Taslak(string id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
+            int postId = Convert.ToInt32(id);
+            var taslakHaber = _dB.Haberler.FirstOrDefault(x => x.ID == postId);
+            if (taslakHaber != null)
+            {
+                return View(taslakHaber);
+            }
+            return RedirectToAction("Index", "Admin");
+        }
+
         [HttpGet]
         public ActionResult Haber(string id)
         {
@@ -22,7 +40,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                 string[] parse = id.Split('-');
                 int postId = Convert.ToInt32(parse[parse.Length - 1]);
 
-                var post = _dB.Haberler.FirstOrDefault(x => x.ID == postId);
+                var post = _dB.Haberler.FirstOrDefault(x => x.ID == postId && x.Taslak == false);
                 if (post == null)
                 {
                     return HttpNotFound();

@@ -108,7 +108,8 @@ namespace yA_Blog.Areas.Blog.Models.Managers
             context.Kullanicilar.Add(user3);
 
             Random random = new Random();
-            for (int i=0;i<10;i++)
+
+            for (int i=0;i<10;i++) // kategoriler
             {
                 string path = "../../Areas/Blog/Uploads/img/";
                 Kategori yeniKategori = new Kategori
@@ -133,7 +134,9 @@ namespace yA_Blog.Areas.Blog.Models.Managers
                     Kategorisi = context.Kategoriler.FirstOrDefault(x=> x.ID == randomInt ),
                     HaberYayinlamaTarih = DateTime.Now.AddDays(-1).ToString("dd-MM-yyyy"),
                     Tags = "CSharp,Mvc,EntityFramework,Linq",
-                    Yazar = context.Kullanicilar.FirstOrDefault(x => x.ID == 1)
+                    Yazar = context.Kullanicilar.FirstOrDefault(x => x.ID == 1),
+                    Taslak = false
+                    
                 };
 
                 context.Haberler.Add(post);
@@ -141,7 +144,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
 
             context.SaveChanges();
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 20; i++) // commentler
             {
                 int randomInt = random.Next(1, 6);
                 Yorum yeniYorum = new Yorum
@@ -156,7 +159,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
 
             context.SaveChanges();
 
-            for (int i = 0; i < 40; i++)
+            for (int i = 0; i < 40; i++) // subcommentler
             {
                 int kullaniciId = random.Next(1, 6);
                 AltYorum subComment = new AltYorum();
@@ -172,7 +175,7 @@ namespace yA_Blog.Areas.Blog.Models.Managers
             .Select(Path.GetFileName)
             .ToArray();
 
-            foreach (var item in uploaddedFiles)
+            foreach (var item in uploaddedFiles) // default yüklenen dosyları veritabanına yazma
             {
                 Uploads upload = new Uploads
                 {

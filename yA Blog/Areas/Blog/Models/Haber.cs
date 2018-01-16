@@ -37,6 +37,8 @@ namespace yA_Blog.Areas.Blog.Models
         [Required]
         public string HaberResimUrl { get; set; }
 
+        [Required,DisplayName("Taslak olarak kaydedilsin mi ?")]
+        public bool Taslak { get; set; }
 
         public virtual Kullanici Yazar {get;set;}
 
