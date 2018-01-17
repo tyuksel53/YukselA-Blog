@@ -13,6 +13,7 @@ using yA_Blog.Areas.Blog.Models.Managers;
 namespace yA_Blog.Areas.Blog.Controllers
 {
     [AuthAdmin]
+    [MyActionFilter,ResultFilter]
     public class AdminController : Controller
     {
         readonly DatabaseContext _dB = new DatabaseContext();

@@ -13,13 +13,22 @@ namespace yA_Blog.Areas.Blog.Models.Managers
     public class DatabaseContext : DbContext
     {
         public DbSet<Kullanici> Kullanicilar {get;set;}
+
         public DbSet<Haber> Haberler { get; set; }
+
         public DbSet<Kategori> Kategoriler { get; set; }
+
         public DbSet<Uploads> Uploads { get; set; }
+
         public DbSet<Takipciler> Subscribers { get; set; }
+
         public DbSet<WebSiteConfig> Ayarlar { get; set; }
+
         public DbSet<Yorum> Yorumlar { get; set; }
+
         public DbSet<AltYorum> AltYorumlar { get; set; }
+
+        public DbSet<Loglar> Loglar { get; set; }
 
         public DatabaseContext()
         {

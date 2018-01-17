@@ -615,14 +615,17 @@
     <Compile Include="Areas\Blog\Controllers\HomeController.cs" />
     <Compile Include="Areas\Blog\Controllers\PostController.cs" />
     <Compile Include="Areas\Blog\Controllers\UserController.cs" />
+    <Compile Include="Areas\Blog\Filter\MyActionFilter.cs" />
     <Compile Include="Areas\Blog\Filter\AuthAdmin.cs" />
     <Compile Include="Areas\Blog\Filter\AuthUser.cs" />
     <Compile Include="Areas\Blog\Filter\NotAccessibleByLoggedInUser.cs" />
     <Compile Include="Areas\Blog\Filter\ExcFilter.cs" />
+    <Compile Include="Areas\Blog\Filter\ResultFilter.cs" />
     <Compile Include="Areas\Blog\Library\File.cs" />
     <Compile Include="Areas\Blog\Library\Portal.cs" />
     <Compile Include="Areas\Blog\Library\CacheHelper.cs" />
     <Compile Include="Areas\Blog\Library\Repository.cs" />
+    <Compile Include="Areas\Blog\Models\Loglar.cs" />
     <Compile Include="Areas\Blog\Models\Yorum.cs" />
     <Compile Include="Areas\Blog\Models\Takipciler.cs" />
     <Compile Include="Areas\Blog\Models\Uploads.cs" />
