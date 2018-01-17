@@ -34,8 +34,6 @@ namespace yA_Blog.Areas.Blog.Controllers
         [HttpPost]
         public ActionResult HaberEkle(Haber model,int kategoriId)
         {
-            System.Threading.Thread.Sleep(3000); // burayı değiş
-
             ViewBag.Kategoriler = Portal.Katagorileri_Getir(kategoriId);
 
             if (ModelState.IsValid)
@@ -57,7 +55,17 @@ namespace yA_Blog.Areas.Blog.Controllers
                 _dB.Haberler.Add(model);
                 _dB.SaveChanges();
 
-                //todo bu kısımda takipcilere mesaj atılacak
+                if (CacheHelper.GetWebSitesubscribersStatus() && model.Taslak == false)
+                {
+                    var takipciler = _dB.Subscribers.Where(x => x.isActive).ToList();
+                    if (takipciler.Count > 0)
+                    {
+                        foreach (var takipci in takipciler)
+                        {
+                            Portal.TakipciBildirim(takipci,(model.HaberBaslik + "-" + model.ID));
+                        }
+                    }
+                }
 
                 return PartialView("_HaberPartialView", new Haber() );
             }
@@ -84,7 +92,6 @@ namespace yA_Blog.Areas.Blog.Controllers
         [HttpPost]
         public JsonResult Haber_Sil(int silinecekId)
         {
-            System.Threading.Thread.Sleep(3000);
             Haber silenecekHaber = _dB.Haberler.FirstOrDefault(s => s.ID == silinecekId);
             if(silenecekHaber == null)
             {
@@ -123,8 +130,6 @@ namespace yA_Blog.Areas.Blog.Controllers
         [HttpPost]
         public ActionResult HaberGuncelle(Haber model, int kategoriId)
         {
-            System.Threading.Thread.Sleep(3000);
-
             ViewBag.Kategoriler = Portal.Katagorileri_Getir(kategoriId);
 
             if (ModelState.IsValid)
@@ -362,7 +367,6 @@ namespace yA_Blog.Areas.Blog.Controllers
         [HttpPost]
         public JsonResult DosyaSil(int silinecekId)
         {
-            System.Threading.Thread.Sleep(3000);
             Uploads dosya = _dB.Uploads.FirstOrDefault(x => x.ID == silinecekId);
             if (dosya != null)
             {
@@ -410,7 +414,6 @@ namespace yA_Blog.Areas.Blog.Controllers
         [HttpPost]
         public JsonResult TakipciSil(int silinecekId)
         {
-            System.Threading.Thread.Sleep(3000);
             var silinecekTakipci = _dB.Subscribers.FirstOrDefault(x => x.ID == silinecekId);
 
             if (silinecekTakipci == null)
@@ -518,6 +521,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                 currentConfig.Subscribers = ayarlarUpdate.Subscribers;
                 currentConfig.WebsiteInfo = ayarlarUpdate.WebsiteInfo;
                 currentConfig.WebsiteName = ayarlarUpdate.WebsiteName;
+                currentConfig.IndexImg = ayarlarUpdate.IndexImg;
 
                 _dB.SaveChanges();
 

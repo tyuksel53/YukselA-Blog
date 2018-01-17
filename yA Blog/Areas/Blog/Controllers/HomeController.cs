@@ -237,18 +237,18 @@ namespace yA_Blog.Areas.Blog.Controllers
             return View();
         }
 
-        public ActionResult UnSubscribe(Guid? activateId) //TODO burayı test et
+        public ActionResult UnSubscribe(Guid? deActive) //TODO burayı test et
         {
-            if (activateId == null)
+            if (deActive == null)
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            var takipci = _db.Subscribers.FirstOrDefault(x => x.DelToken == activateId);
+            var takipci = _db.Subscribers.FirstOrDefault(x => x.DelToken == deActive);
 
             if (takipci != null)
             {
-                if (takipci.isActive)
+                if (!takipci.isActive)
                 {
                     ViewBag.ResultMessage = "Takipci listemizden zaten çıkarıldınız.";
                 }

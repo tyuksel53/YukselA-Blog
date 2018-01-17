@@ -16,7 +16,7 @@
 
 @{
 
-    if (logedInUser.Role.Equals("admin"))
+    if (logedInUser != null && logedInUser.Role.Equals("admin") )
     {
         @Html.ActionLink("Düzenle","HaberGuncelle","Admin",new {Area = "Blog", id=ViewBag.PostId},new
         {

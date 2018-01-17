@@ -61,6 +61,13 @@ namespace yA_Blog.Areas.Blog.Library
             return result;
         }
 
+        public static string GetWebSiteHomeImg()
+        {
+            var result = SetWebSiteCache().IndexImg;
+
+            return result;
+        }
+
         public static WebSiteConfig SetWebSiteCache()
         {
             var ayarlar = WebCache.Get("websiteConfig");

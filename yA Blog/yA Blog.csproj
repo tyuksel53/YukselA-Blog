@@ -598,8 +598,6 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-    <Content Include="Scripts\vendor\bootstrap.js" />
-    <Content Include="Scripts\vendor\bootstrap.min.js" />
     <Content Include="Scripts\vendor\fastclick.min.js" />
     <Content Include="Scripts\vendor\html5shiv.min.js" />
     <Content Include="Scripts\vendor\jquery.jpanelmenu.min.js" />

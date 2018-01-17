@@ -28,5 +28,9 @@ namespace yA_Blog.Areas.Blog.Models
         [DisplayName("Takipcilere bildirim gitsin mi")]
         public bool Subscribers { get; set; }
 
+        [Required]
+        [DisplayName("Ana Sayfa Kapak Fotoğrafı")]
+        public string IndexImg { get; set; }
+
     }
 }

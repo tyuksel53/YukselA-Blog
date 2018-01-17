@@ -33,6 +33,9 @@
                     @Html.DisplayNameFor(model => model.KayitTarihi)
                 </th>
                 <th>
+                    Durum
+                </th>
+                <th>
                     Sil
                 </th>
             </tr>
@@ -47,6 +50,9 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.KayitTarihi)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.isActive)
                     </td>
                     <td>
                         <a href="#" class="btn btn-danger" onclick="takipciSil_baslat(@item.ID)" role="button">Sil</a>

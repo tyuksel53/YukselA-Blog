@@ -162,6 +162,30 @@ namespace yA_Blog.Areas.Blog.Library
             SendMail(body, model.Eposta, (siteName + " Şifrenizi resetleme"));
         }
 
+        public static void TakipciBildirim(Takipciler takipci,string haberBaslik)
+        {
+            string siteUrl = WebConfigGet<string>("SiteRootUri");
+
+            string[] split = haberBaslik.Split('-');
+
+            var haberUrl = siteUrl + "/Blog/Post/Haber/" + SeoUrl(split[0]) + "-" + split[1];
+
+            string deActivateUrl = $"{siteUrl}/Blog/Home/UnSubscribe?deActive={takipci.DelToken}";
+
+            deActivateUrl = $"<a href='{deActivateUrl}' target='_blank' > tıklayınız.</a>";
+
+            haberUrl = $"<a href='{haberUrl}' target='_blank' > tıklayınız.</a>";
+
+            string siteName = CacheHelper.GetWebSiteName();
+
+            string body = $"Merhabalar sayın takipcimiz,<br/><br/>Yeni içeriğimiz, <b><i>{split[0]}</i></b>" +
+                          $", isimli habere bakmak için {haberUrl}<br/><br/>" +
+                          $"Takipçilikten çıkmak için {deActivateUrl}";
+
+            SendMail(body, takipci.Email, (siteName + " Bildirimler"));
+        }
+
+
         public static string SeoUrl(string text)
         {
             try

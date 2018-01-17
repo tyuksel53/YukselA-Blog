@@ -11,7 +11,7 @@
     ViewBag.Section1Url = "#";
     ViewBag.Section2Url = "#";
 
-    ViewBag.Resim = "../../Areas/Blog/Uploads/img/default-404.jpg";
+    ViewBag.Resim = CacheHelper.GetWebSiteHomeImg();
     string websiteName = CacheHelper.GetWebSiteName();
     string websiteInfo = CacheHelper.GetWebSiteInfo();
 }

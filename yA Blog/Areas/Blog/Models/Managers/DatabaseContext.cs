@@ -43,7 +43,8 @@ namespace yA_Blog.Areas.Blog.Models.Managers
             {
                 WebsiteName = "Yüksel Algoritma",
                 WebsiteInfo = "Mutluluk sadece paylaşılınca gerçektir",
-                Subscribers = true
+                Subscribers = true,
+                IndexImg = "../../Areas/Blog/Uploads/img/default-404.jpg"
             };
 
             context.Ayarlar.Add(config);

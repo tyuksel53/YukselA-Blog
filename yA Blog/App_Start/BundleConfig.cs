@@ -26,9 +26,11 @@ namespace yA_Blog.App_Start
                 "~/Scripts/jquery-3.2.1.min.js",
                 "~/Scripts/vendor/jquery.jpanelmenu.min.js",
                 "~/Scripts/umd/popper.min.js",
-                "~/Scripts/vendor/bootstrap.min.js",
-                "~/Scripts/vendor/fastclick.min.js",
-                "~/Scripts/main.js"
+                "~/Scripts/bootstrap.min.js",
+                "~/Scripts/vendor/fastclick.min.js"
+                ));
+            bundles.Add(new ScriptBundle("~/script/Blog").Include(
+                "~/Scripts/blogJs/common.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/script/validate").Include(
