@@ -397,10 +397,10 @@ namespace yA_Blog.Areas.Blog.Controllers
             ViewBag.AramaString = query;
             if (!String.IsNullOrWhiteSpace(query) && query.Length >= 3)
             {
-                var aramaSonuclari = _db.Haberler.Where(x => x.Tags.ToLower().Contains(query)).ToList();
+                var aramaSonuclari = _db.Haberler.Where(x => x.Tags.ToLower().Contains(query)).OrderByDescending(x=>x.ID).ToList();
                 if (aramaSonuclari.Count == 0)
                 {
-                    aramaSonuclari = _db.Haberler.Where(x => x.HaberIcerik.ToLower().Contains(query) ||  x.HaberBaslik.ToLower().Contains(query) ).ToList();
+                    aramaSonuclari = _db.Haberler.Where(x => x.HaberIcerik.ToLower().Contains(query) ||  x.HaberBaslik.ToLower().Contains(query) ).OrderByDescending(x=>x.ID).ToList();
                     return View(aramaSonuclari);
 
                 }
@@ -421,7 +421,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                 var checkIfExists = _db.Kategoriler.FirstOrDefault(x => x.KategoriIsim == id);
                 if (checkIfExists != null)
                 {
-                    var sonuclar = _db.Haberler.Where(x => x.Kategorisi.KategoriIsim == id).ToList();
+                    var sonuclar = _db.Haberler.Where(x => x.Kategorisi.KategoriIsim == id).OrderByDescending(x=> x.ID).ToList();
                     ViewBag.Kategori = checkIfExists;
                     return View(sonuclar);
                 }

@@ -32,7 +32,9 @@ namespace yA_Blog.Areas.Blog.Models.Managers
         {
             WebSiteConfig config = new WebSiteConfig()
             {
-                WebsiteName = "Yüksel Algoritma"
+                WebsiteName = "Yüksel Algoritma",
+                WebsiteInfo = "Mutluluk sadece paylaşılınca gerçektir",
+                Subscribers = true
             };
 
             context.Ayarlar.Add(config);

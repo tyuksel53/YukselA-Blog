@@ -42,16 +42,37 @@ namespace yA_Blog.Areas.Blog.Library
 
         public static string GetWebSiteName()
         {
-            var result = WebCache.Get("websiteConfig-cache");
-
-            if (result == null)
-            {
-                DatabaseContext _dB = new DatabaseContext();
-                result = _dB.Ayarlar.First().WebsiteName;
-                WebCache.Set("websiteConfig-cache",result,20,true);
-            }
+            var result = SetWebSiteCache().WebsiteName;
 
             return result;
+        }
+
+        public static string GetWebSiteInfo()
+        {
+            var result = SetWebSiteCache().WebsiteInfo;
+
+            return result;
+        }
+
+        public static bool GetWebSitesubscribersStatus()
+        {
+            var result = SetWebSiteCache().Subscribers;
+
+            return result;
+        }
+
+        public static WebSiteConfig SetWebSiteCache()
+        {
+            var ayarlar = WebCache.Get("websiteConfig");
+
+            if (ayarlar == null)
+            {
+                DatabaseContext _dB = new DatabaseContext();
+                ayarlar = _dB.Ayarlar.First();
+                WebCache.Set("websiteConfig", ayarlar, 20,true);
+            }
+
+            return ayarlar;
         }
     }
 }

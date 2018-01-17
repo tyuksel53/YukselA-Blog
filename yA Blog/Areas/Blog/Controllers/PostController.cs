@@ -52,6 +52,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                     AltYorumlar = _dB.AltYorumlar.Where(x=> x.PostId == postId).ToList()
                 };
                 TempData["currentPostId"] = postId;
+                ViewBag.PostId = postId;
                 return View(requestedPage);
             }
             catch (Exception)

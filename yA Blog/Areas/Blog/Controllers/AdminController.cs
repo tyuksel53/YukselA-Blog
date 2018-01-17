@@ -499,5 +499,33 @@ namespace yA_Blog.Areas.Blog.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        public ActionResult Ayarlar()
+        {
+            return View( CacheHelper.SetWebSiteCache() );
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Ayarlar(WebSiteConfig ayarlarUpdate)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentConfig = _dB.Ayarlar.First();
+
+                currentConfig.Subscribers = ayarlarUpdate.Subscribers;
+                currentConfig.WebsiteInfo = ayarlarUpdate.WebsiteInfo;
+                currentConfig.WebsiteName = ayarlarUpdate.WebsiteName;
+
+                _dB.SaveChanges();
+
+                ViewBag.Success = "basarili";
+
+                CacheHelper.Remove("websiteConfig");
+            }
+
+            return View();
+        }
     }
 }

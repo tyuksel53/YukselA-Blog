@@ -13,6 +13,7 @@
 
     ViewBag.Resim = "../../Areas/Blog/Uploads/img/default-404.jpg";
     string websiteName = CacheHelper.GetWebSiteName();
+    string websiteInfo = CacheHelper.GetWebSiteInfo();
 }
 @{
     if (Model.Haberler != null)
@@ -94,7 +95,7 @@
 {
     <div class="primary-info">
         <h1>@websiteName</h1>
-        <p>@websiteName is coming</p>
+        <p>@websiteInfo</p>
     </div>
     <div class="secondary-info">
         <p>

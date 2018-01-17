@@ -14,6 +14,21 @@
     }
 }
 
+@{
+
+    if (logedInUser.Role.Equals("admin"))
+    {
+        @Html.ActionLink("Düzenle","HaberGuncelle","Admin",new {Area = "Blog", id=ViewBag.PostId},new
+        {
+            @class="btn btn-danger",
+            style="margin-top:15px;" +
+                  "margin-bottom:15px;" +
+                  "font-size:15px",
+            target="_blank"
+        })
+    }
+}
+
 <h1>@Model.Post.HaberBaslik</h1>
 
 <p class="meta">Yayınlanma Tarihi<i class="link-spacer"></i>@Model.Post.HaberYayinlamaTarih</p>
