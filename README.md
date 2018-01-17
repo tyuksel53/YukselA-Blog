@@ -31,15 +31,15 @@ Web Sayfası [yukselalgoritma.net](http://yukselalgoritma.net)
 
 ## Genel Özellikler
 
-* Admin tarfında yapılan bütün aksiyonların ***loglanması***
+* Admin tarfında yapılan ***bütün aksiyonların loglanması***
 
-* Client tarfında, kullanıcıdan istenen bütün ***inputlar için validate*** yapılması
+* Client tarfında, ***kullanıcıdan istenen bütün inputlar için doğrulama*** yapılması
 
 * ***CSRF*** saldırılarına karşı sayfalarda token oluşturma
 
-* ***XSS*** saldırılarına karşı, kullanıcıların ***inputların encode etme***
+* ***XSS*** saldırılarına karşı, ***kullanıcıların inputların encode etme***
 
-* ***Brute Force*** saldırılara karşı capcha kullanma
+* ***Brute Force*** saldırılara karşı captcha kullanma
 
 * Sıklıkla kullanılan öğeleri ***cacheleme***
 
@@ -51,7 +51,7 @@ Web Sayfası [yukselalgoritma.net](http://yukselalgoritma.net)
 
 * Kategori **ekleme**, **güncelleme**, **silme**
 
-* Dosya **yükleme**, **silme** ajax ile
+* Dosya **yükleme**, **silme** ***(ajax ile)***
 
 * Kullanıcı **kayıt**, **silme**, **login**
 
