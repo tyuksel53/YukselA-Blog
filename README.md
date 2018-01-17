@@ -70,5 +70,50 @@ Web Sayfası [yukselalgoritma.net](http://yukselalgoritma.net)
 
 ## Kurulum
 
-Öncelikle [Web.Config](yA-BlogMVC/yA Blog/Web.config)
+Öncelikle [Web.Config](yA%20Blog/Web.config) daki bazı ayarları güncellemiz gerekmetedir.
 
+```sh
+<add key="recaptcha_sitekey" value="6LcncjwUAAAAAHclYUU7yXyvVaOMZd_FLOCcb0mJ" />
+<add key="recaptcha_privatekey" value="6LcncjwUAAAAACSXIynAx_42X0UteOk0VeXkPBVY" />
+```
+Bu kısımda `recaptcha_sitekey` ve `recaptcha_privatekey` anahtar değer ikililerine, kendi değerlerimizi giriyoruz. Bu bilgiler [reCAPTCHA](https://www.google.com/recaptcha/intro/android.html) adresinden alınabilir
+
+```sh
+<add key="mailUser" value="mailadresi@adres.com"/>
+<add key="mailPass" value="password"/>
+<add key="mailHost" value="host"/>
+<add key="mailPort" value="portNo"/>
+```
+Bu kısımda iligili yerlere hangi mail adersi kullanacaksak, onların bilgilerini giriyoruz.
+
+```sh
+<add key="SiteRootUri" value="http://localhost:55556/"/>
+```
+
+Uygulamayı ***Deploy*** edeceğimiz ***domain*** adresini giriyoz.
+
+```sh
+  <connectionStrings>
+    <add name="DatabaseContext" connectionString="Data Source=.;Initial Catalog=deneme;Integrated Security=True" providerName="System.Data.SqlClient" />
+  </connectionStrings>
+```
+
+Son olarak da, veritabanına bağlanacak connection stringimizi ayarlama kalıyor. Veritabanı ayarlarınıda yaptıktan sonra artık uygulamayı çalıştırmaya hazırız.
+
+Uygulama çalışmaya başlarken ***veritabanı yoksa otomatik oluşturulur*** ve FakeData kullanılarak veriler otomatik Insert edilir.Bu sizin uygulamayı daha iyi anlamanıza yardımcı olacaktır.
+
+Verileri kendiniz oluşturmak istiyorsanız, [DatabaseContext](yA%20Blog/Areas/Blog/Models/Managers/DatabaseContext.cs) dosyasında,
+
+```sh
+  public class VeriTabaniOlusturucu : CreateDatabaseIfNotExists <DatabaseContext>
+    {
+        protected override void Seed(DatabaseContext context)
+        {
+        }
+    }
+```
+***VeriTabaniOlusturucu*** Sınıfının ***Seed*** metodunu özelleştirebilirsiniz. Diğer kişileştirmeler için admin olarak giriş yapıp
+```sh
+domain/Admin/Ayarlar
+```
+Adresinden yapabiliriniz.
