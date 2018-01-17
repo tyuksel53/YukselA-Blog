@@ -115,7 +115,7 @@ Verileri kendiniz oluşturmak istiyorsanız, [DatabaseContext](yA%20Blog/Areas/B
         }
     }
 ```
-***VeriTabaniOlusturucu*** Sınıfının ***Seed*** metodunu özelleştirebilirsiniz. Diğer kişileştirmeler için admin olarak giriş yapıp
+***VeriTabaniOlusturucu*** Sınıfının ***Seed*** metodunu özelleştirebilirsiniz. **Diğer kişileştirmeler için** admin olarak giriş yapıp
 ```sh
 domain/Admin/Ayarlar
 ```
