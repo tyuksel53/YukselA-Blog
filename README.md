@@ -40,6 +40,8 @@ Web Sayfası [yukselalgoritma.net](http://yukselalgoritma.net)
 
 * Sıklıkla kullanılan öğeleri ***cacheleme***
 
+* ***Seo dostu*** Url'ler
+
 ## İçerikler
 
 * Haber **ekleme**, **güncelleme**, **silme**, **taslak olarak kaydetme**  ***(ajax ile)***
@@ -65,4 +67,8 @@ Web Sayfası [yukselalgoritma.net](http://yukselalgoritma.net)
 * Kullanicilar arası **rollendirme** ***(admin,user)***
 
 * Kullanıcıların **rollerine göre erişim sağlama**
+
+## Kurulum
+
+Öncelikle [Web.Config](yA-BlogMVC/yA Blog/Web.config)
 
