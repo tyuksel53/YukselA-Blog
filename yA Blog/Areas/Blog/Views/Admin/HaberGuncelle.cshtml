@@ -13,7 +13,7 @@
 }
 
 <div class="col-md-12" style="margin-top: 15px">
-    @Html.ActionLink("Ön İzleme","Taslak","Post", new { Area = "Blog", ID = ViewBag.ID }, new {@class="btn btn-warning",
+    @Html.ActionLink("Ön İzleme","Taslak","Post", new {ID = ViewBag.ID }, new {@class="btn btn-warning",
         style="margin-top:15px;margin-bottom:15px",target ="_blank"})
     <h2><b><i>#@(ViewBag.ID)</i></b> Numaralı haberi güncelliyorsunuz</h2>
     @{
@@ -37,7 +37,7 @@
         }
 
     }
-    <a href="/Blog/Admin/Haberler" class="btn btn-outline-primary">Tüm Haberler</a>
+    <a href="/Admin/Haberler" class="btn btn-outline-primary">Tüm Haberler</a>
 </div>
 @section script{
 <script>

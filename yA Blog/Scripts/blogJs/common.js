@@ -108,7 +108,7 @@ function validateSubCommnet() {
 
 function yanitla(parent, replyTo) {
     $(currentSubCommnetForm).remove();
-    var form = "<form method='post' action='/Blog/Post/YorumCevap/' id='formCevap_" +
+    var form = "<form method='post' action='/Post/YorumCevap/' id='formCevap_" +
         parent+
         "'" +
         "style='margin-top:15px'>" +
@@ -145,7 +145,7 @@ function altYorumSilBaslat(response) {
     var form = $('#__AjaxAntiForgeryForm');
     var token = $('input[name="__RequestVerificationToken"]', form).val();
     $.ajax({
-        url: '/Blog/Post/AltYorumSil',
+        url: '/Post/AltYorumSil',
         data: {
             silinecekId: response,
             __RequestVerificationToken: token
@@ -180,7 +180,7 @@ function yorumSilBaslat(Id) {
     var token = $('input[name="__RequestVerificationToken"]', form).val();
 
     $.ajax({
-        url: "/Blog/Post/YorumSil",
+        url: "/Post/YorumSil",
         data: {
             silinecekId: Id,
             __RequestVerificationToken: token

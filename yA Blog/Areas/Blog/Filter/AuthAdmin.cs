@@ -14,14 +14,14 @@ namespace yA_Blog.Areas.Blog.Filter
         {
             if (filterContext.HttpContext.Session["Kullanici"] == null)
             {
-                filterContext.Result = new RedirectResult("/Blog/Home/Index");
+                filterContext.Result = new RedirectResult("/Home/Index");
             }
             else
             {
                 Kullanici admin = filterContext.HttpContext.Session["Kullanici"] as Kullanici;
                 if (!admin.Role.Equals("admin"))
                 {
-                    filterContext.Result = new RedirectResult("/Blog/Home/Index");
+                    filterContext.Result = new RedirectResult("/Home/Index");
                 }
             }
         }

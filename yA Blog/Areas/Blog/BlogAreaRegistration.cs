@@ -16,7 +16,7 @@ namespace yA_Blog.Areas.Blog
         {
             context.MapRoute(
                 "Blog_default",
-                "Blog/{controller}/{action}/{id}",
+                "{controller}/{action}/{id}",
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
         }

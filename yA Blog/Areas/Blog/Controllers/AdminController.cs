@@ -81,7 +81,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
             if (haberler == null)
             {
-                return RedirectToAction("Haberler","Admin", new {Area = "Blog", page = 1});
+                return RedirectToAction("Haberler","Admin", new {page = 1});
             }
 
             ViewBag.HaberCount = repo.IcerikSayisi(x => x.ID);
@@ -213,7 +213,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
             if (kategoriler == null)
             {
-                return RedirectToAction("Kategoriler", "Admin", new { Area = "Blog", page = 1 });
+                return RedirectToAction("Kategoriler", "Admin", new { page = 1 });
             }
 
             ViewBag.KategoriCount = repo.IcerikSayisi(x => x.ID);
@@ -238,7 +238,7 @@ namespace yA_Blog.Areas.Blog.Controllers
         {
             if(id == null)
             {
-                return RedirectToAction("Kategoriler","Admin", new { Area = "blog" });
+                return RedirectToAction("Kategoriler","Admin");
             }
             Kategori guncelle = _dB.Kategoriler.FirstOrDefault(x => x.ID == id);
 
@@ -308,7 +308,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
             if (uploads == null)
             {
-                return RedirectToAction("Uploads", "Admin", new { Area = "Blog", page = 1 });
+                return RedirectToAction("Uploads", "Admin", new { page = 1 });
             }
 
             ViewBag.UploadsCount = repo.IcerikSayisi(x => x.ID);
@@ -403,7 +403,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
             if (takipciler == null)
             {
-                return RedirectToAction("Takipciler", "Admin", new { Area = "Blog", page = 1 });
+                return RedirectToAction("Takipciler", "Admin", new { page = 1 });
             }
 
             ViewBag.SubscribersCount = repo.IcerikSayisi(x => x.ID);
@@ -436,7 +436,7 @@ namespace yA_Blog.Areas.Blog.Controllers
 
             if (kullanicilar == null)
             {
-                return RedirectToAction("Kullanicilar", "Admin", new { Area = "Blog", page = 1 });
+                return RedirectToAction("Kullanicilar", "Admin", new {page = 1 });
             }
 
             ViewBag.KullaniciCount = repo.IcerikSayisi(x => x.ID);

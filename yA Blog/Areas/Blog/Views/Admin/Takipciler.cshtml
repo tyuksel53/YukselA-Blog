@@ -68,7 +68,7 @@
             <nav aria-label="...">
                 <ul class="pagination">
                     <li class="page-item">
-                        <a class="page-link" href="/Blog/Admin/Takipciler?page=@(sayfaNumarasi -1)" tabindex="-1">Geri</a>
+                        <a class="page-link" href="/Admin/Takipciler?page=@(sayfaNumarasi -1)" tabindex="-1">Geri</a>
                     </li>
                     @{
                     for (int i = 1; i <= ViewBag.SubscribersCount / 10 + 1; i++)
@@ -76,17 +76,17 @@
                         if (i == sayfaNumarasi)
                         {
                             <li class="page-item active">
-                                <a class="page-link" href="/Blog/Admin/Takipciler?page=@i">@i<span class="sr-only">(current)</span></a>
+                                <a class="page-link" href="/Admin/Takipciler?page=@i">@i<span class="sr-only">(current)</span></a>
                             </li>
                     }
                     else
                     {
-                        <li class="page-item"><a class="page-link" href="/Blog/Admin/Takipciler?page=@i">@i</a></li>
+                        <li class="page-item"><a class="page-link" href="/Admin/Takipciler?page=@i">@i</a></li>
                 }
             }
                     }
                     <li class="page-item">
-                        <a class="page-link" href="/Blog/Admin/Takipciler?page=@(sayfaNumarasi +1)">İleri</a>
+                        <a class="page-link" href="/Admin/Takipciler?page=@(sayfaNumarasi +1)">İleri</a>
                     </li>
                 </ul>
             </nav>
@@ -113,7 +113,7 @@
             var ID = $("#silinecek_takipci_id").val();
             console.log(ID);
             $.ajax({
-                url: "/Blog/Admin/TakipciSil",
+                url: "/Admin/TakipciSil",
                 data: { silinecekId: ID },
                 method: "POST",
                 beforeSend: function () {

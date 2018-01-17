@@ -56,7 +56,7 @@
                     <img class="rounded mx-auto d-block" style="width:12%" src="@item.KategoriResim" />
                 </td>
                 <td>
-                    <a href="/Blog/Admin/KategoriGuncelle/@item.ID" class="btn btn-primary" role="button">Düzenle</a>
+                    <a href="/Admin/KategoriGuncelle/@item.ID" class="btn btn-primary" role="button">Düzenle</a>
                 </td>
                 <td>
                     <a href="#" class="btn btn-danger" onclick="kategoriSil_baslat(@item.ID)" role="button">Sil</a>
@@ -72,7 +72,7 @@
         <nav aria-label="...">
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link" href="/Blog/Admin/Kategoriler?page=@(sayfa_numarasi -1)" tabindex="-1">Geri</a>
+                    <a class="page-link" href="/Admin/Kategoriler?page=@(sayfa_numarasi -1)" tabindex="-1">Geri</a>
                 </li>
                 @{
                     for (int i = 1; i <= ViewBag.KategoriCount / 10 + 1; i++)
@@ -80,17 +80,17 @@
                         if (i == sayfa_numarasi)
                         {
                             <li class="page-item active">
-                                <a class="page-link" href="/Blog/Admin/Kategoriler?page=@i">@i<span class="sr-only">(current)</span></a>
+                                <a class="page-link" href="/Admin/Kategoriler?page=@i">@i<span class="sr-only">(current)</span></a>
                             </li>
                         }
                         else
                         {
-                            <li class="page-item"><a class="page-link" href="/Blog/Admin/Kategoriler?page=@i">@i</a></li>
+                            <li class="page-item"><a class="page-link" href="/Admin/Kategoriler?page=@i">@i</a></li>
                         }
                     }
                 }
                 <li class="page-item">
-                    <a class="page-link" href="/Blog/Admin/Kategoriler?page=@(sayfa_numarasi +1)">İleri</a>
+                    <a class="page-link" href="/Admin/Kategoriler?page=@(sayfa_numarasi +1)">İleri</a>
                 </li>
             </ul>
         </nav>
@@ -115,7 +115,7 @@
             $("#Success_KategoriSil").hide();
             var ID = $("#silinecek_kategori_id").val();
             $.ajax({
-                url: "/Blog/Admin/KategoriSil",
+                url: "/Admin/KategoriSil",
                 data: { silinecekId: ID },
                 method: "POST",
                 beforeSend: function () {

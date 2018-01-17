@@ -22,18 +22,18 @@
         {
             <article class="post">
                 <div class="post-preview col-10  no-gutter">
-                    <h2><a href="/Blog/Post/Haber/@(Portal.SeoUrl(@item.HaberBaslik))-@item.ID">@item.HaberBaslik</a></h2>
+                    <h2><a href="/Post/Haber/@(Portal.SeoUrl(@item.HaberBaslik))-@item.ID">@item.HaberBaslik</a></h2>
                     <p>@item.HaberOzet</p>
                     <p class="meta">
                         <i class="fa fa-th-list"></i>
-                        <a href="/Blog/Home/Kategori/@item.Kategorisi.KategoriIsim">@item.Kategorisi.KategoriIsim</a>
+                        <a href="/Home/Kategori/@item.Kategorisi.KategoriIsim">@item.Kategorisi.KategoriIsim</a>
                         @{
                             if (!String.IsNullOrWhiteSpace(item.Tags))
                             {
                                 <i class="fa fa-tags"></i>
                                 foreach (var tag in item.Tags.Split(','))
                                 {
-                                    <a href="/Blog/Home/Arama?query=@tag">@tag</a>
+                                    <a href="/Home/Arama?query=@tag">@tag</a>
                                     <i class="link-spacer"></i>
                                 }
 
@@ -82,7 +82,7 @@
                 {
                     <div class="category-preview col-6 col-sm-4  ">
                         <h2>@kategori.KategoriIsim</h2>
-                        <a href="/Blog/Home/Kategori/@kategori.KategoriIsim"><img src="@kategori.KategoriResim" alt="category-image"></a>
+                        <a href="/Home/Kategori/@kategori.KategoriIsim"><img src="@kategori.KategoriResim" alt="category-image"></a>
                     </div>
                 }
             }

@@ -14,7 +14,7 @@
 }
 
 <h2 style="margin-top:15px">Haberler</h2>
-<a class="btn btn-success" href="/Blog/Admin/HaberEkle" style="margin-bottom:15px">Haber Ekleyin</a>
+<a class="btn btn-success" href="/Admin/HaberEkle" style="margin-bottom:15px">Haber Ekleyin</a>
 <div class="col-md-12">
     <div id="Success_HaberSil" class="alert alert-success" style="display:none">
         <strong>Haber Silindi <i class="fa fa-smile-o" aria-hidden="true" style="font-size:25px"></i></strong>
@@ -47,14 +47,14 @@
                         <td>@{
                                 if (item.Taslak)
                                 {
-                                    <a href="/Blog/Post/Taslak/@item.ID" target="_blank" class="btn btn-warning" role="button">Taslak</a>
+                                    <a href="/Post/Taslak/@item.ID" target="_blank" class="btn btn-warning" role="button">Taslak</a>
                                 }
                                 else
                                 {
                                     <a href="#asd" class="btn btn-success" role="button">Aktif</a>
                                 }
                             }</td>
-                        <td><a href="/Blog/Admin/HaberGuncelle/@item.ID" class="btn btn-primary" role="button">Düzenle</a></td>
+                        <td><a href="/Admin/HaberGuncelle/@item.ID" class="btn btn-primary" role="button">Düzenle</a></td>
                         <td><a href="#" class="btn btn-danger" onclick="haberSil_baslat(@item.ID)" role="button">Sil</a></td>
                     </tr>
                 }
@@ -68,7 +68,7 @@
         <nav aria-label="...">
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link" href="/Blog/Admin/Haberler?page=@(sayfa_numarasi -1)" tabindex="-1">Geri</a>
+                    <a class="page-link" href="/Admin/Haberler?page=@(sayfa_numarasi -1)" tabindex="-1">Geri</a>
                 </li>
                 @{
                     for (int i = 1; i <= ViewBag.HaberCount / 10 + 1; i++)
@@ -76,17 +76,17 @@
                         if (i == sayfa_numarasi)
                         {
                             <li class="page-item active">
-                                <a class="page-link" href="/Blog/Admin/Haberler?page=@i">@i<span class="sr-only">(current)</span></a>
+                                <a class="page-link" href="/Admin/Haberler?page=@i">@i<span class="sr-only">(current)</span></a>
                             </li>
                         }
                         else
                         {
-                            <li class="page-item"><a class="page-link" href="/Blog/Admin/Haberler?page=@i">@i</a></li>
+                            <li class="page-item"><a class="page-link" href="/Admin/Haberler?page=@i">@i</a></li>
                         }
                     }
                 }
                 <li class="page-item">
-                    <a class="page-link" href="/Blog/Admin/Haberler?page=@(sayfa_numarasi +1)">İleri</a>
+                    <a class="page-link" href="/Admin/Haberler?page=@(sayfa_numarasi +1)">İleri</a>
                 </li>
             </ul>
         </nav>
@@ -112,7 +112,7 @@
         $("#Success_HaberSil").hide();
         var ID = $("#silinecek_haber_id").val();
         $.ajax({
-            url: "/Blog/Admin/Haber_Sil",
+            url: "/Admin/Haber_Sil",
             data: { silinecekId: ID },
             method: "POST",
             beforeSend: function () {

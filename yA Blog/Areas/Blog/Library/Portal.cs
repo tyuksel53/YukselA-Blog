@@ -136,7 +136,7 @@ namespace yA_Blog.Areas.Blog.Library
         {
             string siteUrl = WebConfigGet<string>("SiteRootUri");
 
-            string activateUrl = $"{siteUrl}/Blog/Home/UserActivate?activateId={model.ActivateGuid}";
+            string activateUrl = $"{siteUrl}/Home/UserActivate?activateId={model.ActivateGuid}";
 
             string activateLink = $"<a href='{activateUrl}' target='_blank' > tıklayınız.</a>.";
 
@@ -151,7 +151,7 @@ namespace yA_Blog.Areas.Blog.Library
         {
             string siteUrl = WebConfigGet<string>("SiteRootUri");
 
-            string activateUrl = $"{siteUrl}/Blog/Home/PasswordReset?reset={model.PasswordReset}";
+            string activateUrl = $"{siteUrl}/Home/PasswordReset?reset={model.PasswordReset}";
 
             string activateLink = $"<a href='{activateUrl}' target='_blank' > tıklayınız.</a>.";
 
@@ -168,9 +168,9 @@ namespace yA_Blog.Areas.Blog.Library
 
             string[] split = haberBaslik.Split('-');
 
-            var haberUrl = siteUrl + "/Blog/Post/Haber/" + SeoUrl(split[0]) + "-" + split[1];
+            var haberUrl = siteUrl + "/Post/Haber/" + SeoUrl(split[0]) + "-" + split[1];
 
-            string deActivateUrl = $"{siteUrl}/Blog/Home/UnSubscribe?deActive={takipci.DelToken}";
+            string deActivateUrl = $"{siteUrl}/Home/UnSubscribe?deActive={takipci.DelToken}";
 
             deActivateUrl = $"<a href='{deActivateUrl}' target='_blank' > tıklayınız.</a>";
 

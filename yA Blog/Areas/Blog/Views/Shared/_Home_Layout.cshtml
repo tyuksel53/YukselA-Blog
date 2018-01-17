@@ -26,28 +26,28 @@
     <noscript>
         <div class="no-js-menu">
             <ul>
-                <li><i class="fa fa-home"></i><a href="/Blog/Home/Index">Ana Sayfa</a></li>
+                <li><i class="fa fa-home"></i><a href="/Home/Index">Ana Sayfa</a></li>
                 @{
                     if (Session["Kullanici"] != null)
                     {
-                        <li><i class="fa fa-user"></i><a href="/Blog/User/Profil">Merhaba, @( logedIn.KullaniciAdi)</a></li>
+                        <li><i class="fa fa-user"></i><a href="/User/Profil">Merhaba, @( logedIn.KullaniciAdi)</a></li>
                         if (logedIn.Role.Equals("admin"))
                         {
-                            <li><i class="fa fa-dashboard"></i><a href="/Blog/Admin/Index">Yönetim Paneli</a></li>
+                            <li><i class="fa fa-dashboard"></i><a href="/Admin/Index">Yönetim Paneli</a></li>
                         }
-                        <li><i class="fa fa-power-off"></i><a href="/Blog/Home/LogOut">Çıkış Yap</a></li>
+                        <li><i class="fa fa-power-off"></i><a href="/Home/LogOut">Çıkış Yap</a></li>
 
                     }
                     else
                     {
-                        <li><i class="fa fa-code"></i><a href="/Blog/Home/Girisyap">Giriş Yap</a></li>
-                        <li><i class="fa fa-sign-in"></i><a href="/Blog/Home/Yeni_Kayit">Kayıt Ol</a></li>
+                        <li><i class="fa fa-code"></i><a href="/Home/Girisyap">Giriş Yap</a></li>
+                        <li><i class="fa fa-sign-in"></i><a href="/Home/Yeni_Kayit">Kayıt Ol</a></li>
                     }
                     
                 }
 
             </ul>
-            <form action="/Blog/Home/Arama" method="get" class="form-inline" id="arama-form" style="margin-left: 7px;">
+            <form action="/Home/Arama" method="get" class="form-inline" id="arama-form" style="margin-left: 7px;">
                 <div class="input-group stylish-input-group">
                     <input type="text" class="form-control" id="query" name="query" minlength="3" required placeholder="Ne aramak istiyorsun?">
                     <span class="input-group-addon">
@@ -64,27 +64,27 @@
         <div class="row">
             <div id="menu-target">
                 <ul>
-                    <li><i class="fa fa-home"></i><a href="/Blog/Home/Index">Ana Sayfa</a></li>
+                    <li><i class="fa fa-home"></i><a href="/Home/Index">Ana Sayfa</a></li>
                     @{
                         if (logedIn != null)
                         {
-                            <li><i class="fa fa-user"></i><a href="/Blog/User/Profil">Merhaba, @( logedIn.KullaniciAdi)</a></li>
+                            <li><i class="fa fa-user"></i><a href="/User/Profil">Merhaba, @( logedIn.KullaniciAdi)</a></li>
                             if (logedIn.Role.Equals("admin"))
                             {
-                                <li><i class="fa fa-dashboard"></i><a href="/Blog/Admin/Index">Yönetim Paneli</a></li>
+                                <li><i class="fa fa-dashboard"></i><a href="/Admin/Index">Yönetim Paneli</a></li>
                             }
-                            <li><i class="fa fa-power-off"></i><a href="/Blog/Home/LogOut">Çıkış Yap</a></li>
+                            <li><i class="fa fa-power-off"></i><a href="/Home/LogOut">Çıkış Yap</a></li>
 
                         }
                         else
                         {
-                            <li><i class="fa fa-code"></i><a href="/Blog/Home/Girisyap">Giriş Yap</a></li>
-                            <li><i class="fa fa-sign-in"></i><a href="/Blog/Home/Yeni_Kayit">Kayıt Ol</a></li>
+                            <li><i class="fa fa-code"></i><a href="/Home/Girisyap">Giriş Yap</a></li>
+                            <li><i class="fa fa-sign-in"></i><a href="/Home/Yeni_Kayit">Kayıt Ol</a></li>
                         }
                     }
                 </ul>
 
-                <form class="form-inline" action="/Blog/Home/Arama" id="arama-form" style="margin-left: 7px;">
+                <form class="form-inline" action="/Home/Arama" id="arama-form" style="margin-left: 7px;">
                     <div class="input-group stylish-input-group">
                         <input type="text" class="form-control" id="query" name="query" minlength="3" required placeholder="Ne aramak istiyorsun?">
                         <span class="input-group-addon">
@@ -135,7 +135,7 @@
 
                 <footer class="split-footer">
                     
-                    <a href="/Blog/Home/Index">@websiteName <i class="link-spacer"></i> @DateTime.Now.Year</a>
+                    <a href="/Home/Index">@websiteName <i class="link-spacer"></i> @DateTime.Now.Year</a>
                 </footer>
 
             </section><!-- main content -->

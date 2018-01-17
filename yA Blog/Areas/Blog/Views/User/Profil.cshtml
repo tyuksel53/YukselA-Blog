@@ -9,9 +9,9 @@
     ViewBag.SectionName2 = "Sifrenizi Degistirme";
     ViewBag.SectionName3 = "Eposta Degistirme";
 
-    ViewBag.Section1Url = "/Blog/User/Profil";
-    ViewBag.Section2Url = "/Blog/User/SifreDegis";
-    ViewBag.Section3Url = "/Blog/User/EpostaDegis";
+    ViewBag.Section1Url = "/User/Profil";
+    ViewBag.Section2Url = "/User/SifreDegis";
+    ViewBag.Section3Url = "/User/EpostaDegis";
 
     ViewBag.Resim = "../../Areas/Blog/Uploads/img/cover-3.jpg";
     var user = Session["Kullanici"] as Kullanici;
@@ -37,7 +37,7 @@
         {
             <article class="post author-page no-display-comment">
                 <div class="post-preview col-12 no-gutter">
-                    <h2 style="font-size: 25px"><a href="/Blog/Post/Haber/@Portal.SeoUrl(item.HaberBaslik)-@item.Id">@item.HaberBaslik</a></h2>
+                    <h2 style="font-size: 25px"><a href="/Post/Haber/@Portal.SeoUrl(item.HaberBaslik)-@item.Id">@item.HaberBaslik</a></h2>
                     <p class="meta">Tarih <i class="link-spacer"></i> @DateTime.Parse(item.YorumZamani.ToString())</p>
                     <p style="font-size: 17px">Bu habere su yorumu yaptın... <b style="font-size:15px"><i>@Html.Raw(item.Yorum)</i></b></p>
 
@@ -48,7 +48,7 @@
         {
             <article class="post author-page">
                 <div class="post-preview col-12 no-gutter">
-                    <h2 style="font-size: 25px"><a href="/Blog/Post/Haber/@Portal.SeoUrl(item.HaberBaslik)-@item.Id">@item.HaberBaslik</a></h2>
+                    <h2 style="font-size: 25px"><a href="/Post/Haber/@Portal.SeoUrl(item.HaberBaslik)-@item.Id">@item.HaberBaslik</a></h2>
                     <p class="meta">Tarih <i class="link-spacer"></i> @item.YorumZamani</p>
                     <p style="font-size: 17px">Bu habere su yorumu yaptın... <b style="font-size: 15px"><i>@Html.Raw(item.Yorum)</i></b></p>
 
@@ -84,7 +84,7 @@ else
         {
             <article class="post author-page no-display-subcomment">
                 <div class="post-preview col-12 no-gutter">
-                    <h2 style="font-size: 25px"><a href="/Blog/Post/Haber/@Portal.SeoUrl(item.HaberBaslik)-@item.Id">@item.HaberBaslik</a></h2>
+                    <h2 style="font-size: 25px"><a href="/Post/Haber/@Portal.SeoUrl(item.HaberBaslik)-@item.Id">@item.HaberBaslik</a></h2>
                     <p class="meta">Tarih <i class="link-spacer"></i> @DateTime.Parse(item.YorumZamani.ToString())</p>
                     <p style="font-size: 17px">Bu haberde su yorumu yaptın... <b style="font-size:15px"><i>@Html.Raw(item.Yorum)</i></b></p>
 
@@ -95,7 +95,7 @@ else
         {
             <article class="post author-page">
                 <div class="post-preview col-12 no-gutter">
-                    <h2 style="font-size: 25px"><a href="/Blog/Post/Haber/@Portal.SeoUrl(item.HaberBaslik)-@item.Id">@item.HaberBaslik</a></h2>
+                    <h2 style="font-size: 25px"><a href="/Post/Haber/@Portal.SeoUrl(item.HaberBaslik)-@item.Id">@item.HaberBaslik</a></h2>
                     <p class="meta">Tarih <i class="link-spacer"></i> @item.YorumZamani</p>
                     <p style="font-size: 17px">Bu haberde su cevabı verdin... <b style="font-size: 15px"><i>@Html.Raw(item.Yorum)</i></b></p>
 

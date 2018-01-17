@@ -18,7 +18,7 @@
 
     if (logedInUser != null && logedInUser.Role.Equals("admin") )
     {
-        @Html.ActionLink("Düzenle","HaberGuncelle","Admin",new {Area = "Blog", id=ViewBag.PostId},new
+        @Html.ActionLink("Düzenle","HaberGuncelle","Admin",new { id=ViewBag.PostId},new
         {
             @class="btn btn-danger",
             style="margin-top:15px;" +
@@ -124,14 +124,14 @@
 
         <div class="sidebar-info">
             <i class="fa fa-th-list"></i>
-            <a href="/Blog/Home/Kategori/@Model.Post.Kategorisi.KategoriIsim">@Model.Post.Kategorisi.KategoriIsim</a>
+            <a href="/Home/Kategori/@Model.Post.Kategorisi.KategoriIsim">@Model.Post.Kategorisi.KategoriIsim</a>
             @{
                 if (!String.IsNullOrWhiteSpace(Model.Post.Tags))
                 {
                     <i class="fa fa-tags"></i>
                     foreach (var tag in Model.Post.Tags.Split(','))
                     {
-                        <a href="/Blog/Home/Arama?query=@tag">@tag</a>
+                        <a href="/Home/Arama?query=@tag">@tag</a>
                         <i class="link-spacer"></i>
                     }
 
@@ -165,7 +165,7 @@
     <div class="col-xs-12 col-md-6">
         <div class="category-list">
             <p>Yayınlanma Tarihi <span>@Model.Post.HaberYayinlamaTarih</span></p>
-            <p><a href="#">@Model.Post.Yazar.KullaniciAdi</a> , <a href="/Blog/Home/Kategori/@Model.Post.Kategorisi.KategoriIsim">@Model.Post.Kategorisi.KategoriIsim</a></p>
+            <p><a href="#">@Model.Post.Yazar.KullaniciAdi</a> , <a href="/Home/Kategori/@Model.Post.Kategorisi.KategoriIsim">@Model.Post.Kategorisi.KategoriIsim</a></p>
         </div>
     </div>
     <div class="col-xs-12 col-md-4">

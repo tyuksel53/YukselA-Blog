@@ -89,7 +89,7 @@
         <nav aria-label="...">
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link" href="/Blog/Admin/Uploads?page=@(sayfaNumarasi -1)" tabindex="-1">Geri</a>
+                    <a class="page-link" href="/Admin/Uploads?page=@(sayfaNumarasi -1)" tabindex="-1">Geri</a>
                 </li>
                 @{
                     for (int i = 1; i <= ViewBag.UploadsCount / 10 + 1; i++)
@@ -97,17 +97,17 @@
                         if (i == sayfaNumarasi)
                         {
                             <li class="page-item active">
-                                <a class="page-link" href="/Blog/Admin/Uploads?page=@i">@i<span class="sr-only">(current)</span></a>
+                                <a class="page-link" href="/Admin/Uploads?page=@i">@i<span class="sr-only">(current)</span></a>
                             </li>
                         }
                         else
                         {
-                            <li class="page-item"><a class="page-link" href="/Blog/Admin/Uploads?page=@i">@i</a></li>
+                            <li class="page-item"><a class="page-link" href="/Admin/Uploads?page=@i">@i</a></li>
                         }
                     }
                 }
                 <li class="page-item">
-                    <a class="page-link" href="/Blog/Admin/Uploads?page=@(sayfaNumarasi +1)">İleri</a>
+                    <a class="page-link" href="/Admin/Uploads?page=@(sayfaNumarasi +1)">İleri</a>
                 </li>
             </ul>
         </nav>
@@ -135,7 +135,7 @@
                 $("#Success_DosyaSil").hide();
                 var ID = $("#silinecek_dosya_id").val();
                 $.ajax({
-                    url: "/Blog/Admin/DosyaSil",
+                    url: "/Admin/DosyaSil",
                     data: { silinecekId: ID },
                     method: "POST",
                     beforeSend: function () {

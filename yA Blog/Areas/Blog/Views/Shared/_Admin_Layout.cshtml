@@ -18,7 +18,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="/Blog/Admin/Index">@CacheHelper.GetWebSiteName()</a>
+        <a class="navbar-brand" href="/Admin/Index">@CacheHelper.GetWebSiteName()</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -29,22 +29,22 @@
                     <a href="#" data-target="#sidebar" data-toggle="collapse"><i class="fa fa-navicon fa-2x py-2 p-1"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Blog/Admin/Index">Ana Sayfa</a>
+                    <a class="nav-link" href="/Admin/Index">Ana Sayfa</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Blog/Admin/Haberler">Haberler</a>
+                    <a class="nav-link" href="/Admin/Haberler">Haberler</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Blog/Admin/Kategoriler">Kategoriler</a>
+                    <a class="nav-link" href="/Admin/Kategoriler">Kategoriler</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Blog/Admin/Ayarlar">Site Ayarları</a>
+                    <a class="nav-link" href="/Admin/Ayarlar">Site Ayarları</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Blog/Admin/Uploads">Dosya Yükleme</a>
+                    <a class="nav-link" href="/Admin/Uploads">Dosya Yükleme</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" href="/Blog/Home/Index">Blog</a>
+                    <a class="nav-link" target="_blank" href="/Home/Index">Blog</a>
                 </li>
             </ul>
         </div>
@@ -54,21 +54,21 @@
         <div class="row d-flex d-md-block flex-nowrap wrapper">
             <div class="col-md-3 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
                 <div class="list-group border-0 card text-center text-md-left">
-                    <a href="/Blog/Admin/Index" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-dashboard"></i> <span class="d-none d-md-inline">Ana Sayfa</span></a>
+                    <a href="/Admin/Index" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-dashboard"></i> <span class="d-none d-md-inline">Ana Sayfa</span></a>
                     <a href="#menu1" class="list-group-item d-inline-block collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-newspaper-o"></i> <span class="d-none d-md-inline">Haberler</span> </a>
                     <div class="collapse" id="menu1">
-                        <a href="/Blog/Admin/HaberEkle" class="list-group-item" data-parent="#menu1">Haber Ekle</a>
-                        <a href="/Blog/Admin/Haberler?rowNum=1" class="list-group-item" data-parent="#menu1">Haberleri Listele</a>
+                        <a href="/Admin/HaberEkle" class="list-group-item" data-parent="#menu1">Haber Ekle</a>
+                        <a href="/Admin/Haberler?rowNum=1" class="list-group-item" data-parent="#menu1">Haberleri Listele</a>
                     </div>
                     <a href="#menu3" class="list-group-item d-inline-block collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-book"></i> <span class="d-none d-md-inline">Kategoriler</span></a>
                     <div class="collapse" id="menu3">
-                        <a href="/Blog/Admin/KategoriEkle" class="list-group-item" data-parent="#menu3">Kategori Ekle</a>
-                        <a href="/Blog/Admin/Kategoriler" class="list-group-item" data-parent="#menu3">Kategori Listele</a>
+                        <a href="/Admin/KategoriEkle" class="list-group-item" data-parent="#menu3">Kategori Ekle</a>
+                        <a href="/Admin/Kategoriler" class="list-group-item" data-parent="#menu3">Kategori Listele</a>
                     </div>
-                    <a href="/Blog/Admin/Kullanicilar" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-users"></i> <span class="d-none d-md-inline">Üyeler</span></a>
-                    <a href="/Blog/Admin/Ayarlar" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-cog"></i> <span class="d-none d-md-inline">Site Ayarları</span></a>
-                    <a href="/Blog/Admin/Takipciler" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-heart"></i> <span class="d-none d-md-inline">Takipçiler</span></a>
-                    <a href="/Blog/Admin/Uploads" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-upload"></i> <span class="d-none d-md-inline">Dosya Yükle</span></a>
+                    <a href="/Admin/Kullanicilar" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-users"></i> <span class="d-none d-md-inline">Üyeler</span></a>
+                    <a href="/Admin/Ayarlar" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-cog"></i> <span class="d-none d-md-inline">Site Ayarları</span></a>
+                    <a href="/Admin/Takipciler" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-heart"></i> <span class="d-none d-md-inline">Takipçiler</span></a>
+                    <a href="/Admin/Uploads" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-upload"></i> <span class="d-none d-md-inline">Dosya Yükle</span></a>
                 </div>
             </div>
             <main class="col-md-9 float-left col px-5 pl-md-2 pt-2 main" id="kafasi">
