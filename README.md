@@ -1,5 +1,7 @@
 # Yüksel Algoritma Blog
 
+![AnaSayfa](http://yukselalgoritma.net/Areas/Blog/Uploads/Anasayfa.PNG)
+
 Web Sayfası [yukselalgoritma.net](http://yukselalgoritma.net)
 
 > Yüksel Algoritma Blog, ***Asp.Net Mvc*** kullanılarak yazılan, içerisinde birçok özellikler buluduran ve bilinen web açıklarına karşı aldığı önemler ile çok amaçlı bir web sitesidir
@@ -25,6 +27,7 @@ Web Sayfası [yukselalgoritma.net](http://yukselalgoritma.net)
 * FakeData
 * Newtonsolf.Json
 * Asp.Net Web Optimization
+* Web Helpers
 
 ## Genel Özellikler
 
@@ -117,3 +120,17 @@ Verileri kendiniz oluşturmak istiyorsanız, [DatabaseContext](yA%20Blog/Areas/B
 domain/Admin/Ayarlar
 ```
 Adresinden yapabiliriniz.
+
+## Ekran Görüntüleri
+
+#### Haber Listeleme Ekranı
+
+![Haberlisteleme](http://yukselalgoritma.net/Areas/Blog/Uploads/Admin.PNG)
+
+#### Dosya Yükleme
+
+![DosyaYukele](http://yukselalgoritma.net/Areas/Blog/Uploads/Admin.PNG)
+
+#### Yorumlar - Admin
+
+![Yorumlar](http://yukselalgoritma.net/Areas/Blog/Uploads/yorumlar.PNG)
