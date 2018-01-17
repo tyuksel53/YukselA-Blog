@@ -125,10 +125,16 @@ namespace yA_Blog.Areas.Blog.Controllers
              * replyContainer kullanılarak kullanıcılara bildirim gösterilecek.
              * sonraki versiyonlarda
              */
-            System.Threading.Thread.Sleep(2000);
             string html = "";
+            Kullanici commentOwner = Session["Kullanici"] as Kullanici;
+            if (Convert.ToInt32(Session["_yorumSayisi"]) > 10 && commentOwner.Role.Equals("user") )
+            {
+                html = "Cok fazla deneme";
+                return MvcHtmlString.Create(html);
+            }
+
             SubComment = HttpUtility.HtmlEncode(SubComment);
-            Kullanici commnetOwner = Session["Kullanici"] as Kullanici;
+            
             if (!String.IsNullOrWhiteSpace(SubComment) && SubComment.Length <= 280 && SubComment.Length >= 10 &&
                 TempData["currentPostId"] != null)
             {
@@ -144,12 +150,13 @@ namespace yA_Blog.Areas.Blog.Controllers
                     PostId = postId,
                     CommentTime = DateTime.Now,
                     RootCommentId = parentContainer,
-                    UserName = commnetOwner.KullaniciAdi,
+                    UserName = commentOwner.KullaniciAdi,
                     SubDescription = SubComment,
                 };
+                Session["_yorumSayisi"] = Convert.ToInt32(Session["_yorumSayisi"]) + 1;
                 _dB.AltYorumlar.Add(yeniAltYorum);
                 _dB.SaveChanges();
-                var adminDeleteSubComment = commnetOwner.Role.Equals("admin")
+                var adminDeleteSubComment = commentOwner.Role.Equals("admin")
                     ? $"<a href='#' style='font-size: 14px;margin-top: 45px' class='btn btn-danger' " +
                       $"onclick='altYorumSilBaslat({yeniAltYorum.ID})'>Sil</a>"
                     : "";
@@ -161,7 +168,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                                 $"<p class='meta'><i class='link-spacer'></i>{yeniAltYorum.CommentTime}<i class='link-spacer'></i> Tarihinde yazdı.</p>"+
                                 $"<p style = 'font-size: 18px;margin-bottom: 10px' >{yeniAltYorum.SubDescription}</p>"+
                                 $"<p class='meta text-danger'><a href = '#' onclick='yanitla({yeniAltYorum.RootCommentId},{yeniAltYorum.ID})' class='text-danger'>" +
-                                $"<i class='fa fa-paper-plane-o'></i> Yanıtla</a></p>"+
+                                "<i class='fa fa-paper-plane-o'></i> Yanıtla</a></p>"+
                             "</div>"+ 
                              adminDeleteSubComment+
                         "</div>";
@@ -176,10 +183,17 @@ namespace yA_Blog.Areas.Blog.Controllers
         [ValidateInput(false)]
         public MvcHtmlString Yorum(string Description)
         {
-            System.Threading.Thread.Sleep(2000);
-            Description = HttpUtility.HtmlEncode(Description);
             string html = "";
             Kullanici commentOwner = Session["Kullanici"] as Kullanici;
+            if (Convert.ToInt32(Session["_yorumSayisi"]) > 10 && commentOwner.Role.Equals("user"))
+            {
+                html = "Cok fazla deneme";
+                return MvcHtmlString.Create(html);
+            }
+
+            Description = HttpUtility.HtmlEncode(Description);
+            
+            
             if (!String.IsNullOrWhiteSpace(Description) && Description.Length <= 280 && Description.Length >= 10 && TempData["currentPostId"] != null)
             {
                 var yorum = new Yorum
@@ -189,7 +203,7 @@ namespace yA_Blog.Areas.Blog.Controllers
                     UserName = commentOwner.KullaniciAdi,
                     Description = Description
                 };
-                
+                Session["_yorumSayisi"] = Convert.ToInt32(Session["_yorumSayisi"]) + 1;
                 _dB.Yorumlar.Add(yorum);
                 _dB.SaveChanges();
                 string yorumSilButtonAdd = commentOwner.Role.Equals("admin")

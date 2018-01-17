@@ -47,18 +47,26 @@ $(document).on('click',
                 if (!checkCorrrect) {
                     xhr.abort();
                 } else {
-                    $("#subCommentLoading").show(300);
+                    $("#subCommentLoading").show(0);
                     $("#btnSubComment").attr('disabled', true);
                 }
                 
             },
             complete: function (xhr) {
                 if (xhr.responseText.length > 0) {
-                    var insertSection = currentSubCommnetForm.split('_');
-                    var subCommentId = $(xhr.responseText).attr('id');
-                    console.log(subCommentId);
-                    $(".subCommentMenu_" + insertSection[1]).append(xhr.responseText);
-                    $("#" + subCommentId).fadeIn(1000);
+                    if (xhr.responseText === 'Cok fazla deneme') {
+
+                        alert("Cok fazla yorum yazdınız biraz dinlenin");
+
+                    } else {
+
+                        var insertSection = currentSubCommnetForm.split('_');
+                        var subCommentId = $(xhr.responseText).attr('id');
+                        console.log(subCommentId);
+                        $(".subCommentMenu_" + insertSection[1]).append(xhr.responseText);
+                        $("#" + subCommentId).fadeIn(1000);
+                    }
+                    
                     $("#subCommentLoading").hide();
                     $("#btnSubComment").attr('disabled', false);
                     $("#SubComment").val("");
@@ -201,6 +209,8 @@ function yorumSilBaslat(Id) {
 function newCommentSuccess(response) {
     if (response === '') {
         alert("yorum uygun formatta degil");
+    } else if (response === 'Cok fazla deneme') {
+        alert("Cok yorum yazdınız, biraz dinlenin");
     } else {
         $("#noComment").remove();
         $("#Description").val("");

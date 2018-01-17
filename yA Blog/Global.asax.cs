@@ -26,6 +26,7 @@ namespace yA_Blog
             Session["_userCreateTryCount"] = 0;
             Session["_forgetPasswordTryCount"] = 0;
             Session["_takipciDeneme"] = 0;
+            Session["_yorumSayisi"] = 0;
 
             if (HttpContext.Current.Session["Kullanici"] == null && HttpContext.Current.Request.Cookies.Get("acct") != null)
             {

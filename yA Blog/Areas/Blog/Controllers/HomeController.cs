@@ -154,8 +154,6 @@ namespace yA_Blog.Areas.Blog.Controllers
             {
                 if(Crypto.VerifyHashedPassword(check.Parola,parola))
                 {
-                    System.Threading.Thread.Sleep(1000);
-
                     if (check.IsActive)
                     {
                         Session["Kullanici"] = check;
