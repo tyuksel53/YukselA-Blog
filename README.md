@@ -136,3 +136,7 @@ Adresinden yapabiliriniz.
 #### Yorumlar - Admin
 
 ![Yorumlar](http://yukselalgoritma.net/Areas/Blog/Uploads/yorumlar.PNG)
+
+### Login Captcha
+
+![Captcha](http://yukselalgoritma.net/Areas/Blog/Uploads/gunvelik.PNG)
