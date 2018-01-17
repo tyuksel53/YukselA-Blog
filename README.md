@@ -129,7 +129,7 @@ Adresinden yapabiliriniz.
 
 #### Dosya Yükleme
 
-![DosyaYukele](http://yukselalgoritma.net/Areas/Blog/Uploads/Admin.PNG)
+![DosyaYukele](http://yukselalgoritma.net/Areas/Blog/Uploads/DosyaYukleme.PNG)
 
 #### Yorumlar - Admin
 
