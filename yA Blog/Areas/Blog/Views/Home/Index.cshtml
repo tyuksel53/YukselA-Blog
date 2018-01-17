@@ -44,10 +44,10 @@
                         @{
                             if (Model.YorumCount != null)
                             {
-                                string yorumSayisi = Model.YorumCount.FirstOrDefault(x => x.Item1 == item.ID)?.Item2.ToString();
+                                var yorumSayisi = Model.YorumCount.FirstOrDefault(x => x.Item1 == item.ID);
                                 if (yorumSayisi != null)
                                 {
-                                    @Html.Raw(yorumSayisi)
+                                    @Html.Raw(yorumSayisi.Item2.ToString())
                                 }
                                 else
                                 {

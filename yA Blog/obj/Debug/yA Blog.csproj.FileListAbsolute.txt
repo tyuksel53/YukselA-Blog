@@ -34,39 +34,3 @@ C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\yA Blog\bin\EntityFramework.SqlSe
 C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\yA Blog\bin\FakeData.dll
 C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\yA Blog\bin\FakeData.pdb
 C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\yA Blog\bin\WebActivatorEx.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\yA Blog.dll.config
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\yA Blog.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\yA Blog.pdb
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\Antlr3.Runtime.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\EntityFramework.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\EntityFramework.SqlServer.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\FakeData.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\Microsoft.Web.Infrastructure.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\Newtonsoft.Json.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\System.Web.Helpers.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\System.Web.Mvc.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\System.Web.Optimization.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\System.Web.Razor.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\System.Web.Webpages.Deployment.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\System.Web.Webpages.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\System.Web.Webpages.Razor.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\WebActivatorEx.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\WebGrease.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\Antlr3.Runtime.pdb
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\EntityFramework.xml
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\EntityFramework.SqlServer.xml
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\FakeData.pdb
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\Newtonsoft.Json.xml
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\System.Web.Optimization.xml
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\System.Web.Razor.xml
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\System.Web.Webpages.xml
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\System.Web.Webpages.Deployment.xml
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\System.Web.Webpages.Razor.xml
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\System.Web.Helpers.xml
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\bin\System.Web.Mvc.xml
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\obj\Debug\yA Blog.csproj.CoreCompileInputs.cache
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\obj\Debug\yA Blog.dll
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\obj\Debug\yA Blog.pdb
-C:\Users\Taha\Desktop\Notes\yA-BlogMVC\yA Blog\obj\Debug\yA Blog.csprojResolveAssemblyReference.cache
