@@ -47,6 +47,8 @@ Web Sayfası [yukselalgoritma.net](http://yukselalgoritma.net)
 
 * Hassas verilerde, ***SHA256*** şifreleme algoritmasıyla verileri şifreleme
 
+* ***cookie*** kullanılarak otomatik login
+
 ## İçerikler
 
 * Haber **ekleme**, **güncelleme**, **silme**, **taslak olarak kaydetme**  ***(ajax ile)***
