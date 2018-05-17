@@ -1,6 +1,6 @@
 # Yüksel Algoritma Blog
 
-![AnaSayfa](http://yukselalgoritma.net/Areas/Blog/Uploads/Anasayfa.PNG)
+![AnaSayfa](http://yukselalgoritma.net/Areas/Blog/Uploads/(0)Anasayfa.PNG)
 
 Web Sayfası [yukselalgoritma.net](http://yukselalgoritma.net)
 
@@ -129,16 +129,8 @@ Adresinden yapabiliriniz.
 
 #### Haber Listeleme Ekranı
 
-![Haberlisteleme](http://yukselalgoritma.net/Areas/Blog/Uploads/Admin.PNG)
+![Haberlisteleme](http://yukselalgoritma.net/Areas/Blog/Uploads/(0)Admin.PNG)
 
 #### Dosya Yükleme
 
-![DosyaYukele](http://yukselalgoritma.net/Areas/Blog/Uploads/DosyaYukleme.PNG)
-
-#### Yorumlar - Admin
-
-![Yorumlar](http://yukselalgoritma.net/Areas/Blog/Uploads/yorumlar.PNG)
-
-### Login Captcha
-
-![Captcha](http://yukselalgoritma.net/Areas/Blog/Uploads/gunvelik.PNG)
+![DosyaYukele](http://yukselalgoritma.net/Areas/Blog/Uploads/(0)DosyaYukleme.PNG)
